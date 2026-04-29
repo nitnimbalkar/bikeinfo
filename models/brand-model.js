@@ -1,16 +1,39 @@
-const mongoose=require('mongoose');
+const mongoose = require("mongoose");
 
-const brandSchema=mongoose.Schema({
-    brandName:String,
-    brandOrigin:String,
-    bikes:{
-        type:Array,
-        default:[]
-    },
-    brandImage:String,
-    brandNews:String,
-    brandNewsImg:String
+const brandSchema = new mongoose.Schema({
+  brandName: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
+  },
 
-})
+  brandOrigin: {
+    type: String,
+    required: true,
+    trim: true
+  },
 
-module.exports=mongoose.model("brand",brandSchema);
+  brandImage: {
+    type: String,
+    default: ""
+  },
+
+  bikes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Bike"
+    }
+  ],
+
+  brandNews: {
+    type: String
+  },
+
+  brandNewsImg: {
+    type: String
+  }
+
+}, { timestamps: true });
+
+module.exports = mongoose.model("Brand", brandSchema);

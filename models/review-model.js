@@ -1,28 +1,43 @@
-const mongoose=require("mongoose");
+const mongoose = require("mongoose");
 
-const reviewSchema=mongoose.Schema({
-    user:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"user"
+const reviewSchema = new mongoose.Schema({
+
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
     },
-    rBike:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"bike"
+
+    rBike: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Bike",
+        required: true
     },
-    rcontent:String,
-    upvote:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"user"
-    }],
-    downvote:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"user"
-    }],
-    date:{
-        type:Date,
-        default:Date.now()
-    }
 
-});
+    rcontent: {
+        type: String,
+        required: true,
+        trim: true
+    },
 
-module.exports=mongoose.model("review",reviewSchema);
+    upvote: [
+        {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+        }
+    ],
+
+    downvote: [
+        {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+        }
+    ],
+
+    date: {
+        type: Date,
+        default: Date.now
+  }
+}, { timestamps: true });
+
+module.exports = mongoose.model("Review", reviewSchema);
