@@ -1,0 +1,52 @@
+For User :
+Full name : First Name , Last name = String
+username - String
+email - String
+password - String
+age - String
+city - String
+bikes - array
+isadmin - boolean
+profilepic - db(memory storage)
+
+BikeBrand :
+bname - String
+bImage -img
+bOrigin - String
+bikes - array
+bNews - String
+bNewsImg -img
+
+Bike:
+brand - String
+bProfileImg - images
+isAvailableIndia - boolean
+engineCapacity - Number
+images- array
+bReview - Array
+mileage - Number
+transmission - Number
+weight - Number
+fuelTankCapacity - Number
+seatHeight - Number
+maxPower- String
+maxTorque - String
+noOfCylinder - Number
+compressRatio - String
+emissionStandard - String
+fuelType - String
+qShifter - boolean
+mConnect - boolean
+gps - boolean
+tracControl - boolean
+cControl - boolean
+serCost - Number
+fService - Number
+sService - Number
+tService - Number
+sInterval - Number
+vWarentyKm - Number
+
+
+
+
