@@ -2,7 +2,11 @@ const express=require('express');
 const app=express()
 const cookieParser = require('cookie-parser');
 const path=require('path');
-const db=require("./config/mongo-connection");
+const db=require("./config/mongooseConnection");
+const ownersRouter=require("./routes/ownersRouter");
+const usersRouter=require("./routes/usersRouter");
+const brandsRouter=require("./routes/brandsRouter");
+const bikesRouter=require("./routes/bikesRouter");
 
 //Middlewares
 app.use(express.urlencoded({extended:true}));
@@ -11,10 +15,8 @@ app.set('view engine','ejs');
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname,'public')));
 
-
-
-app.get('/',(req,res)=>{
-    res.render("signup");
-})
-
+app.use("/owners",ownersRouter);
+app.use("/users",usersRouter);
+app.use("/brands",brandsRouter);
+app.use("/bikes",bikesRouter);
 app.listen(3000);
