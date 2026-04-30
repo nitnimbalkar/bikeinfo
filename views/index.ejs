@@ -15,6 +15,7 @@
       background: #ffffff;
       color: #000;
       transition: background 0.3s, color 0.3s;
+      margin: 0;
     }
 
     /* Navbar */
@@ -104,6 +105,18 @@
       height: 100%;
       object-fit: cover;
     }
+    .quote {
+        position: absolute;
+        top: 30%;   
+        left: 65%;  
+        transform: translateY(-50%);
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 24px;
+        color: rgb(0, 0, 0);
+        max-width: 400px;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+    }
 
     /* SEARCH BAR OVER IMAGE */
     .search-box {
@@ -180,13 +193,16 @@
     </div>
   </div>
 
-  <!-- HERO -->
+
   <div class="hero">
     <img src="man-riding-dirt-bike.jpg" alt="Bike Image">
-    <div class="qoute">
-        The only
+
+    <div class="quote">
+    Adrenaline is my fuel 
+    adventure is my destination - Anonymous
     </div>
-    <!-- SEARCH BAR -->
+
+    
     <div class="search-box">
       <input type="text" placeholder="Find Your Dream Ride...">
       <button>Search</button>
