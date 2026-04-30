@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BikeInfo</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #000;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #222;
+      color: white;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    /* Toggle */
+    .switch {
+      position: relative;
+      width: 50px;
+      height: 24px;
+    }
+
+    .switch input {
+      display: none;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      background-color: #ccc;
+      border-radius: 34px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: 0.4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: 0.4s;
+    }
+
+    input:checked + .slider {
+      background-color: #4CAF50;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    /* Login Button */
+    .login-btn {
+      padding: 8px 16px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* HERO IMAGE */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 80vh;
+      overflow: hidden;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* SEARCH BAR OVER IMAGE */
+    .search-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40%;
+      display: flex;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 12px 15px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+    }
+
+    .search-box button {
+      padding: 12px 20px;
+      border: none;
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+
+    .search-box button:hover {
+      background: #45a049;
+    }
+
+    /* Content */
+    .content {
+      padding: 30px;
+    }
+
+    /* Dark Mode */
+    .dark body {
+      background: #121212;
+      color: #fff;
+    }
+
+    .dark .navbar {
+      background: #000;
+    }
+
+    .dark .search-box {
+      background: rgba(30, 30, 30, 0.9);
+    }
+
+    .dark .search-box input {
+      background: transparent;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="logo">BikeInfo</div>
+
+    <div class="nav-right">
+      <label class="switch">
+        <input type="checkbox" id="darkToggle">
+        <span class="slider"></span>
+      </label>
+
+      <button class="login-btn">Login</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <img src="man-riding-dirt-bike.jpg" alt="Bike Image">
+
+    <!-- SEARCH BAR -->
+    <div class="search-box">
+      <input type="text" placeholder="Find Your Dream Ride...">
+      <button>Search</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <h1>Welcome to BikeInfo</h1>
+    <p>Find your perfect ride.</p>
+  </div>
+
+  <script>
+    const toggle = document.getElementById("darkToggle");
+    toggle.addEventListener("change", () => {
+      document.documentElement.classList.toggle("dark");
+    });
+  </script>
+
+</body>
+</html>
