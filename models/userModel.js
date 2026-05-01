@@ -12,7 +12,6 @@ const userSchema = mongoose.Schema({
         type:Array,
         default:[]
     },
-    isAdmin:Boolean,
     userProfileimg:String,
     userReview:[{
         type:mongoose.Schema.Types.ObjectId,
