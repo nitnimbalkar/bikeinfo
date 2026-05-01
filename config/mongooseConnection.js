@@ -9,6 +9,6 @@ mongoose
 })
 .catch(function(err){
     dbgr("err");
-})
+});
 
 module.exports=mongoose.connection;

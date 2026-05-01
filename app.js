@@ -8,6 +8,8 @@ const usersRouter=require("./routes/usersRouter");
 const brandsRouter=require("./routes/brandsRouter");
 const bikesRouter=require("./routes/bikesRouter");
 
+require("dotenv").config();
+
 //Middlewares
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
