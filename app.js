@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const path=require('path');
 const db=require("./config/mongooseConnection");
 const expressSession=require("express-session");
-const flash=require("connect flash");
+const flash=require("connect-flash");
 
 require("dotenv").config();
 
@@ -19,9 +19,9 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(
     expressSession({
-        resave=false,
-        saveUninitialized:false,
         secret: process.env.EXPRESS_SESSION_SECRET,
+        resave:false,
+        saveUninitialized:false,
     })
 );
 app.use(flash());
