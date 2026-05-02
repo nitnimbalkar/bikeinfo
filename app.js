@@ -3,20 +3,33 @@ const app=express()
 const cookieParser = require('cookie-parser');
 const path=require('path');
 const db=require("./config/mongooseConnection");
+const expressSession=require("express-session");
+const flash=require("connect flash");
+
+require("dotenv").config();
+
 const ownersRouter=require("./routes/ownersRouter");
 const usersRouter=require("./routes/usersRouter");
 const brandsRouter=require("./routes/brandsRouter");
 const bikesRouter=require("./routes/bikesRouter");
 
-require("dotenv").config();
 
 //Middlewares
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
+app.use(
+    expressSession({
+        resave=false,
+        saveUninitialized:false,
+        secret: process.env.EXPRESS_SESSION_SECRET,
+    })
+);
+app.use(flash());
 app.set('view engine','ejs');
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname,'public')));
 
+//routers
 app.use("/owners",ownersRouter);
 app.use("/users",usersRouter);
 app.use("/brands",brandsRouter);
