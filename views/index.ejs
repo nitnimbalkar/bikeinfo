@@ -252,6 +252,124 @@ input:checked + .slider:before {
   background: transparent;
   color: white;
 }
+#bike-module {
+  width: 60%;
+  margin: 40px auto;
+
+  padding: 25px;
+
+  border: 3px solid #000000;
+  border-radius: 16px;
+
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(10px);
+
+  min-height: 80vh;
+
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* TITLE */
+#bike-module h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* FILTERS */
+#bike-module .filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+#bike-module .filters button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #eee;
+  transition: 0.3s;
+}
+
+#bike-module .filters button.active {
+  background: #4CAF50;
+  color: white;
+}
+
+/* GRID */
+#bike-module .grid {
+  width: 850px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+/* CARD */
+#bike-module .card {
+  background: #fff;
+  border-radius: 12px;
+
+  border: 2px solid rgba(0,0,0,0.1);
+
+  overflow: hidden;
+  text-align: center;
+
+  transition: 0.3s;
+
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+#bike-module .card:hover {
+  transform: translateY(-6px);
+}
+
+#bike-module .card img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+#bike-module .price {
+  color: #007bff;
+  font-weight: bold;
+}
+
+/* DARK MODE SUPPORT */
+.dark #bike-module .card {
+  background: #1f1f1f;
+  color: white;
+}
+
+.dark #bike-module .filters button {
+  background: #333;
+  color: white;
+}
+
+.dark #bike-module {
+  background: rgba(20,20,20,0.6);
+  border: 3px solid #3b82f6;
+}
+
+.dark #bike-module .card {
+  background: #1f1f1f;
+  color: white;
+  border: 2px solid rgba(255,255,255,0.15);
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  #bike-module .grid {
+    grid-template-columns: repeat(2,1fr);
+    width: 100%;
+  }
+}
 </style>
 </head>
 
@@ -318,7 +436,71 @@ input:checked + .slider:before {
     <span class="close-btn" onclick="closeDrawer()">✖</span>
     <h2 id="brandTitle"></h2>
     <p>Brand details go here...</p>
+    </div>
   </div>
+<div id="bike-module">
+
+<h2> Find Best Bike For You</h2>
+
+<div class="filters">
+  <button class="active" onclick="filterBike('all', this)">All</button>
+  <button onclick="filterBike('budget', this)">Budget</button>
+  <button onclick="filterBike('mid', this)">Mid</button>
+  <button onclick="filterBike('premium', this)">Premium</button>
+</div>
+
+<div class="grid">
+
+  <div class="card" data-type="budget">
+    <img src="https://via.placeholder.com/300">
+    <h3>Pulsar 125</h3>
+    <div class="price">₹90K</div>
+  </div>
+
+  <div class="card" data-type="budget">
+    <img src="https://via.placeholder.com/300">
+    <h3>Apache 160</h3>
+    <div class="price">₹1.3L</div>
+  </div>
+
+  <div class="card" data-type="mid">
+    <img src="https://via.placeholder.com/300">
+    <h3>Yamaha R15</h3>
+    <div class="price">₹1.8L</div>
+  </div>
+
+  <div class="card" data-type="mid">
+    <img src="https://via.placeholder.com/300">
+    <h3>Royal Enfield 350</h3>
+    <div class="price">₹2.2L</div>
+  </div>
+
+  <div class="card" data-type="mid">
+    <img src="https://via.placeholder.com/300">
+    <h3>KTM 390</h3>
+    <div class="price">₹3.1L</div>
+  </div>
+
+  <div class="card" data-type="premium">
+    <img src="https://via.placeholder.com/300">
+    <h3>BMW 310</h3>
+    <div class="price">₹3.0L</div>
+  </div>
+
+  <div class="card" data-type="premium">
+    <img src="https://via.placeholder.com/300">
+    <h3>Ninja 650</h3>
+    <div class="price">₹6.5L</div>
+  </div>
+
+  <div class="card" data-type="mid">
+    <img src="https://via.placeholder.com/300">
+    <h3>Xtreme 200</h3>
+    <div class="price">₹1.4L</div>
+  </div>
+
+</div>
+
 </div>
 
 <script>
@@ -338,6 +520,22 @@ function closeDrawer() {
   document.getElementById("drawer").classList.remove("active");
   document.getElementById("backdrop").classList.remove("active");
 }
+function filterBike(type, btn){
+
+  document.querySelectorAll("#bike-module .filters button")
+    .forEach(b => b.classList.remove("active"));
+
+  btn.classList.add("active");
+
+  document.querySelectorAll("#bike-module .card").forEach(card => {
+    if(type === "all") {
+      card.style.display = "block";
+    } else {
+      card.style.display = card.dataset.type === type ? "block" : "none";
+    }
+  });
+}
+
 </script>
 
 </body>
