@@ -1,10 +1,13 @@
 const express=require('express');
 const router = express.Router();
 const { registerUser, loginUser } = require('../controllers/authController');
+const bikeModel=require("../models/brandModel");
+const brandModel = require('../models/brandModel');
 
 
-router.get("/",(req,res)=>{
-    res.render("signup");
+router.get("/",async(req,res)=>{
+    let brand= await brandModel.findOne({brandName});
+    res.render("signup",{brand});
 })
 
 router.post("/register",registerUser);
