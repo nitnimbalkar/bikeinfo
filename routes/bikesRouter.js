@@ -1,8 +1,10 @@
 const express=require('express');
 const router = express.Router();
+const userModel=require("../models/userModel");
 
-router.get("/",(req,res)=>{
-    res.render("index");
+router.get("/",async(req,res)=>{
+    let user= await userModel.findOne({email,user:user._id});
+    res.render("index",{user});
 })
 
 
