@@ -252,6 +252,178 @@ input:checked + .slider:before {
   background: transparent;
   color: white;
 }
+/* ================= LOGIN MODAL ================= */
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 2000;
+}
+
+.login-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.login-box {
+  background: #1c1c1c;
+  color: white;
+  padding: 30px;
+  width: 320px;
+  border-radius: 12px;
+  text-align: center;
+
+  transform: translateY(-40px);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.login-modal.active .login-box {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: #4CAF50;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.login-box button:hover {
+  background: #3e8e41;
+}
+
+.login-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 18px;
+}
+.toggle-link {
+  color: #4CAF50;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.toggle-link:hover {
+  text-decoration: underline;
+}
+.profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #4CAF50;
+}
+.profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4CAF50;
+  cursor: pointer;
+}
+#authBtn {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#authBtn:hover {
+  background: transparent !important;
+}
+
+#authBtn img {
+  display: block;
+}
+.profile-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Make login button act like icon holder after login */
+#authBtn {
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Profile image */
+.profile-pic {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #4CAF50;
+  object-fit: cover;
+}
+
+/* Dropdown */
+.profile-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+
+  background: #1c1c1c;
+  color: white;
+  width: 170px;
+
+  border-radius: 10px;
+  overflow: hidden;
+
+  display: none;
+  flex-direction: column;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.profile-menu div {
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.profile-menu div:hover {
+  background: #333;
+}
+
+.profile-menu.show {
+  display: flex;
+}
 </style>
 </head>
 
@@ -267,7 +439,16 @@ input:checked + .slider:before {
       <span class="slider"></span>
     </label>
 
-    <button class="login-btn">Login</button>
+  <div class="profile-wrapper" id="profileWrapper">
+  
+    <button class="login-btn" id="authBtn" onclick="handleAuth()">Login</button>
+      <div class="profile-menu" id="profileMenu">
+        <div onclick="goTo('edit')">Edit Profile</div>
+        <div onclick="goTo('bikes')">My Bikes</div>
+        <div onclick="goTo('reviews')">My Reviews</div>
+        <div onclick="logout()">Logout</div>
+      </div>
+  </div>
   </div>
 </div>
 
@@ -321,6 +502,39 @@ input:checked + .slider:before {
   </div>
 </div>
 
+<!-- LOGIN / SIGNUP MODAL -->
+<div id="loginModal" class="login-modal">
+  <div class="login-box">
+    <span class="login-close" onclick="closeLogin()">✖</span>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <h2>Login</h2>
+      <input type="text" placeholder="Username">
+      <input type="password" placeholder="Password">
+      <button onclick="loginUser()">Login</button>
+      <p style="margin-top:10px;">
+        Don't have an account?
+        <span class="toggle-link" onclick="showSignup()">Sign up</span>
+      </p>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <div id="signupForm" style="display:none;">
+      <h2>Sign Up</h2>
+      <input type="text" placeholder="Username">
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <button onclick="registerUser()">Register</button>
+      <p style="margin-top:10px;">
+        Already have an account?
+        <span class="toggle-link" onclick="showLogin()">Login</span>
+      </p>
+    </div>
+
+  </div>
+</div>
+
 <script>
 const toggle = document.getElementById("darkToggle");
 
@@ -338,6 +552,70 @@ function closeDrawer() {
   document.getElementById("drawer").classList.remove("active");
   document.getElementById("backdrop").classList.remove("active");
 }
+function openLogin() {
+  document.getElementById("loginModal").classList.add("active");
+}
+
+function closeLogin() {
+  document.getElementById("loginModal").classList.remove("active");
+}
+
+// close when clicking outside
+document.getElementById("loginModal").addEventListener("click", function(e) {
+  if (e.target === this) {
+    closeLogin();
+  }
+});
+function showSignup() {
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("signupForm").style.display = "block";
+}
+
+function showLogin() {
+  document.getElementById("signupForm").style.display = "none";
+  document.getElementById("loginForm").style.display = "block";
+}
+function loginUser() {
+  // fake login success
+  localStorage.setItem("loggedIn", "true");
+  localStorage.setItem("profilePic", "https://i.pravatar.cc/150");
+
+  updateAuthUI();
+  closeLogin();
+}
+
+function handleAuth() {
+  const isLoggedIn = localStorage.getItem("loggedIn");
+
+  if (isLoggedIn) {
+    toggleMenu(); // 👈 open dropdown menu
+  } else {
+    openLogin(); // 👈 open login popup
+  }
+}
+function toggleMenu() {
+  document.getElementById("profileMenu").classList.toggle("show");
+}
+
+function updateAuthUI() {
+  const btn = document.getElementById("authBtn");
+  const isLoggedIn = localStorage.getItem("loggedIn");
+
+  if (isLoggedIn) {
+    const img = document.createElement("img");
+    img.src = localStorage.getItem("profilePic");
+    img.className = "profile-pic";
+
+    btn.innerHTML = "";
+    btn.appendChild(img);
+    btn.onclick = handleAuth;
+  } else {
+    btn.innerText = "Login";
+  }
+}
+
+// run on page load
+updateAuthUI();
 </script>
 
 </body>

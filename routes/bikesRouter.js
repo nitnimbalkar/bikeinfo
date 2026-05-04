@@ -3,8 +3,7 @@ const router = express.Router();
 const bikeModel=require("../models/bikeModel");
 
 router.get("/",async(req,res)=>{
-    let user= await userModel.findOne({email,user:user._id});
-    res.render("index",{user});
+    res.render("index");
 })
 
 router.post("/create", async(req,res)=>{
