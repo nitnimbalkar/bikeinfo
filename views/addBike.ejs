@@ -1,11 +1,230 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Bike</title>
+<meta charset="UTF-8">
+<title>Add Bike</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght:300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #f4f6f9;
+  --card: #ffffff;
+  --text: #222;
+  --subtext: #666;
+  --border: #e0e0e0;
+  --accent: #6c63ff;
+  --section: #f9fafc;
+}
+
+body.dark {
+  --bg: #121212;
+  --card: #1e1e2f;
+  --text: #f1f1f1;
+  --subtext: #aaa;
+  --border: #2c2c3a;
+  --accent: #8b7cff;
+  --section: #181825;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  transition: 0.3s;
+}
+
+.container {
+  width: 850px;
+  margin: 40px auto;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.section {
+  margin-bottom: 25px;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--section);
+  border: 1px solid var(--border);
+}
+
+.section h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: var(--subtext);
+}
+
+input, select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+input::placeholder {
+  color: var(--subtext);
+}
+
+input:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(108,99,255,0.2);
+  outline: none;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.checkbox-group label {
+  color: var(--text);
+  font-size: 14px;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--accent);
+  margin-right: 6px;
+}
+
+.file-input {
+  padding: 8px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 95%;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
-<body>
-    
+
+<body class=""> <!-- add/remove "dark" from your toggle -->
+
+<div class="container">
+  <h2>Add New Bike</h2>
+
+  <form action="/add-bike" method="POST" enctype="multipart/form-data">
+
+    <div class="section">
+      <h3>Basic Info</h3>
+      <div class="grid">
+        <input type="text" name="brand" placeholder="Brand ID" required>
+        <input type="text" name="name" placeholder="Bike Name" required>
+
+        <select name="isAvailableIndia">
+          <option value="true">Available in India</option>
+          <option value="false">Not Available</option>
+        </select>
+
+        <input type="file" name="bProfileImg">
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Engine Specs</h3>
+      <div class="grid">
+        <input type="number" name="engineCapacity" placeholder="Engine CC" required>
+        <input type="number" name="mileage" placeholder="Mileage">
+        <input type="text" name="transmission" placeholder="Transmission" required>
+        <input type="number" name="weight" placeholder="Weight">
+        <input type="number" name="fuelTankCapacity" placeholder="Fuel Tank Capacity">
+        <input type="number" name="seatHeight" placeholder="Seat Height">
+        <input type="text" name="maxPower" placeholder="Max Power">
+        <input type="text" name="maxTorque" placeholder="Max Torque">
+        <input type="number" name="noOfCylinder" placeholder="No of Cylinders">
+        <input type="text" name="compressRatio" placeholder="Compression Ratio">
+        <input type="text" name="emissionStandard" placeholder="Emission Standard">
+
+        <select name="fuelType">
+          <option value="">Fuel Type</option>
+          <option value="Petrol">Petrol</option>
+          <option value="Power">Power</option>
+          <option value="XP100">XP100</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Features</h3>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="qShifter"> Quick Shifter</label>
+        <label><input type="checkbox" name="mConnect"> Mobile Connect</label>
+        <label><input type="checkbox" name="gps"> GPS</label>
+        <label><input type="checkbox" name="tracControl"> Traction Control</label>
+        <label><input type="checkbox" name="cControl"> Cruise Control</label>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Service & Warranty</h3>
+      <div class="grid">
+        <input type="number" name="serCost" placeholder="Service Cost">
+        <input type="number" name="fService" placeholder="1st Service KM">
+        <input type="number" name="sService" placeholder="2nd Service KM">
+        <input type="number" name="tService" placeholder="3rd Service KM">
+        <input type="number" name="sInterval" placeholder="Service Interval">
+        <input type="number" name="vWarentyKm" placeholder="Warranty KM">
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Bike Images</h3>
+      <input type="file" name="bikeImgs" multiple>
+    </div>
+
+    <button type="submit">Add Bike</button>
+
+  </form>
+</div>
+
 </body>
 </html>
