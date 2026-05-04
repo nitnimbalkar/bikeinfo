@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bikeSchema = new mongoose.Schema({
 
     brand: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         ref: "brand",
         required: true
     },
