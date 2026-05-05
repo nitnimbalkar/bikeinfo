@@ -428,19 +428,36 @@ input:checked + .slider:before {
   width:60%;
   margin:20px auto;
   font-family:Segoe UI, sans-serif;
-  color:#111;
   box-sizing:border-box;
   border-radius:12px;
   border:1px solid #d1d5db;
-
-  /* +30% spacing */
   padding:20px;
+
+  --text:#111;
+  --muted:#4b5563;
+  color:var(--text);
 }
 
-/* DARK MODE BORDER */
-body.dark .bike-module{
+/* DARK MODE (MATCHES YOUR JS: html.dark) */
+html.dark .bike-module{
+  --text:#e5e7eb;
+  --muted:#9ca3af;
   border:1px solid #ffffff;
-  color:#e5e7eb;
+}
+
+/* GLOBAL TEXT FIX (NO BLACK TEXT ANYWHERE) */
+.bike-module,
+.bike-module *{
+  color:var(--text);
+}
+
+/* PRICE OVERRIDE */
+.bike-module .price{
+  color:#16a34a;
+}
+
+html.dark .bike-module .price{
+  color:#22c55e;
 }
 
 /* TABS */
@@ -456,6 +473,7 @@ body.dark .bike-module{
   border-radius:8px;
   cursor:pointer;
   font-size:14px;
+  color:#111;
 }
 
 .bike-module .tab.active{
@@ -463,12 +481,12 @@ body.dark .bike-module{
   color:#fff;
 }
 
-body.dark .bike-module .tab{
+html.dark .bike-module .tab{
   background:#1f2937;
   color:#e5e7eb;
 }
 
-body.dark .bike-module .tab.active{
+html.dark .bike-module .tab.active{
   background:#fff;
   color:#111;
 }
@@ -482,31 +500,16 @@ body.dark .bike-module .tab.active{
 /* SIDEBAR */
 .bike-module .sidebar{
   width:28%;
-  background:#fff;
+  background:transparent;
   border:1px solid #e5e7eb;
   border-radius:10px;
   padding:12px;
   font-size:13px;
 }
 
-body.dark .bike-module .sidebar{
+html.dark .bike-module .sidebar{
   background:#1f2937;
   border:1px solid #374151;
-}
-
-/* HEADINGS */
-.bike-module .sidebar h4{
-  margin:14px 0 6px;
-  font-size:13px;
-}
-
-/* FILTERS */
-.bike-module .sidebar label{
-  display:flex;
-  gap:6px;
-  margin:5px 0;
-  cursor:pointer;
-  align-items:center;
 }
 
 /* CONTENT */
@@ -521,7 +524,7 @@ body.dark .bike-module .sidebar{
   gap:10px;
 }
 
-/* BROWSE GRID (5x2 FIXED) */
+/* BROWSE GRID */
 .bike-module .horizontal{
   display:grid;
   grid-template-columns:repeat(5,1fr);
@@ -532,18 +535,18 @@ body.dark .bike-module .sidebar{
 .bike-module .card{
   border:1px solid #e5e7eb;
   border-radius:10px;
-  background:#fff;
+  background:transparent;
   overflow:hidden;
   font-size:13px;
   padding-bottom:6px;
 }
 
-body.dark .bike-module .card{
+html.dark .bike-module .card{
   background:#1f2937;
   border:1px solid #374151;
 }
 
-/* IMAGE (OPTIMIZED RATIO + CENTERED) */
+/* IMAGE */
 .bike-module .card img{
   width:88%;
   height:92px;
@@ -553,22 +556,50 @@ body.dark .bike-module .card{
   border-radius:8px;
 }
 
-/* TEXT */
+/* CARD TEXT */
 .bike-module .card-body{
   padding:8px 6px 10px;
   text-align:center;
   line-height:1.3;
 }
 
-/* PRICE */
-.bike-module .price{
-  color:#16a34a;
-  font-weight:600;
+/* INPUTS + LABEL FIX */
+.bike-module input,
+.bike-module label,
+.bike-module h1,
+.bike-module h2,
+.bike-module h3,
+.bike-module h4,
+.bike-module span,
+.bike-module div{
+  color:var(--text);
+}
+.bike-module .sidebar label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  line-height:1.4;
+  cursor:pointer;
+  white-space:nowrap;
 }
 
-/* SLIDER */
-.bike-module input[type=range]{
-  width:100%;
+/* ensure radio buttons align perfectly */
+.bike-module .sidebar input[type="radio"]{
+  margin:0;
+  transform: translateY(1px);
+}
+
+/* section spacing cleanup */
+.bike-module .sidebar h4{
+  margin-top:16px;
+  margin-bottom:8px;
+}
+
+/* make groups stack neatly */
+.bike-module .sidebar{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
 }
 </style>
 </head>
@@ -749,9 +780,11 @@ body.dark .bike-module .card{
 <script>
 const toggle = document.getElementById("darkToggle");
 
-toggle.addEventListener("change", () => {
-  document.documentElement.classList.toggle("dark");
-});
+if (toggle) {
+  toggle.addEventListener("change", () => {
+    document.documentElement.classList.toggle("dark", toggle.checked);
+  });
+}
 
 function openDrawer(brand) {
   document.getElementById("drawer").classList.add("active");
@@ -930,6 +963,7 @@ function bm_show(tab,e){
     bm_loadUpcoming();
   }
 }
+
 
 /* INIT */
 bm_loadTrending();
