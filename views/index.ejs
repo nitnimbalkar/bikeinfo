@@ -688,6 +688,7 @@ body.dark .bike-module .card{
   <div class="tabs">
     <div class="tab active" onclick="bm_show('trend',event)">Trending</div>
     <div class="tab" onclick="bm_show('browse',event)">Browse</div>
+    <div class="tab" onclick="bm_show('upcoming',event)">Upcoming</div>
   </div>
 
   <!-- TRENDING -->
@@ -734,7 +735,14 @@ body.dark .bike-module .card{
       </div>
 
     </div>
+    
+
   </div>
+  <!-- UPCOMING -->
+  <div id="bm_upcoming" style="display:none;">
+    <div class="grid" id="bm_upcomingGrid"></div>
+  </div>
+  
 
 </div>
 
@@ -820,11 +828,19 @@ const bm_bikes = [
   {name:"Bike A", price:100000, cc:150, mileage:60, type:"commuter", img:"https://via.placeholder.com/200"},
   {name:"Bike B", price:200000, cc:250, mileage:40, type:"sport", img:"https://via.placeholder.com/200"},
   {name:"Bike C", price:300000, cc:400, mileage:30, type:"naked", img:"https://via.placeholder.com/200"},
-  {name:"Bike D", price:500000, cc:650, mileage:25, type:"adventure", img:"https://via.placeholder.com/200"},
+  {name:"Bike D", price:500000, cc:650, mileage:25, type:"adventure", img:"https://via.placeholder.com/200", upcoming:true},
   {name:"Bike E", price:120000, cc:125, mileage:70, type:"commuter", img:"https://via.placeholder.com/200"},
-  {name:"Bike F", price:180000, cc:200, mileage:55, type:"naked", img:"https://via.placeholder.com/200"},
+  {name:"Bike F", price:180000, cc:200, mileage:55, type:"naked", img:"https://via.placeholder.com/200", upcoming:true},
   {name:"Bike G", price:400000, cc:500, mileage:35, type:"sport", img:"https://via.placeholder.com/200"},
-  {name:"Bike H", price:600000, cc:900, mileage:20, type:"adventure", img:"https://via.placeholder.com/200"}
+  {name:"Bike H", price:600000, cc:900, mileage:20, type:"adventure", img:"https://via.placeholder.com/200", upcoming:true},
+  {name:"Bike A", price:100000, cc:150, mileage:60, type:"commuter", img:"https://via.placeholder.com/200"},
+  {name:"Bike B", price:200000, cc:250, mileage:40, type:"sport", img:"https://via.placeholder.com/200"},
+  {name:"Bike C", price:300000, cc:400, mileage:30, type:"naked", img:"https://via.placeholder.com/200"},
+  {name:"Bike D", price:500000, cc:650, mileage:25, type:"adventure", img:"https://via.placeholder.com/200", upcoming:true},
+  {name:"Bike E", price:120000, cc:125, mileage:70, type:"commuter", img:"https://via.placeholder.com/200"},
+  {name:"Bike F", price:180000, cc:200, mileage:55, type:"naked", img:"https://via.placeholder.com/200", upcoming:true},
+  {name:"Bike G", price:400000, cc:500, mileage:35, type:"sport", img:"https://via.placeholder.com/200"},
+  {name:"Bike H", price:600000, cc:900, mileage:20, type:"adventure", img:"https://via.placeholder.com/200", upcoming:true},
 ];
 
 /* TRENDING */
@@ -875,21 +891,50 @@ function bm_filter(){
     });
 }
 
+function bm_loadUpcoming(){
+  const g=document.getElementById("bm_upcomingGrid");
+  g.innerHTML="";
+
+  bm_bikes
+    .filter(b=>b.upcoming)
+    .forEach(b=>{
+      g.innerHTML+=`
+        <div class="card">
+          <img src="${b.img}">
+          <div class="card-body">
+            <b>${b.name}</b><br>
+            <span style="color:#f59e0b;font-weight:600;">Upcoming</span><br>
+            ${b.cc}cc
+          </div>
+        </div>`;
+    });
+}
 /* TABS */
 function bm_show(tab,e){
-  document.getElementById("bm_trend").style.display=
-    tab==="trend"?"block":"none";
-  document.getElementById("bm_browse").style.display=
-    tab==="browse"?"block":"none";
+
+  document.getElementById("bm_trend").style.display =
+    tab==="trend" ? "block" : "none";
+
+  document.getElementById("bm_browse").style.display =
+    tab==="browse" ? "block" : "none";
+
+  document.getElementById("bm_upcoming").style.display =
+    tab==="upcoming" ? "block" : "none";
 
   document.querySelectorAll(".bike-module .tab")
     .forEach(t=>t.classList.remove("active"));
+
   e.target.classList.add("active");
+
+  if(tab==="upcoming"){
+    bm_loadUpcoming();
+  }
 }
 
 /* INIT */
 bm_loadTrending();
 bm_filter();
+bm_loadUpcoming();
 // run on page load
 updateAuthUI();
 </script>
