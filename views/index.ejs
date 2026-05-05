@@ -681,61 +681,7 @@ body.dark .bike-module .card{
   </div>
 
 </div>
-<div class="bike-module">
 
-  <!-- TABS -->
-  <div class="tabs">
-    <div class="tab active" onclick="bm_show('trend',event)">Trending</div>
-    <div class="tab" onclick="bm_show('browse',event)">Browse</div>
-  </div>
-
-  <!-- TRENDING -->
-  <div id="bm_trend">
-    <div class="grid" id="bm_trendingGrid"></div>
-  </div>
-
-  <!-- BROWSE -->
-  <div id="bm_browse" style="display:none;">
-    <div class="container">
-
-      <!-- FILTERS -->
-      <div class="sidebar">
-
-        <h4>Price</h4>
-        <input type="range" min="0" max="600000" step="50000"
-               id="bm_price" oninput="bm_filter()">
-        <div style="font-size:12px;margin-top:5px;">
-          Max: ₹<span id="bm_priceVal">600000</span>
-        </div>
-
-        <h4>CC</h4>
-        <label><input type="radio" name="bm_cc" value="150" onclick="bm_filter()"> Up to 150cc</label>
-        <label><input type="radio" name="bm_cc" value="250" onclick="bm_filter()"> Up to 250cc</label>
-        <label><input type="radio" name="bm_cc" value="500" onclick="bm_filter()"> Up to 500cc</label>
-        <label><input type="radio" name="bm_cc" value="1000" onclick="bm_filter()"> 500cc+</label>
-
-        <h4>Mileage</h4>
-        <label><input type="radio" name="bm_m" value="40" onclick="bm_filter()"> 40+ kmpl</label>
-        <label><input type="radio" name="bm_m" value="60" onclick="bm_filter()"> 60+ kmpl</label>
-
-        <h4>Type</h4>
-        <label><input type="radio" name="bm_type" value="sport" onclick="bm_filter()"> Sport</label>
-        <label><input type="radio" name="bm_type" value="naked" onclick="bm_filter()"> Naked</label>
-        <label><input type="radio" name="bm_type" value="adventure" onclick="bm_filter()"> Adventure</label>
-        <label><input type="radio" name="bm_type" value="commuter" onclick="bm_filter()"> Commuter</label>
-        <label><input type="radio" name="bm_type" value="others" onclick="bm_filter()"> Others</label>
-
-      </div>
-
-      <!-- RESULTS -->
-      <div class="content">
-        <div class="horizontal" id="bm_bikeGrid"></div>
-      </div>
-
-    </div>
-  </div>
-
-</div>
 <div class="bike-module">
 
   <!-- TABS -->
