@@ -424,6 +424,152 @@ input:checked + .slider:before {
 .profile-menu.show {
   display: flex;
 }
+.bike-module{
+  width:60%;
+  margin:20px auto;
+  font-family:Segoe UI, sans-serif;
+  color:#111;
+  box-sizing:border-box;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+
+  /* +30% spacing */
+  padding:20px;
+}
+
+/* DARK MODE BORDER */
+body.dark .bike-module{
+  border:1px solid #ffffff;
+  color:#e5e7eb;
+}
+
+/* TABS */
+.bike-module .tabs{
+  display:flex;
+  margin-bottom:14px;
+}
+
+.bike-module .tab{
+  padding:8px 14px;
+  margin-right:8px;
+  background:#e5e7eb;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.bike-module .tab.active{
+  background:#111;
+  color:#fff;
+}
+
+body.dark .bike-module .tab{
+  background:#1f2937;
+  color:#e5e7eb;
+}
+
+body.dark .bike-module .tab.active{
+  background:#fff;
+  color:#111;
+}
+
+/* LAYOUT */
+.bike-module .container{
+  display:flex;
+  gap:15px;
+}
+
+/* SIDEBAR */
+.bike-module .sidebar{
+  width:28%;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  padding:12px;
+  font-size:13px;
+}
+
+body.dark .bike-module .sidebar{
+  background:#1f2937;
+  border:1px solid #374151;
+}
+
+/* HEADINGS */
+.bike-module .sidebar h4{
+  margin:14px 0 6px;
+  font-size:13px;
+}
+
+/* FILTERS */
+.bike-module .sidebar label{
+  display:flex;
+  gap:6px;
+  margin:5px 0;
+  cursor:pointer;
+  align-items:center;
+}
+
+/* CONTENT */
+.bike-module .content{
+  width:72%;
+}
+
+/* TRENDING GRID */
+.bike-module .grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+/* BROWSE GRID (5x2 FIXED) */
+.bike-module .horizontal{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+}
+
+/* CARD */
+.bike-module .card{
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  background:#fff;
+  overflow:hidden;
+  font-size:13px;
+  padding-bottom:6px;
+}
+
+body.dark .bike-module .card{
+  background:#1f2937;
+  border:1px solid #374151;
+}
+
+/* IMAGE (OPTIMIZED RATIO + CENTERED) */
+.bike-module .card img{
+  width:88%;
+  height:92px;
+  object-fit:cover;
+  margin:8px auto 0;
+  display:block;
+  border-radius:8px;
+}
+
+/* TEXT */
+.bike-module .card-body{
+  padding:8px 6px 10px;
+  text-align:center;
+  line-height:1.3;
+}
+
+/* PRICE */
+.bike-module .price{
+  color:#16a34a;
+  font-weight:600;
+}
+
+/* SLIDER */
+.bike-module input[type=range]{
+  width:100%;
+}
 </style>
 </head>
 
@@ -533,6 +679,117 @@ input:checked + .slider:before {
     </div>
 
   </div>
+
+</div>
+<div class="bike-module">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="bm_show('trend',event)">Trending</div>
+    <div class="tab" onclick="bm_show('browse',event)">Browse</div>
+  </div>
+
+  <!-- TRENDING -->
+  <div id="bm_trend">
+    <div class="grid" id="bm_trendingGrid"></div>
+  </div>
+
+  <!-- BROWSE -->
+  <div id="bm_browse" style="display:none;">
+    <div class="container">
+
+      <!-- FILTERS -->
+      <div class="sidebar">
+
+        <h4>Price</h4>
+        <input type="range" min="0" max="600000" step="50000"
+               id="bm_price" oninput="bm_filter()">
+        <div style="font-size:12px;margin-top:5px;">
+          Max: ₹<span id="bm_priceVal">600000</span>
+        </div>
+
+        <h4>CC</h4>
+        <label><input type="radio" name="bm_cc" value="150" onclick="bm_filter()"> Up to 150cc</label>
+        <label><input type="radio" name="bm_cc" value="250" onclick="bm_filter()"> Up to 250cc</label>
+        <label><input type="radio" name="bm_cc" value="500" onclick="bm_filter()"> Up to 500cc</label>
+        <label><input type="radio" name="bm_cc" value="1000" onclick="bm_filter()"> 500cc+</label>
+
+        <h4>Mileage</h4>
+        <label><input type="radio" name="bm_m" value="40" onclick="bm_filter()"> 40+ kmpl</label>
+        <label><input type="radio" name="bm_m" value="60" onclick="bm_filter()"> 60+ kmpl</label>
+
+        <h4>Type</h4>
+        <label><input type="radio" name="bm_type" value="sport" onclick="bm_filter()"> Sport</label>
+        <label><input type="radio" name="bm_type" value="naked" onclick="bm_filter()"> Naked</label>
+        <label><input type="radio" name="bm_type" value="adventure" onclick="bm_filter()"> Adventure</label>
+        <label><input type="radio" name="bm_type" value="commuter" onclick="bm_filter()"> Commuter</label>
+        <label><input type="radio" name="bm_type" value="others" onclick="bm_filter()"> Others</label>
+
+      </div>
+
+      <!-- RESULTS -->
+      <div class="content">
+        <div class="horizontal" id="bm_bikeGrid"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<div class="bike-module">
+
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="bm_show('trend',event)">Trending</div>
+    <div class="tab" onclick="bm_show('browse',event)">Browse</div>
+  </div>
+
+  <!-- TRENDING -->
+  <div id="bm_trend">
+    <div class="grid" id="bm_trendingGrid"></div>
+  </div>
+
+  <!-- BROWSE -->
+  <div id="bm_browse" style="display:none;">
+    <div class="container">
+
+      <!-- FILTERS -->
+      <div class="sidebar">
+
+        <h4>Price</h4>
+        <input type="range" min="0" max="600000" step="50000"
+               id="bm_price" oninput="bm_filter()">
+        <div style="font-size:12px;margin-top:5px;">
+          Max: ₹<span id="bm_priceVal">600000</span>
+        </div>
+
+        <h4>CC</h4>
+        <label><input type="radio" name="bm_cc" value="150" onclick="bm_filter()"> Up to 150cc</label>
+        <label><input type="radio" name="bm_cc" value="250" onclick="bm_filter()"> Up to 250cc</label>
+        <label><input type="radio" name="bm_cc" value="500" onclick="bm_filter()"> Up to 500cc</label>
+        <label><input type="radio" name="bm_cc" value="1000" onclick="bm_filter()"> 500cc+</label>
+
+        <h4>Mileage</h4>
+        <label><input type="radio" name="bm_m" value="40" onclick="bm_filter()"> 40+ kmpl</label>
+        <label><input type="radio" name="bm_m" value="60" onclick="bm_filter()"> 60+ kmpl</label>
+
+        <h4>Type</h4>
+        <label><input type="radio" name="bm_type" value="sport" onclick="bm_filter()"> Sport</label>
+        <label><input type="radio" name="bm_type" value="naked" onclick="bm_filter()"> Naked</label>
+        <label><input type="radio" name="bm_type" value="adventure" onclick="bm_filter()"> Adventure</label>
+        <label><input type="radio" name="bm_type" value="commuter" onclick="bm_filter()"> Commuter</label>
+        <label><input type="radio" name="bm_type" value="others" onclick="bm_filter()"> Others</label>
+
+      </div>
+
+      <!-- RESULTS -->
+      <div class="content">
+        <div class="horizontal" id="bm_bikeGrid"></div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -613,7 +870,80 @@ function updateAuthUI() {
     btn.innerText = "Login";
   }
 }
+const bm_bikes = [
+  {name:"Bike A", price:100000, cc:150, mileage:60, type:"commuter", img:"https://via.placeholder.com/200"},
+  {name:"Bike B", price:200000, cc:250, mileage:40, type:"sport", img:"https://via.placeholder.com/200"},
+  {name:"Bike C", price:300000, cc:400, mileage:30, type:"naked", img:"https://via.placeholder.com/200"},
+  {name:"Bike D", price:500000, cc:650, mileage:25, type:"adventure", img:"https://via.placeholder.com/200"},
+  {name:"Bike E", price:120000, cc:125, mileage:70, type:"commuter", img:"https://via.placeholder.com/200"},
+  {name:"Bike F", price:180000, cc:200, mileage:55, type:"naked", img:"https://via.placeholder.com/200"},
+  {name:"Bike G", price:400000, cc:500, mileage:35, type:"sport", img:"https://via.placeholder.com/200"},
+  {name:"Bike H", price:600000, cc:900, mileage:20, type:"adventure", img:"https://via.placeholder.com/200"}
+];
 
+/* TRENDING */
+function bm_loadTrending(){
+  const g=document.getElementById("bm_trendingGrid");
+  g.innerHTML="";
+  bm_bikes.forEach(b=>{
+    g.innerHTML+=`
+      <div class="card">
+        <img src="${b.img}">
+        <div class="card-body">
+          <b>${b.name}</b><br>${b.cc}cc
+        </div>
+      </div>`;
+  });
+}
+
+/* FILTER */
+function bm_filter(){
+  const price=document.getElementById("bm_price").value;
+  document.getElementById("bm_priceVal").innerText=
+    Number(price).toLocaleString();
+
+  const cc=document.querySelector('input[name="bm_cc"]:checked')?.value;
+  const m=document.querySelector('input[name="bm_m"]:checked')?.value;
+  const type=document.querySelector('input[name="bm_type"]:checked')?.value;
+
+  const g=document.getElementById("bm_bikeGrid");
+  g.innerHTML="";
+
+  bm_bikes
+    .filter(b =>
+      (!cc || b.cc<=cc) &&
+      (!m || b.mileage>=m) &&
+      (!type || b.type===type) &&
+      (b.price<=price)
+    )
+    .forEach(b=>{
+      g.innerHTML+=`
+        <div class="card">
+          <img src="${b.img}">
+          <div class="card-body">
+            <b>${b.name}</b><br>
+            <span class="price">₹${b.price.toLocaleString()}</span><br>
+            ${b.cc}cc | ${b.type}
+          </div>
+        </div>`;
+    });
+}
+
+/* TABS */
+function bm_show(tab,e){
+  document.getElementById("bm_trend").style.display=
+    tab==="trend"?"block":"none";
+  document.getElementById("bm_browse").style.display=
+    tab==="browse"?"block":"none";
+
+  document.querySelectorAll(".bike-module .tab")
+    .forEach(t=>t.classList.remove("active"));
+  e.target.classList.add("active");
+}
+
+/* INIT */
+bm_loadTrending();
+bm_filter();
 // run on page load
 updateAuthUI();
 </script>
