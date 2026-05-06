@@ -8,7 +8,6 @@ const flash=require("connect-flash");
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('./swagger');
 const logger = require('./logger');
-
 require("dotenv").config();
 
 const ownersRouter=require("./routes/ownersRouter");

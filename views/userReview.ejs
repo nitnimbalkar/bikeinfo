@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bike Reviews</title>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f5f7fb;
+  margin: 0;
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+/* MAIN MODULE */
+.reviews {
+  width: 800px;
+  height: 60vh;
+  border: 2px solid #d0d0d0;
+  border-radius: 12px;
+
+  /* 🔥 +30% vertical padding */
+  padding: 20px 15px;
+
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* HEADER */
+h2 {
+  margin: 0 0 5px 0;
+}
+
+.subtext {
+  color: #555;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* SEARCH BAR */
+.search-bar {
+  width: 60%;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+/* LABEL */
+.recent {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* GRID (3x2) */
+.review-list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 12px;
+  overflow: hidden;
+}
+
+/* CARD */
+.review-card {
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 12px;
+  box-sizing: border-box;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* TOP */
+.top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.top h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.top span {
+  font-size: 12px;
+  color: #777;
+}
+
+/* TEXT */
+.preview {
+  font-size: 13px;
+  margin: 8px 0;
+  color: #333;
+}
+
+/* BUTTON */
+.expand-btn {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  margin-top: auto;
+}
+
+.expand-btn:hover {
+  background: #0056b3;
+}
+</style>
+</head>
+
+<body>
+
+<section class="reviews">
+
+  <h2>Owner Reviews</h2>
+  <p class="subtext">
+    Verified bike owners sharing real-world pros and cons.
+  </p>
+
+  <input class="search-bar" placeholder="Search bike model..." />
+
+  <div class="recent">Recent Reviews</div>
+
+  <!-- GRID -->
+  <div class="review-list">
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=1" class="avatar">
+        <div>
+          <h4>Rahul Sharma</h4>
+          <span>Classic 350</span>
+        </div>
+      </div>
+      <p class="preview">Great highway stability and comfort.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=5" class="avatar">
+        <div>
+          <h4>Amit Verma</h4>
+          <span>Yamaha R15</span>
+        </div>
+      </div>
+      <p class="preview">Perfect beginner sports bike.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=8" class="avatar">
+        <div>
+          <h4>Vikram Singh</h4>
+          <span>Apache RTR</span>
+        </div>
+      </div>
+      <p class="preview">Excellent mileage in city.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=9" class="avatar">
+        <div>
+          <h4>Sameer Khan</h4>
+          <span>NS200</span>
+        </div>
+      </div>
+      <p class="preview">Powerful and aggressive bike.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=10" class="avatar">
+        <div>
+          <h4>Rohit Mehta</h4>
+          <span>MT-15</span>
+        </div>
+      </div>
+      <p class="preview">Lightweight and fun to ride.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=11" class="avatar">
+        <div>
+          <h4>Karan Patel</h4>
+          <span>Dominar 400</span>
+        </div>
+      </div>
+      <p class="preview">Best touring bike in segment.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+  </div>
+
+</section>
+
+</body>
+</html>
