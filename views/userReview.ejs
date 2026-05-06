@@ -2,138 +2,175 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Bike Reviews</title>
+<title>Bike Reviews Module</title>
 
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f7fb;
-  margin: 0;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
+
+/* ================= MODULE WRAPPER ================= */
+.bike-reviews-module{
+  width:60%;
+  margin:20px auto;
+  min-height:60vh;
+
+  border:2px solid #d1d5db;
+  border-radius:12px;
+  padding:20px 15px;
+
+  display:flex;
+  flex-direction:column;
+  box-sizing:border-box;
+
+  --text:#111;
+  --muted:#6b7280;
+  --card:#ffffff;
 }
 
-/* MAIN MODULE */
-.reviews {
-  width: 800px;
-  height: 60vh;
-  border: 2px solid #d0d0d0;
-  border-radius: 12px;
+/* DARK MODE */
+html.dark .bike-reviews-module{
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --card:#1f2937;
+  border-color:#ffffff;
+}
 
-  /* 🔥 +30% vertical padding */
-  padding: 20px 15px;
-
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  overflow: hidden;
-  box-sizing: border-box;
+/* GLOBAL TEXT INSIDE MODULE ONLY */
+.bike-reviews-module,
+.bike-reviews-module *{
+  color:var(--text);
 }
 
 /* HEADER */
-h2 {
-  margin: 0 0 5px 0;
+.bike-reviews-module h2{
+  margin-bottom:5px;
 }
 
-.subtext {
-  color: #555;
-  margin-bottom: 10px;
-  font-size: 14px;
+/* SUBTEXT */
+.bike-reviews-module .subtext{
+  color:var(--muted);
+  font-size:14px;
+  margin-bottom:10px;
 }
 
-/* SEARCH BAR */
-.search-bar {
-  width: 60%;
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
+/* SEARCH */
+.bike-reviews-module .search-bar{
+  width:60%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin-bottom:10px;
 }
 
 /* LABEL */
-.recent {
-  margin: 10px 0;
-  font-weight: bold;
+.bike-reviews-module .recent{
+  font-weight:bold;
+  margin-bottom:10px;
 }
 
-/* GRID (3x2) */
-.review-list {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 12px;
-  overflow: hidden;
+/* GRID (3x2 auto grow) */
+.bike-reviews-module .review-list{
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-auto-rows:minmax(180px,auto);
+  gap:12px;
 }
 
 /* CARD */
-.review-card {
-  background: #fff;
-  border: 2px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 12px;
-  box-sizing: border-box;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+.bike-reviews-module .review-card{
+  background:var(--card);
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:12px;
+  box-sizing:border-box;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
 /* TOP */
-.top {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.bike-reviews-module .top{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-.avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-.top h4 {
-  margin: 0;
-  font-size: 14px;
-}
-
-.top span {
-  font-size: 12px;
-  color: #777;
+.bike-reviews-module .avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
 }
 
 /* TEXT */
-.preview {
-  font-size: 13px;
-  margin: 8px 0;
-  color: #333;
+.bike-reviews-module .preview{
+  font-size:13px;
+  margin:8px 0;
+  color:var(--muted);
 }
 
 /* BUTTON */
-.expand-btn {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  margin-top: auto;
+.bike-reviews-module .expand-btn{
+  background:#007bff;
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
 }
 
-.expand-btn:hover {
-  background: #0056b3;
+/* ================= MODAL ================= */
+.review-modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+
+  display:none;
+  justify-content:center;
+  align-items:center;
+
+  background:rgba(0,0,0,0.6);
+  z-index:9999;
 }
+
+.review-modal-box{
+  width:60vw;
+  height:60vh;
+
+  background:#fff;
+  border-radius:12px;
+  padding:20px;
+
+  position:relative;
+  overflow-y:auto;
+}
+
+/* DARK MODE MODAL */
+html.dark .review-modal-box{
+  background:#1f2937;
+  color:#e5e7eb;
+}
+
+.close-modal{
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:24px;
+  cursor:pointer;
+}
+
 </style>
 </head>
 
 <body>
 
-<section class="reviews">
+<!-- ================= MODULE ================= -->
+<section class="bike-reviews-module">
 
   <h2>Owner Reviews</h2>
+
   <p class="subtext">
     Verified bike owners sharing real-world pros and cons.
   </p>
@@ -142,7 +179,6 @@ h2 {
 
   <div class="recent">Recent Reviews</div>
 
-  <!-- GRID -->
   <div class="review-list">
 
     <div class="review-card">
@@ -153,8 +189,13 @@ h2 {
           <span>Classic 350</span>
         </div>
       </div>
+
       <p class="preview">Great highway stability and comfort.</p>
-      <button class="expand-btn">See Full Review</button>
+
+      <button class="expand-btn"
+        onclick="openModal('Rahul Sharma','Classic 350','Excellent highway stability, very comfortable on long rides but slightly heavy in city traffic.')">
+        See Full Review
+      </button>
     </div>
 
     <div class="review-card">
@@ -165,8 +206,13 @@ h2 {
           <span>Yamaha R15</span>
         </div>
       </div>
+
       <p class="preview">Perfect beginner sports bike.</p>
-      <button class="expand-btn">See Full Review</button>
+
+      <button class="expand-btn"
+        onclick="openModal('Amit Verma','Yamaha R15','Sharp design, great handling, but riding posture is aggressive for long trips.')">
+        See Full Review
+      </button>
     </div>
 
     <div class="review-card">
@@ -177,49 +223,48 @@ h2 {
           <span>Apache RTR</span>
         </div>
       </div>
+
       <p class="preview">Excellent mileage in city.</p>
-      <button class="expand-btn">See Full Review</button>
-    </div>
 
-    <div class="review-card">
-      <div class="top">
-        <img src="https://i.pravatar.cc/100?img=9" class="avatar">
-        <div>
-          <h4>Sameer Khan</h4>
-          <span>NS200</span>
-        </div>
-      </div>
-      <p class="preview">Powerful and aggressive bike.</p>
-      <button class="expand-btn">See Full Review</button>
-    </div>
-
-    <div class="review-card">
-      <div class="top">
-        <img src="https://i.pravatar.cc/100?img=10" class="avatar">
-        <div>
-          <h4>Rohit Mehta</h4>
-          <span>MT-15</span>
-        </div>
-      </div>
-      <p class="preview">Lightweight and fun to ride.</p>
-      <button class="expand-btn">See Full Review</button>
-    </div>
-
-    <div class="review-card">
-      <div class="top">
-        <img src="https://i.pravatar.cc/100?img=11" class="avatar">
-        <div>
-          <h4>Karan Patel</h4>
-          <span>Dominar 400</span>
-        </div>
-      </div>
-      <p class="preview">Best touring bike in segment.</p>
-      <button class="expand-btn">See Full Review</button>
+      <button class="expand-btn"
+        onclick="openModal('Vikram Singh','Apache RTR','Very fuel efficient, smooth in traffic, and low maintenance cost.')">
+        See Full Review
+      </button>
     </div>
 
   </div>
-
 </section>
+
+<!-- ================= MODAL ================= -->
+<div class="review-modal" id="reviewModal">
+  <div class="review-modal-box">
+
+    <span class="close-modal" onclick="closeModal()">×</span>
+
+    <h3 id="modalName"></h3>
+    <p id="modalBike"></p>
+    <hr style="margin:10px 0;">
+    <p id="modalText"></p>
+
+  </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+
+function openModal(name, bike, text) {
+  document.getElementById("reviewModal").style.display = "flex";
+
+  document.getElementById("modalName").innerText = name;
+  document.getElementById("modalBike").innerText = bike;
+  document.getElementById("modalText").innerText = text;
+}
+
+function closeModal() {
+  document.getElementById("reviewModal").style.display = "none";
+}
+
+</script>
 
 </body>
 </html>
