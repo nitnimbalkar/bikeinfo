@@ -21,7 +21,11 @@
     "express-session": "^1.19.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.6.0",
-    "multer": "^2.1.1"
+    "multer": "^2.1.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-dist": "^5.32.5",
+    "swagger-ui-express": "^5.0.1",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

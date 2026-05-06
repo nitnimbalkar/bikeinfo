@@ -5,6 +5,9 @@ const path=require('path');
 const db=require("./config/mongooseConnection");
 const expressSession=require("express-session");
 const flash=require("connect-flash");
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swagger');
+const logger = require('./logger');
 
 require("dotenv").config();
 
@@ -36,5 +39,7 @@ app.use("/brands",brandsRouter);
 app.use("/bikes",bikesRouter);
 
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.listen(3000);
+
+app.listen(3000, () => logger.info("Server listening on Port 3000"));
