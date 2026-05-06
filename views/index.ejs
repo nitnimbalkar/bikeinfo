@@ -601,6 +601,121 @@ html.dark .bike-module .card{
   flex-direction:column;
   gap:4px;
 }
+/* ================= BIKE REVIEWS MODULE ================= */
+.bike-reviews-module{
+  width:60%;
+  margin:20px auto;
+  height:auto;
+  margin:20px auto;
+  border:2px solid #d1d5db;
+  border-radius:12px;
+  padding:20px 15px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  box-sizing:border-box;
+  display: flex;
+  flex-direction: column;
+
+  --text:#111;
+  --muted:#6b7280;
+  --card:#ffffff;
+}
+
+/* DARK MODE (matches your html.dark system) */
+html.dark .bike-reviews-module{
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --card:#1f2937;
+  border-color:#ffffff;
+}
+
+/* GLOBAL TEXT INSIDE MODULE ONLY */
+.bike-reviews-module,
+.bike-reviews-module *{
+  color:var(--text);
+}
+
+/* HEADINGS */
+.bike-reviews-module h2{
+  margin-bottom:5px;
+}
+
+/* SUBTEXT */
+.bike-reviews-module .subtext{
+  color:var(--muted);
+  margin-bottom:10px;
+  font-size:14px;
+}
+
+/* SEARCH */
+.bike-reviews-module .search-bar{
+  width:60%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin-bottom:10px;
+}
+
+/* LABEL */
+.bike-reviews-module .recent{
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+/* GRID (3x2 SAFE) */
+.bike-reviews-module .review-list{
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(2,1fr);
+  gap:12px;
+  overflow:hidden;
+}
+
+/* CARD */
+.bike-reviews-module .review-card{
+  background:var(--card);
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:12px;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height: 250px;
+}
+
+/* TOP */
+.bike-reviews-module .top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.bike-reviews-module .avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+}
+
+/* TEXT */
+.bike-reviews-module .preview{
+  font-size:13px;
+  margin:8px 0;
+  color:var(--muted);
+}
+
+/* BUTTON */
+.bike-reviews-module .expand-btn{
+  background:#007bff;
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+}
 </style>
 </head>
 
@@ -776,6 +891,96 @@ html.dark .bike-module .card{
   
 
 </div>
+<section class="bike-reviews-module">
+
+  <h2>Owner Reviews</h2>
+
+  <p class="subtext">
+    Verified bike owners sharing real-world pros and cons.
+  </p>
+
+  <input class="search-bar" placeholder="Search bike model..." />
+
+  <div class="recent">Recent Reviews</div>
+
+  <div class="review-list">
+
+    <!-- CARD -->
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=1" class="avatar">
+        <div>
+          <h4>Rahul Sharma</h4>
+          <span>Classic 350</span>
+        </div>
+      </div>
+      <p class="preview">Great highway stability and comfort.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=5" class="avatar">
+        <div>
+          <h4>Amit Verma</h4>
+          <span>Yamaha R15</span>
+        </div>
+      </div>
+      <p class="preview">Perfect beginner sports bike.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=8" class="avatar">
+        <div>
+          <h4>Vikram Singh</h4>
+          <span>Apache RTR</span>
+        </div>
+      </div>
+      <p class="preview">Excellent mileage in city.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=9" class="avatar">
+        <div>
+          <h4>Sameer Khan</h4>
+          <span>NS200</span>
+        </div>
+      </div>
+      <p class="preview">Powerful and aggressive bike.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=10" class="avatar">
+        <div>
+          <h4>Rohit Mehta</h4>
+          <span>MT-15</span>
+        </div>
+      </div>
+      <p class="preview">Lightweight and fun to ride.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=11" class="avatar">
+        <div>
+          <h4>Karan Patel</h4>
+          <span>Dominar 400</span>
+        </div>
+      </div>
+      <p class="preview">Best touring bike in segment.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+  </div>
+
+</section>
 
 <script>
 const toggle = document.getElementById("darkToggle");
