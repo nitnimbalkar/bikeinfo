@@ -8,6 +8,9 @@ router.get("/",async(req,res)=>{
 router.get("/review",async(req,res)=>{
     res.render("userReview.ejs");
 })
+router.get("/news",async(req,res)=>{
+    res.render("news.ejs");
+})
 
 /**
  * @swagger
