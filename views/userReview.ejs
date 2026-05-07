@@ -33,7 +33,7 @@ html.dark .bike-reviews-module{
   border-color:#ffffff;
 }
 
-/* GLOBAL TEXT INSIDE MODULE ONLY */
+/* GLOBAL TEXT */
 .bike-reviews-module,
 .bike-reviews-module *{
   color:var(--text);
@@ -66,7 +66,7 @@ html.dark .bike-reviews-module{
   margin-bottom:10px;
 }
 
-/* GRID (3x2 auto grow) */
+/* GRID */
 .bike-reviews-module .review-list{
   flex:1;
   display:grid;
@@ -85,7 +85,6 @@ html.dark .bike-reviews-module{
 
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
 }
 
 /* TOP */
@@ -117,6 +116,41 @@ html.dark .bike-reviews-module{
   border-radius:6px;
   cursor:pointer;
   font-size:12px;
+
+  margin-top:10px;
+}
+
+/* ================= LIKE SECTION ================= */
+.like-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  margin-top:auto;
+  padding-top:6px;
+}
+
+.like-btn{
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:18px;
+  padding:0;
+  color:#9ca3af;
+  transition:0.2s;
+}
+
+.like-btn.liked .heart{
+  color:#ff4d6d;
+}
+
+.like-btn:hover{
+  transform:scale(1.1);
+}
+
+.like-count{
+  font-size:13px;
+  color:var(--muted);
 }
 
 /* ================= MODAL ================= */
@@ -147,7 +181,6 @@ html.dark .bike-reviews-module{
   overflow-y:auto;
 }
 
-/* DARK MODE MODAL */
 html.dark .review-modal-box{
   background:#1f2937;
   color:#e5e7eb;
@@ -160,6 +193,7 @@ html.dark .review-modal-box{
   font-size:24px;
   cursor:pointer;
 }
+
 .like-section{
   margin-top:20px;
   display:flex;
@@ -190,7 +224,6 @@ html.dark .review-modal-box{
 
 <body>
 
-<!-- ================= MODULE ================= -->
 <section class="bike-reviews-module">
 
   <h2>Owner Reviews</h2>
@@ -205,6 +238,7 @@ html.dark .review-modal-box{
 
   <div class="review-list">
 
+    <!-- CARD 1 -->
     <div class="review-card">
       <div class="top">
         <img src="https://i.pravatar.cc/100?img=1" class="avatar">
@@ -216,12 +250,20 @@ html.dark .review-modal-box{
 
       <p class="preview">Great highway stability and comfort.</p>
 
+      <div class="like-row">
+        <button class="like-btn" onclick="toggleCardLike(this)">
+          <span class="heart">♡</span>
+        </button>
+        <span class="like-count">0</span>
+      </div>
+
       <button class="expand-btn"
         onclick="openModal('Rahul Sharma','Classic 350','Excellent highway stability, very comfortable on long rides but slightly heavy in city traffic.')">
         See Full Review
       </button>
     </div>
 
+    <!-- CARD 2 -->
     <div class="review-card">
       <div class="top">
         <img src="https://i.pravatar.cc/100?img=5" class="avatar">
@@ -233,12 +275,20 @@ html.dark .review-modal-box{
 
       <p class="preview">Perfect beginner sports bike.</p>
 
+      <div class="like-row">
+        <button class="like-btn" onclick="toggleCardLike(this)">
+          <span class="heart">♡</span>
+        </button>
+        <span class="like-count">0</span>
+      </div>
+
       <button class="expand-btn"
         onclick="openModal('Amit Verma','Yamaha R15','Sharp design, great handling, but riding posture is aggressive for long trips.')">
         See Full Review
       </button>
     </div>
 
+    <!-- CARD 3 -->
     <div class="review-card">
       <div class="top">
         <img src="https://i.pravatar.cc/100?img=8" class="avatar">
@@ -250,6 +300,13 @@ html.dark .review-modal-box{
 
       <p class="preview">Excellent mileage in city.</p>
 
+      <div class="like-row">
+        <button class="like-btn" onclick="toggleCardLike(this)">
+          <span class="heart">♡</span>
+        </button>
+        <span class="like-count">0</span>
+      </div>
+
       <button class="expand-btn"
         onclick="openModal('Vikram Singh','Apache RTR','Very fuel efficient, smooth in traffic, and low maintenance cost.')">
         See Full Review
@@ -259,7 +316,7 @@ html.dark .review-modal-box{
   </div>
 </section>
 
-<!-- ================= MODAL ================= -->
+<!-- MODAL -->
 <div class="review-modal" id="reviewModal">
   <div class="review-modal-box">
 
@@ -269,6 +326,7 @@ html.dark .review-modal-box{
     <p id="modalBike"></p>
     <hr style="margin:10px 0;">
     <p id="modalText"></p>
+
     <div class="like-section">
       <button class="heart-btn" id="heartBtn" onclick="toggleLike()">♡</button>
     </div>
@@ -276,7 +334,6 @@ html.dark .review-modal-box{
   </div>
 </div>
 
-<!-- ================= SCRIPT ================= -->
 <script>
 
 function openModal(name, bike, text) {
@@ -290,6 +347,8 @@ function openModal(name, bike, text) {
 function closeModal() {
   document.getElementById("reviewModal").style.display = "none";
 }
+
+/* MODAL LIKE */
 let liked = false;
 
 function toggleLike(){
@@ -297,12 +356,25 @@ function toggleLike(){
 
   liked = !liked;
 
-  if(liked){
-    heart.innerHTML = "♥";
-    heart.classList.add("liked");
+  heart.innerHTML = liked ? "♥" : "♡";
+  heart.classList.toggle("liked", liked);
+}
+
+/* CARD LIKE */
+function toggleCardLike(btn){
+  const heart = btn.querySelector(".heart");
+  const countEl = btn.nextElementSibling;
+
+  let count = parseInt(countEl.innerText);
+
+  if(btn.classList.contains("liked")){
+    btn.classList.remove("liked");
+    heart.innerText = "♡";
+    countEl.innerText = count - 1;
   } else {
-    heart.innerHTML = "♡";
-    heart.classList.remove("liked");
+    btn.classList.add("liked");
+    heart.innerText = "♥";
+    countEl.innerText = count + 1;
   }
 }
 
