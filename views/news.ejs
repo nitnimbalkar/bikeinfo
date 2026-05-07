@@ -8,6 +8,8 @@
 
 <style>
 
+/* ================= BASE ================= */
+
 *{
   margin:0;
   padding:0;
@@ -41,7 +43,8 @@ body{
   padding:50px 20px;
 }
 
-/* MODULE */
+/* ================= MODULE ================= */
+
 .updates-module{
   width:60%;
   height:820px;
@@ -52,17 +55,16 @@ body{
   display:flex;
   flex-direction:column;
   overflow:hidden;
-  position:relative;
 }
 
-/* HEADER */
 .heading{
   font-size:34px;
   font-weight:700;
   margin-bottom:20px;
 }
 
-/* TABS */
+/* ================= TABS ================= */
+
 .tabs{
   display:flex;
   gap:12px;
@@ -84,7 +86,8 @@ body{
   color:var(--active-text);
 }
 
-/* CONTENT */
+/* ================= CONTENT ================= */
+
 .tab-content{
   display:none;
   flex:1;
@@ -96,14 +99,14 @@ body{
   display:block;
 }
 
-/* GRID */
+/* ================= CARDS ================= */
+
 .cards{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:20px;
 }
 
-/* CARD */
 .card{
   border:1px solid var(--border);
   border-radius:18px;
@@ -119,7 +122,6 @@ body{
   transform:scale(1.02);
 }
 
-/* IMAGE */
 .card-image{
   width:100%;
   height:210px;
@@ -127,19 +129,6 @@ body{
   border-bottom:1px solid var(--border);
 }
 
-/* VIDEO */
-.video-wrapper{
-  width:100%;
-  height:210px;
-  border-bottom:1px solid var(--border);
-}
-
-.video-wrapper iframe{
-  width:100%;
-  height:100%;
-}
-
-/* CONTENT */
 .card-content{
   padding:20px;
   display:flex;
@@ -167,16 +156,24 @@ body{
   opacity:.82;
 }
 
-/* ===================== */
-/* POPUP MODAL */
-/* ===================== */
+/* ================= VIDEO ================= */
+
+.video-wrapper{
+  width:100%;
+  height:210px;
+  border-bottom:1px solid var(--border);
+}
+
+.video-wrapper iframe{
+  width:100%;
+  height:100%;
+}
+
+/* ================= MODAL ================= */
 
 .modal{
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
   display:none;
   justify-content:center;
   align-items:center;
@@ -189,18 +186,19 @@ body{
   display:flex;
 }
 
+/* 70% MODAL */
 .modal-box{
-  width:70%;               /* 70% of screen/module feel */
-  height:70vh;
+  width:70%;
+  max-height:85vh;
   background:var(--bg);
   border:1px solid var(--border);
   border-radius:18px;
-  padding:24px;
   overflow:auto;
   position:relative;
+  padding-bottom:20px;
 }
 
-/* CLOSE BUTTON */
+/* CLOSE */
 .close-btn{
   position:absolute;
   top:10px;
@@ -209,11 +207,24 @@ body{
   cursor:pointer;
 }
 
+/* MODAL IMAGE */
+.modal-img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+}
+
 /* MODAL CONTENT */
+.modal-content{
+  padding:24px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
 .modal-title{
   font-size:28px;
   font-weight:700;
-  margin-bottom:12px;
 }
 
 .modal-text{
@@ -222,8 +233,10 @@ body{
   opacity:.85;
 }
 
-/* RESPONSIVE */
+/* ================= RESPONSIVE ================= */
+
 @media(max-width:900px){
+
   .updates-module{
     width:95%;
     height:auto;
@@ -240,6 +253,10 @@ body{
   .modal-box{
     width:90%;
     height:80vh;
+  }
+
+  .modal-img{
+    height:220px;
   }
 }
 
@@ -264,25 +281,40 @@ body{
 
     <div class="cards">
 
-      <div class="card" onclick="openModal('News 1','Full detailed breakdown of product launch happening this week. Includes features, roadmap and expected impact on users.')">
+      <div class="card"
+        onclick="openModal(
+          'Product Launch This Week',
+          'https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1200&auto=format&fit=crop',
+          'Full breakdown of the upcoming product launch with new features, roadmap, and impact analysis.'
+        )">
         <img class="card-image" src="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1200&auto=format&fit=crop">
         <div class="card-content">
           <div class="card-tag">News</div>
           <div class="card-title">Product Launch This Week</div>
-          <div class="card-desc">Latest announcements and updates from the industry.</div>
+          <div class="card-desc">Latest announcements and updates.</div>
         </div>
       </div>
 
-      <div class="card" onclick="openModal('News 2','Global rollout has started with early users testing performance improvements and UI redesign.')">
+      <div class="card"
+        onclick="openModal(
+          'Global Rollout Begins',
+          'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop',
+          'Early rollout has started globally with performance improvements and UI redesign being tested.'
+        )">
         <img class="card-image" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop">
         <div class="card-content">
           <div class="card-tag">News</div>
           <div class="card-title">Global Rollout Begins</div>
-          <div class="card-desc">Users testing new improvements worldwide.</div>
+          <div class="card-desc">Users testing new improvements.</div>
         </div>
       </div>
 
-      <div class="card" onclick="openModal('News 3','Community feedback is increasing rapidly with discussions across social platforms and forums.')">
+      <div class="card"
+        onclick="openModal(
+          'Community Reactions',
+          'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop',
+          'Community engagement is rapidly increasing with discussions and feedback across platforms.'
+        )">
         <img class="card-image" src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop">
         <div class="card-content">
           <div class="card-tag">News</div>
@@ -299,30 +331,45 @@ body{
 
     <div class="cards">
 
-      <div class="card" onclick="openModal('Review 1','Experts praise the new UI design for better usability, accessibility and visual clarity.')">
+      <div class="card"
+        onclick="openModal(
+          'Interface Design Review',
+          'https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop',
+          'Experts highlight improved usability, clean UI and better accessibility across the platform.'
+        )">
         <img class="card-image" src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop">
         <div class="card-content">
           <div class="card-tag">Expert Reviews</div>
           <div class="card-title">Interface Design</div>
-          <div class="card-desc">Clean UI and usability improvements.</div>
+          <div class="card-desc">Clean UI improvements.</div>
         </div>
       </div>
 
-      <div class="card" onclick="openModal('Review 2','Performance improvements show faster loading, smoother navigation and better stability.')">
+      <div class="card"
+        onclick="openModal(
+          'Performance Boost Review',
+          'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop',
+          'Performance upgrades result in faster loading, smoother navigation and improved stability.'
+        )">
         <img class="card-image" src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop">
         <div class="card-content">
           <div class="card-tag">Expert Reviews</div>
           <div class="card-title">Performance Boost</div>
-          <div class="card-desc">Speed and stability improvements.</div>
+          <div class="card-desc">Speed improvements tested.</div>
         </div>
       </div>
 
-      <div class="card" onclick="openModal('Review 3','Experts discuss long term scalability and product roadmap potential.')">
+      <div class="card"
+        onclick="openModal(
+          'Future Scope Review',
+          'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop',
+          'Experts discuss scalability, roadmap direction and long-term platform evolution.'
+        )">
         <img class="card-image" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop">
         <div class="card-content">
           <div class="card-tag">Expert Reviews</div>
           <div class="card-title">Future Scope</div>
-          <div class="card-desc">Roadmap and scalability discussion.</div>
+          <div class="card-desc">Roadmap discussion.</div>
         </div>
       </div>
 
@@ -363,7 +410,7 @@ body{
         <div class="card-content">
           <div class="card-tag">Video</div>
           <div class="card-title">Tutorials</div>
-          <div class="card-desc">Quick productivity tips.</div>
+          <div class="card-desc">Quick tips and guides.</div>
         </div>
       </div>
 
@@ -380,8 +427,12 @@ body{
 
     <div class="close-btn" onclick="closeModal()">×</div>
 
-    <div class="modal-title" id="modalTitle"></div>
-    <div class="modal-text" id="modalText"></div>
+    <img id="modalImg" class="modal-img"/>
+
+    <div class="modal-content">
+      <div id="modalTitle" class="modal-title"></div>
+      <div id="modalText" class="modal-text"></div>
+    </div>
 
   </div>
 
@@ -389,23 +440,24 @@ body{
 
 <script>
 
+/* TABS */
 const tabs = document.querySelectorAll(".tab-btn");
 const contents = document.querySelectorAll(".tab-content");
 
 tabs.forEach(tab=>{
   tab.addEventListener("click",()=>{
-
     tabs.forEach(t=>t.classList.remove("active"));
     contents.forEach(c=>c.classList.remove("active"));
 
     tab.classList.add("active");
     document.getElementById(tab.dataset.tab).classList.add("active");
-
   });
 });
 
-function openModal(title,text){
+/* MODAL */
+function openModal(title,img,text){
   document.getElementById("modalTitle").innerText = title;
+  document.getElementById("modalImg").src = img;
   document.getElementById("modalText").innerText = text;
   document.getElementById("modal").classList.add("active");
 }
