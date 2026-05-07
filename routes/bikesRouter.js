@@ -5,6 +5,9 @@ const bikeModel=require("../models/bikeModel");
 router.get("/",async(req,res)=>{
     res.render("index");
 })
+router.get("/review",async(req,res)=>{
+    res.render("userReview.ejs");
+})
 
 /**
  * @swagger

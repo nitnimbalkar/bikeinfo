@@ -160,6 +160,30 @@ html.dark .review-modal-box{
   font-size:24px;
   cursor:pointer;
 }
+.like-section{
+  margin-top:20px;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+}
+
+.heart-btn{
+  background:none;
+  border:none;
+  font-size:34px;
+  cursor:pointer;
+  color:#9ca3af;
+  padding:0;
+  transition:0.2s ease;
+}
+
+.heart-btn:hover{
+  transform:scale(1.15);
+}
+
+.heart-btn.liked{
+  color:#ff4d6d;
+}
 
 </style>
 </head>
@@ -245,6 +269,9 @@ html.dark .review-modal-box{
     <p id="modalBike"></p>
     <hr style="margin:10px 0;">
     <p id="modalText"></p>
+    <div class="like-section">
+      <button class="heart-btn" id="heartBtn" onclick="toggleLike()">♡</button>
+    </div>
 
   </div>
 </div>
@@ -262,6 +289,21 @@ function openModal(name, bike, text) {
 
 function closeModal() {
   document.getElementById("reviewModal").style.display = "none";
+}
+let liked = false;
+
+function toggleLike(){
+  const heart = document.getElementById("heartBtn");
+
+  liked = !liked;
+
+  if(liked){
+    heart.innerHTML = "♥";
+    heart.classList.add("liked");
+  } else {
+    heart.innerHTML = "♡";
+    heart.classList.remove("liked");
+  }
 }
 
 </script>
