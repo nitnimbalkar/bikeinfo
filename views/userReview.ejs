@@ -81,10 +81,18 @@ html.dark .bike-reviews-module{
   border:1px solid #e5e7eb;
   border-radius:12px;
   padding:12px;
-  box-sizing:border-box;
 
   display:flex;
   flex-direction:column;
+
+  height:277px;          /* FIXED HEIGHT */
+  overflow:hidden;       /* prevents expansion */
+}
+.bike-reviews-module .review-list{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  grid-auto-rows:minmax(180px, auto);
+  gap:12px;
 }
 
 /* TOP */
@@ -105,6 +113,12 @@ html.dark .bike-reviews-module{
   font-size:13px;
   margin:8px 0;
   color:var(--muted);
+
+  display:-webkit-box;
+  -webkit-line-clamp:3;   /* number of lines to show */
+  -webkit-box-orient:vertical;
+
+  overflow:hidden;
 }
 
 /* BUTTON */
@@ -248,7 +262,7 @@ html.dark .review-modal-box{
         </div>
       </div>
 
-      <p class="preview">Great highway stability and comfort.</p>
+      <p class="preview">Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.vGreat highway stability and comfort.</p>
 
       <div class="like-row">
         <button class="like-btn" onclick="toggleCardLike(this)">
