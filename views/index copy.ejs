@@ -2331,6 +2331,118 @@ function toggleCardLike(btn){
     countEl.innerText = count + 1;
   }
 }
+/* ================= TABS ================= */
+
+const tabs = document.querySelectorAll(".tab-btn");
+const contents = document.querySelectorAll(".tab-content");
+
+tabs.forEach(tab=>{
+
+  tab.addEventListener("click",()=>{
+
+    tabs.forEach(t=>t.classList.remove("active"));
+    contents.forEach(c=>c.classList.remove("active"));
+
+    tab.classList.add("active");
+
+    document
+      .getElementById(tab.dataset.tab)
+      .classList.add("active");
+
+  });
+
+});
+
+/* ================= ELEMENTS ================= */
+
+const modal = document.getElementById("modal");
+
+const modalBox = document.querySelector(".modal-box");
+
+const modalImg = document.getElementById("modalImg");
+
+const modalTitle = document.getElementById("modalTitle");
+
+const modalText = document.getElementById("modalText");
+
+const videoContainer =
+  document.getElementById("videoContainer");
+
+/* ================= NORMAL MODAL ================= */
+
+function openModal(title,img,text){
+
+  modalBox.classList.remove("video-mode");
+
+  modalImg.style.display = "block";
+
+  modalImg.src = img;
+
+  modalTitle.innerText = title;
+
+  modalText.innerText = text;
+
+  modal.classList.add("active");
+
+  document.body.style.overflow = "hidden";
+
+}
+
+/* ================= VIDEO MODAL ================= */
+
+function openVideoModal(videoUrl){
+
+  modal.classList.add("active");
+
+  modalBox.classList.add("video-mode");
+
+  videoContainer.innerHTML = `
+    <iframe
+      src="${videoUrl}?autoplay=1&rel=0&modestbranding=1"
+      title="YouTube video player"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  `;
+
+  document.body.style.overflow = "hidden";
+
+}
+
+/* ================= CLOSE ================= */
+
+function closeModal(){
+
+  modal.classList.remove("active");
+
+  modalBox.classList.remove("video-mode");
+
+  videoContainer.innerHTML = "";
+
+  document.body.style.overflow = "auto";
+
+}
+
+/* ================= OUTSIDE CLICK ================= */
+
+modal.addEventListener("click",(e)=>{
+
+  if(e.target.id==="modal"){
+    closeModal();
+  }
+
+});
+
+/* ================= ESC KEY ================= */
+
+document.addEventListener("keydown",(e)=>{
+
+  if(e.key==="Escape"){
+    closeModal();
+  }
+
+});
+
 
 
 /* INIT */
