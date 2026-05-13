@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reels Clone</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="feed">
+
+    <div class="video-container">
+      <video src="video1.mp4" loop muted></video>
+
+      <div class="overlay">
+        <h3>@username</h3>
+        <p>Awesome travel reel ✈️</p>
+      </div>
+    </div>
+
+    <div class="video-container">
+      <video src="video2.mp4" loop muted></video>
+
+      <div class="overlay">
+        <h3>@john</h3>
+        <p>Nature vibes 🌿</p>
+      </div>
+    </div>
+
+    <div class="video-container">
+      <video src="video3.mp4" loop muted></video>
+
+      <div class="overlay">
+        <h3>@emma</h3>
+        <p>Workout motivation 💪</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js">
+    const videos = document.querySelectorAll("video");
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target;
+
+      if (entry.isIntersecting) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    });
+  },
+  {
+    threshold: 0.7,
+  }
+);
+
+videos.forEach((video) => {
+  observer.observe(video);
+
+  // Tap to mute/unmute
+  video.addEventListener("click", () => {
+    video.muted = !video.muted;
+  });
+});
+  </script>
+</body>
+</html>
