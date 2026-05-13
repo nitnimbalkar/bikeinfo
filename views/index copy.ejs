@@ -1586,6 +1586,50 @@ body{
     height:220px;
   }
 }
+.insta-module{
+  width:60%;
+  height:620px;
+  border:2px solid #333;
+  border-radius:20px;
+  overflow:hidden;
+  background:#1a1a1a;
+  margin:30px auto;
+}
+
+.grid{
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(2,1fr);
+  gap:8px;
+}
+
+.card{
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  border-radius:12px;
+}
+
+.card img,
+.card video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.play{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:rgba(0,0,0,0.6);
+  color:white;
+  border-radius:50%;
+  padding:5px 8px;
+  font-size:11px;
+}
 </style>
 </head>
 
@@ -2103,6 +2147,56 @@ body{
 
 
 </section>
+<!-- INSTAGRAM MODULE START -->
+<div class="insta-module">
+
+  <div class="grid">
+
+    <div class="card">
+      <img src="https://picsum.photos/400?1">
+    </div>
+
+    <div class="card">
+      <video muted>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4">
+      </video>
+      <div class="play">▶</div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/400?2">
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/400?3">
+    </div>
+
+    <div class="card">
+      <video muted>
+        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4">
+      </video>
+      <div class="play">▶</div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/400?4">
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/400?5">
+    </div>
+
+    <div class="card">
+      <video muted>
+        <source src="https://www.w3schools.com/html/movie.mp4">
+      </video>
+      <div class="play">▶</div>
+    </div>
+
+  </div>
+
+</div>
+<!-- INSTAGRAM MODULE END -->
 
 <script>
 const toggle = document.getElementById("darkToggle");
@@ -2451,6 +2545,14 @@ bm_filter();
 bm_loadUpcoming();
 // run on page load
 updateAuthUI();
+const videos = document.querySelectorAll(".insta-module video");
+
+videos.forEach(video => {
+  video.addEventListener("click", () => {
+    video.muted = false;
+    video.play();
+  });
+});
 
 </script>
 
