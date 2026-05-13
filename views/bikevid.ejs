@@ -1,117 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reels Clone</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+<title>Instagram Explore Module</title>
+
+<style>
+
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-body {
-  background: black;
-  overflow: hidden;
-  font-family: Arial, sans-serif;
+body{
+
+  background:#111;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  height:100vh;
+
+  font-family:Arial, sans-serif;
+
+  overflow:hidden;
+
 }
 
-.feed {
-  height: 100vh;
-  overflow-y: scroll;
-  scroll-snap-type: y mandatory;
+/* =========================
+   FIXED MODULE
+========================= */
+
+.insta-module{
+
+  width:60%;
+  height:620px;
+
+  background:#1a1a1a;
+
+  border:2px solid #333;
+
+  border-radius:20px;
+
+  overflow:hidden;
+
+  padding:8px;
+
 }
 
-.feed::-webkit-scrollbar {
-  display: none;
+/* =========================
+   4x2 GRID
+========================= */
+
+.grid{
+
+  width:100%;
+  height:100%;
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(4, 1fr);
+
+  grid-template-rows:
+  repeat(2, 1fr);
+
+  gap:8px;
+
 }
 
-.video-container {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  scroll-snap-align: start;
+/* =========================
+   CARD
+========================= */
+
+.card{
+
+  position:relative;
+
+  width:100%;
+  height:100%;
+
+  overflow:hidden;
+
+  border-radius:12px;
+
+  cursor:pointer;
+
 }
 
-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+/* IMAGE + VIDEO */
+
+.card img,
+.card video{
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  display:block;
+
+  transition:0.3s;
+
 }
 
-.overlay {
-  position: absolute;
-  bottom: 80px;
-  left: 20px;
-  color: white;
+.card:hover img,
+.card:hover video{
+
+  transform:scale(1.05);
+
+}
+
+/* =========================
+   PLAY ICON
+========================= */
+
+.play{
+
+  position:absolute;
+
+  top:10px;
+  right:10px;
+
+  background:rgba(0,0,0,0.6);
+
+  color:white;
+
+  border-radius:50%;
+
+  padding:5px 8px;
+
+  font-size:11px;
+
+}
+
+/* =========================
+   VIDEO MODAL
+========================= */
+
+.modal{
+
+  position:fixed;
+
+  inset:0;
+
+  background:black;
+
+  display:none;
+
+  justify-content:center;
+  align-items:center;
+
+  z-index:999;
+
+}
+
+.modal video{
+
+  width:100%;
+  height:100%;
+
+  object-fit:contain;
+
+}
+
+.close{
+
+  position:absolute;
+
+  top:20px;
+  right:30px;
+
+  color:white;
+
+  font-size:35px;
+
+  cursor:pointer;
+
+  z-index:1000;
+
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:1000px){
+
+  .insta-module{
+
+    width:95%;
+    height:90vh;
+
+  }
+
+  .grid{
+
+    grid-template-columns:
+    repeat(2,1fr);
+
+    grid-template-rows:
+    repeat(4,1fr);
+
+  }
+
 }
 
 </style>
 </head>
+
 <body>
 
-  <div class="feed">
+<!-- MODULE -->
 
-    <div class="video-container">
-      <video src="video1.mp4" loop muted></video>
+<div class="insta-module">
 
-      <div class="overlay">
-        <h3>@username</h3>
-        <p>Awesome travel reel ✈️</p>
-      </div>
+  <div class="grid">
+
+    <!-- 8 ITEMS ONLY -->
+
+    <div class="card">
+      <img src="https://picsum.photos/400?1">
     </div>
 
-    <div class="video-container">
-      <video src="video2.mp4" loop muted></video>
-
-      <div class="overlay">
-        <h3>@john</h3>
-        <p>Nature vibes 🌿</p>
-      </div>
+    <div class="card">
+      <video muted>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4">
+      </video>
+      <div class="play">▶</div>
     </div>
 
-    <div class="video-container">
-      <video src="video3.mp4" loop muted></video>
+    <div class="card">
+      <img src="https://picsum.photos/400?2">
+    </div>
 
-      <div class="overlay">
-        <h3>@emma</h3>
-        <p>Workout motivation 💪</p>
-      </div>
+    <div class="card">
+      <img src="https://picsum.photos/400?3">
+    </div>
+
+    <div class="card">
+      <video muted>
+        <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4">
+      </video>
+      <div class="play">▶</div>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/400?4">
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/400?5">
+    </div>
+
+    <div class="card">
+      <video muted>
+        <source src="https://www.w3schools.com/html/movie.mp4">
+      </video>
+      <div class="play">▶</div>
     </div>
 
   </div>
 
-  <script src="script.js">
-    const videos = document.querySelectorAll("video");
+</div>
 
-const observer = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      const video = entry.target;
+<!-- VIDEO MODAL -->
 
-      if (entry.isIntersecting) {
-        video.play();
-      } else {
-        video.pause();
-      }
-    });
-  },
-  {
-    threshold: 0.7,
-  }
-);
+<div class="modal" id="modal">
 
-videos.forEach((video) => {
-  observer.observe(video);
+  <div class="close"
+  id="closeBtn">
 
-  // Tap to mute/unmute
-  video.addEventListener("click", () => {
-    video.muted = !video.muted;
+    ✖
+
+  </div>
+
+  <video controls autoplay
+  id="modalVideo"></video>
+
+</div>
+
+<script>
+
+/* =========================
+   VIDEO POPUP
+========================= */
+
+const videos =
+document.querySelectorAll(".card video");
+
+const modal =
+document.getElementById("modal");
+
+const modalVideo =
+document.getElementById("modalVideo");
+
+const closeBtn =
+document.getElementById("closeBtn");
+
+videos.forEach(video=>{
+
+  video.addEventListener("click", ()=>{
+
+    modal.style.display = "flex";
+
+    modalVideo.src =
+    video.querySelector("source").src;
+
+    modalVideo.play();
+
   });
+
 });
-  </script>
+
+closeBtn.addEventListener("click", ()=>{
+
+  modal.style.display = "none";
+
+  modalVideo.pause();
+
+});
+
+</script>
+
 </body>
 </html>
