@@ -1,200 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Bike Review User Profile</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bike Review Profile Popup</title>
 
 <style>
-    *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-        font-family: Arial, sans-serif;
-    }
 
-    body{
-        background:#f3f4f6;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        min-height:100vh;
-        padding:20px;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-    .profile-card{
-        width:360px;
-        background:white;
-        border-radius:20px;
-        overflow:hidden;
-        box-shadow:0 10px 30px rgba(0,0,0,0.1);
-        transition:0.3s;
-    }
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#eef2f7;
+    font-family:Arial, sans-serif;
+}
 
-    .profile-card:hover{
-        transform:translateY(-5px);
-    }
+/* SMALL USER CARD */
 
-    .cover{
-        height:140px;
-        background:url('https://images.unsplash.com/photo-1517846693594-1567da72af75?q=80&w=1200&auto=format&fit=crop') center/cover;
-        position:relative;
-    }
+.user-box{
+    position:relative;
+}
 
-    .profile-img{
-        width:110px;
-        height:110px;
-        border-radius:50%;
-        border:5px solid white;
-        position:absolute;
-        bottom:-55px;
-        left:50%;
-        transform:translateX(-50%);
-        object-fit:cover;
-    }
+.user-trigger{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:#fff;
+    padding:10px 16px;
+    border-radius:60px;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+    transition:0.3s ease;
+}
 
-    .content{
-        padding:70px 25px 25px;
-        text-align:center;
-    }
+.user-trigger:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 28px rgba(0,0,0,0.12);
+}
 
-    .name{
-        font-size:26px;
-        font-weight:bold;
-        color:#111827;
-    }
+.user-trigger img{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid #3b82f6;
+}
 
-    .username{
-        color:#6b7280;
-        margin-top:5px;
-        font-size:14px;
-    }
+.user-info h3{
+    font-size:15px;
+    color:#111827;
+}
 
-    .bio{
-        margin-top:18px;
-        color:#4b5563;
-        line-height:1.6;
-        font-size:15px;
-    }
+.user-info span{
+    font-size:12px;
+    color:#6b7280;
+}
 
-    .stats{
-        display:flex;
-        justify-content:space-around;
-        margin-top:25px;
-        padding-top:20px;
-        border-top:1px solid #e5e7eb;
-    }
+/* POPUP PROFILE */
 
-    .stat h3{
-        color:#111827;
-        font-size:22px;
-    }
+.popup{
+    position:absolute;
+    top:80px;
+    left:50%;
+    transform:translateX(-50%);
+    width:320px;
+    background:white;
+    border-radius:24px;
+    padding:28px 22px;
+    text-align:center;
+    box-shadow:0 18px 40px rgba(0,0,0,0.15);
 
-    .stat p{
-        color:#6b7280;
-        font-size:13px;
-        margin-top:4px;
-    }
+    opacity:0;
+    visibility:hidden;
+    transition:0.35s ease;
+}
 
-    .fav-bike{
-        background:#111827;
-        color:white;
-        margin-top:25px;
-        padding:15px;
-        border-radius:14px;
-    }
+.user-box:hover .popup{
+    opacity:1;
+    visibility:visible;
+    top:90px;
+}
 
-    .fav-bike h4{
-        margin-bottom:8px;
-        font-size:16px;
-    }
+/* PROFILE IMAGE */
 
-    .fav-bike p{
-        font-size:14px;
-        color:#d1d5db;
-    }
+.profile-img{
+    width:100px;
+    height:100px;
+    margin:auto;
+    border-radius:50%;
+    overflow:hidden;
 
-    .buttons{
-        margin-top:25px;
-        display:flex;
-        gap:12px;
-    }
+    border:5px solid #3b82f6;
 
-    .btn{
-        flex:1;
-        padding:12px;
-        border:none;
-        border-radius:10px;
-        cursor:pointer;
-        font-weight:bold;
-        transition:0.3s;
-    }
+    box-shadow:0 10px 22px rgba(59,130,246,0.25);
+}
 
-    .follow{
-        background:#ef4444;
-        color:white;
-    }
+.profile-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:50%;
+}
 
-    .follow:hover{
-        background:#dc2626;
-    }
+/* CONTENT */
 
-    .message{
-        background:#e5e7eb;
-        color:#111827;
-    }
+.content h2{
+    margin-top:18px;
+    font-size:22px;
+    color:#111827;
+}
 
-    .message:hover{
-        background:#d1d5db;
-    }
+.username{
+    margin-top:5px;
+    font-size:13px;
+    color:#6b7280;
+}
+
+.bio{
+    margin-top:14px;
+    font-size:14px;
+    line-height:1.6;
+    color:#4b5563;
+}
+
+/* STATS */
+
+.stats{
+    display:flex;
+    justify-content:space-between;
+    margin-top:24px;
+    padding-top:18px;
+    border-top:1px solid #eee;
+}
+
+.stats div h4{
+    font-size:18px;
+    color:#111827;
+}
+
+.stats div p{
+    margin-top:4px;
+    font-size:12px;
+    color:#6b7280;
+}
+
+/* BUTTON */
+
+.follow-btn{
+    margin-top:24px;
+    width:100%;
+    border:none;
+    padding:12px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#3b82f6,#2563eb);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.follow-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 18px rgba(59,130,246,0.3);
+}
+
 </style>
 </head>
+
 <body>
 
-<div class="profile-card">
+<div class="user-box">
 
-    <div class="cover">
+    <!-- SMALL USER -->
+    <div class="user-trigger">
+
         <img 
-        class="profile-img"
-        src="https://randomuser.me/api/portraits/men/32.jpg" 
-        alt="profile">
+        src="https://randomuser.me/api/portraits/men/32.jpg"
+        alt="user">
+
+        <div class="user-info">
+            <h3>Rahul Biker</h3>
+            <span>@ridewithrahul</span>
+        </div>
+
     </div>
 
-    <div class="content">
+    <!-- POPUP PROFILE -->
+    <div class="popup">
 
-        <div class="name">Rahul Biker</div>
-        <div class="username">@ridewithrahul</div>
+        <!-- PROFILE IMAGE -->
+        <div class="profile-img">
 
-        <div class="bio">
-            Passionate superbike reviewer 🏍️  
-            Love touring, speed, and honest bike reviews.
+            <img 
+            src="https://randomuser.me/api/portraits/men/32.jpg"
+            alt="profile">
+
         </div>
 
-        <div class="stats">
-            <div class="stat">
-                <h3>128</h3>
-                <p>Reviews</p>
+        <!-- CONTENT -->
+        <div class="content">
+
+            <h2>Rahul Biker</h2>
+
+            <div class="username">
+                @ridewithrahul
             </div>
 
-            <div class="stat">
-                <h3>54K</h3>
-                <p>Followers</p>
+            <div class="bio">
+                Superbikes • Long Rides • Honest Bike Reviews 🏍️
             </div>
 
-            <div class="stat">
-                <h3>220</h3>
-                <p>Following</p>
+            <!-- STATS -->
+            <div class="stats">
+
+                <div>
+                    <h4>128</h4>
+                    <p>Reviews</p>
+                </div>
+
+                <div>
+                    <h4>54K</h4>
+                    <p>Followers</p>
+                </div>
+
+                <div>
+                    <h4>220</h4>
+                    <p>Following</p>
+                </div>
+
             </div>
-        </div>
 
-        <div class="fav-bike">
-            <h4>Favorite Bike</h4>
-            <p>Kawasaki Ninja ZX-10R</p>
-        </div>
+            <!-- BUTTON -->
+            <button class="follow-btn">
+                Follow
+            </button>
 
-        <div class="buttons">
-            <button class="btn follow">Follow</button>
-            <button class="btn message">Message</button>
         </div>
 
     </div>
