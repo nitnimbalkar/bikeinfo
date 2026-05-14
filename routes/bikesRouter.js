@@ -3,7 +3,10 @@ const router = express.Router();
 const bikeModel=require("../models/bikeModel");
 
 router.get("/",async(req,res)=>{
-    res.render("index");
+    res.render("indexCopy.ejs");
+})
+router.get("/abc",async(req,res)=>{
+    res.render("index.ejs");
 })
 router.get("/review",async(req,res)=>{
     res.render("userReview.ejs");
