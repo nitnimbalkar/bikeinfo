@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Steam Bike Garage - Polished</title>
+<title>Steam Bike Garage - Fully Working</title>
 
 <style>
 
@@ -81,9 +81,7 @@ body{
   margin-bottom:15px;
 }
 
-/* =========================
-   FIXED UNIFORM CARDS
-========================= */
+/* GRID */
 
 .bike-grid{
   display:flex;
@@ -93,19 +91,16 @@ body{
   align-items:stretch;
 }
 
-/* ALL CARDS SAME SIZE */
+/* CARD */
 
 .bike-card{
-
   width:220px;
   height:300px;
-
   flex-shrink:0;
 
   background:#fff;
   border:1px solid var(--border);
   border-radius:14px;
-
   overflow:hidden;
 
   cursor:pointer;
@@ -113,26 +108,21 @@ body{
   display:flex;
   flex-direction:column;
 
-  transition:.25s;
+  transition:.2s;
 }
 
 .bike-card:hover{
   transform:translateY(-6px);
 }
 
-/* FIXED IMAGE AREA */
-
 .bike-card img{
   width:100%;
   height:170px;
   object-fit:cover;
-  flex-shrink:0;
 }
 
-/* TEXT AREA */
-
 .bike-info{
-  padding:12px;
+  padding:10px;
   flex:1;
   display:flex;
   flex-direction:column;
@@ -150,15 +140,11 @@ body{
   margin-top:6px;
 }
 
-/* =========================
-   ADD TILE (NOW SAME SIZE & LAST)
-========================= */
+/* ADD TILE */
 
 .add-tile{
-
   width:220px;
   height:300px;
-
   flex-shrink:0;
 
   border:2px dashed #bbb;
@@ -169,7 +155,6 @@ body{
   justify-content:center;
 
   cursor:pointer;
-
   background:#fafafa;
 
   transition:.2s;
@@ -185,7 +170,7 @@ body{
   color:#888;
 }
 
-/* MODAL */
+/* MODALS */
 
 .modal{
   position:fixed;
@@ -223,14 +208,68 @@ body{
   cursor:pointer;
 }
 
+/* INSPECT MODAL */
+
+.inspect{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.7);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:1000;
+}
+
+.inspect-box{
+  width:420px;
+  background:#fff;
+  border-radius:14px;
+  overflow:hidden;
+}
+
+.inspect-box img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
+
+.inspect-content{
+  padding:15px;
+}
+
+.inspect-title{
+  font-size:18px;
+  font-weight:700;
+}
+
+.inspect-desc{
+  font-size:13px;
+  color:var(--sub);
+  margin-top:8px;
+}
+
+.actions{
+  display:flex;
+  justify-content:space-between;
+  margin-top:12px;
+}
+
+.btn{
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.del{background:#ef4444;color:#fff;}
+.edit{background:#e5e7eb;}
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
-  <!-- PROFILE -->
 
   <div class="profile-top">
 
@@ -239,27 +278,20 @@ body{
     </div>
 
     <div>
-
       <div class="username">Rider_X</div>
-      <div class="meta">Mumbai, India • Steam Garage</div>
-
+      <div class="meta">Mumbai • Steam Garage System</div>
     </div>
 
   </div>
 
-  <!-- GARAGE -->
-
   <div class="showcase">
-
     <div class="garage-title">Bike Garage</div>
-
     <div class="bike-grid" id="grid"></div>
-
   </div>
 
 </div>
 
-<!-- MODAL -->
+<!-- ADD / EDIT MODAL -->
 
 <div class="modal" id="modal">
 
@@ -275,56 +307,61 @@ body{
 
 </div>
 
+<!-- INSPECT MODAL -->
+
+<div class="inspect" id="inspect" onclick="closeInspect(event)">
+
+  <div class="inspect-box">
+
+    <img id="iimg">
+
+    <div class="inspect-content">
+
+      <div class="inspect-title" id="ititle"></div>
+      <div class="inspect-desc" id="idesc"></div>
+
+      <div class="actions">
+
+        <button class="btn edit" onclick="editBike()">Edit</button>
+        <button class="btn del" onclick="deleteBike()">Delete</button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
 <script>
 
 let bikes = JSON.parse(localStorage.getItem("bikes")) || [
-
-  {
-    name:"KTM Duke 390",
-    img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39",
-    desc:"Aggressive street naked performance machine"
-  },
-  {
-    name:"BMW G 310 GS",
-    img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65",
-    desc:"Adventure touring bike built for all roads"
-  },
-  {
-    name:"Yamaha R15 V4",
-    img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d",
-    desc:"Lightweight supersport machine"
-  },
-  {
-    name:"Kawasaki Ninja 400",
-    img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04",
-    desc:"Balanced sport performance machine"
-  },
-  {
-    name:"Royal Enfield GT 650",
-    img:"https://images.unsplash.com/photo-1606220838315-056192d5e927",
-    desc:"Classic twin cruiser"
-  }
-
+  {name:"KTM Duke 390",img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39",desc:"Street performance beast"},
+  {name:"BMW G 310 GS",img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65",desc:"Adventure touring machine"},
+  {name:"Yamaha R15 V4",img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d",desc:"Light supersport"},
+  {name:"Ninja 400",img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04",desc:"Balanced sport bike"},
+  {name:"GT 650",img:"https://images.unsplash.com/photo-1606220838315-056192d5e927",desc:"Classic cruiser"}
 ];
+
+let currentIndex = null;
 
 function saveStorage(){
   localStorage.setItem("bikes", JSON.stringify(bikes));
 }
 
-function openModal(){
-  modal.style.display="flex";
-}
+/* RENDER */
 
 function render(){
 
   const grid=document.getElementById("grid");
-
   grid.innerHTML="";
 
-  bikes.forEach((b)=>{
+  bikes.forEach((b,i)=>{
 
     const card=document.createElement("div");
     card.className="bike-card";
+
+    card.onclick=()=>openInspect(i);
 
     card.innerHTML=`
       <img src="${b.img}">
@@ -338,7 +375,7 @@ function render(){
 
   });
 
-  // ADD TILE ALWAYS LAST
+  // ADD TILE LAST
   const add=document.createElement("div");
   add.className="add-tile";
   add.innerHTML=`<div class="add-plus">+</div>`;
@@ -347,18 +384,73 @@ function render(){
   grid.appendChild(add);
 }
 
+/* MODAL */
+
+function openModal(){
+  modal.style.display="flex";
+}
+
 function saveBike(){
 
-  bikes.push({
-    name:name.value,
-    img:img.value,
-    desc:desc.value
-  });
+  if(currentIndex!==null){
+    bikes[currentIndex]={
+      name:name.value,
+      img:img.value,
+      desc:desc.value
+    };
+    currentIndex=null;
+  }else{
+    bikes.push({
+      name:name.value,
+      img:img.value,
+      desc:desc.value
+    });
+  }
 
   saveStorage();
   render();
-
   modal.style.display="none";
+}
+
+/* INSPECT */
+
+function openInspect(i){
+
+  currentIndex=i;
+
+  let b=bikes[i];
+
+  ititle.innerText=b.name;
+  idesc.innerText=b.desc;
+  iimg.src=b.img;
+
+  inspect.style.display="flex";
+}
+
+function closeInspect(e){
+  if(e.target.id==="inspect"){
+    inspect.style.display="none";
+  }
+}
+
+function deleteBike(){
+
+  bikes.splice(currentIndex,1);
+  saveStorage();
+  render();
+  inspect.style.display="none";
+}
+
+function editBike(){
+
+  let b=bikes[currentIndex];
+
+  name.value=b.name;
+  img.value=b.img;
+  desc.value=b.desc;
+
+  inspect.style.display="none";
+  modal.style.display="flex";
 }
 
 render();
