@@ -1,11 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Instagram Style Profile</title>
+
+<style>
+
+/* =========================
+   THEME
+========================= */
+
+:root{
+
+  --bg:#ffffff;
+  --text:#111111;
+  --sub:#777777;
+  --border:#dbdbdb;
+  --card:#fafafa;
+  --button:#efefef;
+  --button-text:#111111;
+
+}
+
+/* DARK MODE */
+
+body.dark{
+
+  --bg:#000000;
+  --text:#ffffff;
+  --sub:#a8a8a8;
+  --border:#262626;
+  --card:#121212;
+  --button:#262626;
+  --button-text:#ffffff;
+
+}
+
+/* =========================
+   RESET
+========================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+
+  background:var(--bg);
+
+  color:var(--text);
+
+  font-family:Arial,sans-serif;
+
+  transition:.3s;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+
+  width:100%;
+  max-width:1000px;
+
+  margin:auto;
+
+  padding:40px 20px;
+}
+
+/* =========================
+   PROFILE TOP
+========================= */
+
+.profile-top{
+
+  display:flex;
+
+  gap:80px;
+
+  align-items:center;
+
+  padding-bottom:40px;
+
+  border-bottom:1px solid var(--border);
+}
+
+/* =========================
+   PROFILE IMAGE
+========================= */
+
+.profile-image{
+
+  width:170px;
+  height:170px;
+
+  border-radius:50%;
+
+  overflow:hidden;
+
+  flex-shrink:0;
+}
+
+.profile-image img{
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+}
+
+/* =========================
+   PROFILE INFO
+========================= */
+
+.profile-info{
+
+  flex:1;
+}
+
+.top-row{
+
+  display:flex;
+
+  align-items:center;
+
+  gap:20px;
+
+  margin-bottom:25px;
+}
+
+.username{
+
+  font-size:28px;
+
+  font-weight:300;
+}
+
+.edit-btn{
+
+  padding:8px 18px;
+
+  border:none;
+
+  border-radius:8px;
+
+  background:var(--button);
+
+  color:var(--button-text);
+
+  cursor:pointer;
+
+  font-weight:600;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+
+  display:flex;
+
+  gap:40px;
+
+  margin-bottom:25px;
+}
+
+.stat span{
+
+  font-weight:bold;
+}
+
+/* =========================
+   BIO
+========================= */
+
+.bio{
+
+  line-height:1.7;
+}
+
+.name{
+
+  font-weight:bold;
+
+  margin-bottom:5px;
+}
+
+.city,
+.email{
+
+  color:var(--sub);
+}
+
+/* =========================
+   POSTS GRID
+========================= */
+
+.posts{
+
+  margin-top:40px;
+
+  display:grid;
+
+  grid-template-columns:
+  repeat(3,1fr);
+
+  gap:6px;
+}
+
+.posts img{
+
+  width:100%;
+  aspect-ratio:1/1;
+
+  object-fit:cover;
+
+  cursor:pointer;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+  .profile-top{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:30px;
+  }
+
+  .top-row{
+
+    flex-wrap:wrap;
+  }
+
+  .stats{
+
+    gap:20px;
+  }
+
+}
+
+</style>
 </head>
-<body>
-    
+
+<body class="dark">
+
+<div class="container">
+
+  <!-- PROFILE TOP -->
+
+  <div class="profile-top">
+
+    <!-- PROFILE IMAGE -->
+
+    <div class="profile-image">
+
+      <img
+      src="https://i.pravatar.cc/400"
+      alt="profile">
+
+    </div>
+
+    <!-- PROFILE INFO -->
+
+    <div class="profile-info">
+
+      <!-- USERNAME -->
+
+      <div class="top-row">
+
+        <div class="username">
+          johndoe
+        </div>
+
+        <button class="edit-btn">
+          Edit Profile
+        </button>
+
+      </div>
+
+      <!-- STATS -->
+
+      <div class="stats">
+
+        <div class="stat">
+          <span>54</span> posts
+        </div>
+
+        <div class="stat">
+          <span>12.5k</span> followers
+        </div>
+
+        <div class="stat">
+          <span>310</span> following
+        </div>
+
+      </div>
+
+      <!-- BIO -->
+
+      <div class="bio">
+
+        <div class="name">
+          John Doe
+        </div>
+
+        <div class="email">
+          johndoe@gmail.com
+        </div>
+
+        <div class="city">
+          Mumbai, India
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- POSTS -->
+
+  <div class="posts">
+
+    <img src="https://picsum.photos/500?1">
+    <img src="https://picsum.photos/500?2">
+    <img src="https://picsum.photos/500?3">
+    <img src="https://picsum.photos/500?4">
+    <img src="https://picsum.photos/500?5">
+    <img src="https://picsum.photos/500?6">
+
+  </div>
+
+</div>
+
+<script>
+
+/* =========================
+   AUTO THEME
+========================= */
+
+// LIGHT MODE
+// document.body.classList.remove("dark");
+
+// DARK MODE
+// document.body.classList.add("dark");
+
+</script>
+
 </body>
 </html>
