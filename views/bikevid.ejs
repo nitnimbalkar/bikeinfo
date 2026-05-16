@@ -9,7 +9,7 @@
 <style>
 
 /* =========================
-   GLOBAL
+   RESET
 ========================= */
 
 *{
@@ -19,23 +19,21 @@
 }
 
 body{
-
-  background:#111;
+  height:100vh;
 
   display:flex;
   justify-content:center;
   align-items:center;
 
-  height:100vh;
+  background:#111;
 
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
 
   overflow:hidden;
-
 }
 
 /* =========================
-   FIXED MODULE
+   MODULE
 ========================= */
 
 .insta-module{
@@ -52,11 +50,10 @@ body{
   overflow:hidden;
 
   padding:8px;
-
 }
 
 /* =========================
-   4x2 GRID
+   GRID
 ========================= */
 
 .grid{
@@ -67,13 +64,12 @@ body{
   display:grid;
 
   grid-template-columns:
-  repeat(4, 1fr);
+  repeat(4,1fr);
 
   grid-template-rows:
-  repeat(2, 1fr);
+  repeat(2,1fr);
 
   gap:8px;
-
 }
 
 /* =========================
@@ -84,18 +80,12 @@ body{
 
   position:relative;
 
-  width:100%;
-  height:100%;
-
   overflow:hidden;
 
   border-radius:12px;
 
   cursor:pointer;
-
 }
-
-/* IMAGE + VIDEO */
 
 .card img,
 .card video{
@@ -107,15 +97,12 @@ body{
 
   display:block;
 
-  transition:0.3s;
-
+  transition:.3s;
 }
 
 .card:hover img,
 .card:hover video{
-
   transform:scale(1.05);
-
 }
 
 /* =========================
@@ -129,20 +116,19 @@ body{
   top:10px;
   right:10px;
 
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,.6);
 
-  color:white;
+  color:#fff;
 
   border-radius:50%;
 
   padding:5px 8px;
 
   font-size:11px;
-
 }
 
 /* =========================
-   VIDEO MODAL
+   MODAL
 ========================= */
 
 .modal{
@@ -151,25 +137,38 @@ body{
 
   inset:0;
 
-  background:black;
-
   display:none;
 
   justify-content:center;
   align-items:center;
 
-  z-index:999;
+  background:rgba(0,0,0,.92);
 
+  z-index:999;
+}
+
+.modal.active{
+  display:flex;
 }
 
 .modal video{
 
-  width:100%;
-  height:100%;
+  max-width:90vw;
+  max-height:90vh;
 
-  object-fit:contain;
+  width:auto;
+  height:auto;
 
+  border-radius:12px;
+
+  background:#000;
+
+  box-shadow:0 0 30px rgba(0,0,0,.5);
 }
+
+/* =========================
+   CLOSE BUTTON
+========================= */
 
 .close{
 
@@ -178,14 +177,13 @@ body{
   top:20px;
   right:30px;
 
-  color:white;
+  color:#fff;
 
   font-size:35px;
 
   cursor:pointer;
 
-  z-index:1000;
-
+  user-select:none;
 }
 
 /* =========================
@@ -198,7 +196,6 @@ body{
 
     width:95%;
     height:90vh;
-
   }
 
   .grid{
@@ -208,9 +205,7 @@ body{
 
     grid-template-rows:
     repeat(4,1fr);
-
   }
-
 }
 
 </style>
@@ -223,8 +218,6 @@ body{
 <div class="insta-module">
 
   <div class="grid">
-
-    <!-- 8 ITEMS ONLY -->
 
     <div class="card">
       <img src="https://picsum.photos/400?1">
@@ -271,26 +264,26 @@ body{
 
 </div>
 
-<!-- VIDEO MODAL -->
+<!-- MODAL -->
 
 <div class="modal" id="modal">
 
-  <div class="close"
-  id="closeBtn">
-
+  <div class="close" id="closeBtn">
     ✖
-
   </div>
 
-  <video controls autoplay
-  id="modalVideo"></video>
+  <video
+    id="modalVideo"
+    controls
+    autoplay>
+  </video>
 
 </div>
 
 <script>
 
 /* =========================
-   VIDEO POPUP
+   ELEMENTS
 ========================= */
 
 const videos =
@@ -305,28 +298,103 @@ document.getElementById("modalVideo");
 const closeBtn =
 document.getElementById("closeBtn");
 
+/* =========================
+   OPEN MODAL
+========================= */
+
+function openModal(src){
+
+  modal.classList.add("active");
+
+  modalVideo.src = src;
+
+  modalVideo.onloadedmetadata = ()=>{
+
+    const vw = modalVideo.videoWidth;
+    const vh = modalVideo.videoHeight;
+
+    const maxW = window.innerWidth * 0.9;
+    const maxH = window.innerHeight * 0.9;
+
+    const ratio =
+    Math.min(maxW / vw, maxH / vh);
+
+    modalVideo.style.width =
+    (vw * ratio) + "px";
+
+    modalVideo.style.height =
+    (vh * ratio) + "px";
+
+    modalVideo.play();
+  };
+}
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+function closeModal(){
+
+  modal.classList.remove("active");
+
+  modalVideo.pause();
+
+  modalVideo.removeAttribute("src");
+
+  modalVideo.load();
+}
+
+/* =========================
+   VIDEO CLICK
+========================= */
+
 videos.forEach(video=>{
 
   video.addEventListener("click", ()=>{
 
-    modal.style.display = "flex";
-
-    modalVideo.src =
+    const src =
     video.querySelector("source").src;
 
-    modalVideo.play();
+    openModal(src);
 
   });
 
 });
 
-closeBtn.addEventListener("click", ()=>{
+/* =========================
+   EVENTS
+========================= */
 
-  modal.style.display = "none";
+// Close button
+closeBtn.addEventListener(
+  "click",
+  closeModal
+);
 
-  modalVideo.pause();
+// Click outside video
+modal.addEventListener("click", e=>{
+
+  if(e.target === modal){
+
+    closeModal();
+  }
 
 });
+
+// ESC key close
+document.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.key === "Escape" &&
+      modal.classList.contains("active")
+    ){
+      closeModal();
+    }
+
+  }
+);
 
 </script>
 
