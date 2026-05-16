@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Steam Bike Garage</title>
+
+<style>
+
+:root{
+  --bg:#f5f6f8;
+  --card:#ffffff;
+  --text:#111;
+  --sub:#666;
+  --border:#d9dbe1;
+  --accent:#4c8bf5;
+
+  --rare:#3b82f6;
+  --epic:#a855f7;
+  --legend:#f59e0b;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:var(--bg);
+  font-family:Arial;
+  color:var(--text);
+}
+
+/* PROFILE */
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+.profile-top{
+  display:flex;
+  gap:50px;
+  align-items:center;
+  border-bottom:1px solid var(--border);
+  padding-bottom:25px;
+}
+
+.profile-image{
+  width:130px;
+  height:130px;
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid var(--border);
+}
+
+.profile-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.username{
+  font-size:28px;
+  font-weight:700;
+}
+
+.meta{
+  color:var(--sub);
+  font-size:14px;
+}
+
+.add-btn{
+  margin-top:10px;
+  padding:10px 14px;
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* SHOWCASE */
+
+.showcase{
+  margin-top:40px;
+}
+
+.bike-grid{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
+  padding-bottom:10px;
+}
+
+/* CARD */
+
+.bike-card{
+  min-width:220px;
+  flex-shrink:0;
+
+  background:var(--card);
+  border:2px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.bike-card:hover{
+  transform:translateY(-6px);
+}
+
+/* RARITY */
+
+.common{border-color:#bbb;}
+.rare{border-color:var(--rare); box-shadow:0 0 10px rgba(59,130,246,.3);}
+.epic{border-color:var(--epic); box-shadow:0 0 12px rgba(168,85,247,.3);}
+.legend{border-color:var(--legend); box-shadow:0 0 15px rgba(245,158,11,.4);}
+
+/* IMAGE */
+
+.bike-card img{
+  width:100%;
+  height:140px;
+  object-fit:cover;
+}
+
+/* INFO */
+
+.bike-info{
+  padding:12px;
+}
+
+.bike-name{
+  font-weight:700;
+}
+
+.bike-desc{
+  font-size:12px;
+  color:var(--sub);
+}
+
+/* ACTIONS */
+
+.card-actions{
+  display:flex;
+  justify-content:space-between;
+  margin-top:8px;
+}
+
+.small-btn{
+  font-size:11px;
+  padding:4px 6px;
+  border:none;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+.delete{background:#ef4444;color:#fff;}
+.edit{background:#e5e7eb;}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+}
+
+.modal-box{
+  width:350px;
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+}
+
+.modal-box input,
+.modal-box textarea{
+  width:100%;
+  margin-bottom:10px;
+  padding:10px;
+  border:1px solid #ddd;
+  border-radius:8px;
+}
+
+.save{
+  background:var(--accent);
+  color:#fff;
+  border:none;
+  padding:10px;
+  border-radius:8px;
+  width:100%;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- PROFILE -->
+
+  <div class="profile-top">
+
+    <div class="profile-image">
+      <img src="https://i.pravatar.cc/400?img=12">
+    </div>
+
+    <div>
+
+      <div class="username">Rider_X</div>
+      <div class="meta">Mumbai, India • Steam Rider Profile</div>
+
+      <button class="add-btn" onclick="openModal()">+ Add Bike</button>
+
+    </div>
+
+  </div>
+
+  <!-- SHOWCASE -->
+
+  <div class="showcase">
+    <div class="bike-grid" id="grid"></div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <input id="name" placeholder="Bike Name">
+    <input id="img" placeholder="Image URL">
+    <input id="rarity" placeholder="common / rare / epic / legend">
+    <textarea id="desc" placeholder="Description"></textarea>
+
+    <button class="save" onclick="saveBike()">SAVE BIKE</button>
+
+  </div>
+
+</div>
+
+<script>
+
+let bikes = JSON.parse(localStorage.getItem("bikes")) || [
+
+  {
+    name:"KTM Duke 390",
+    img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39",
+    desc:"Aggressive street naked performance machine.",
+    rarity:"rare"
+  },
+  {
+    name:"BMW G 310 GS",
+    img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65",
+    desc:"Adventure touring built for all terrains.",
+    rarity:"epic"
+  },
+  {
+    name:"Yamaha R15 V4",
+    img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d",
+    desc:"Lightweight supersport machine.",
+    rarity:"rare"
+  },
+  {
+    name:"Kawasaki Ninja 400",
+    img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04",
+    desc:"Balanced sport performance bike.",
+    rarity:"epic"
+  },
+  {
+    name:"Royal Enfield GT 650",
+    img:"https://images.unsplash.com/photo-1606220838315-056192d5e927",
+    desc:"Classic modern twin cruiser.",
+    rarity:"legend"
+  }
+
+];
+
+function saveStorage(){
+  localStorage.setItem("bikes", JSON.stringify(bikes));
+}
+
+function openModal(){
+  modal.style.display="flex";
+}
+
+function render(){
+
+  const grid = document.getElementById("grid");
+  grid.innerHTML="";
+
+  bikes.forEach((b,i)=>{
+
+    const card = document.createElement("div");
+
+    card.className = `bike-card ${b.rarity || "common"}`;
+
+    card.innerHTML = `
+      <img src="${b.img}">
+      <div class="bike-info">
+        <div class="bike-name">${b.name}</div>
+        <div class="bike-desc">${b.desc}</div>
+
+        <div class="card-actions">
+          <button class="small-btn edit" onclick="edit(${i})">Edit</button>
+          <button class="small-btn delete" onclick="del(${i})">Delete</button>
+        </div>
+
+      </div>
+    `;
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+function saveBike(){
+
+  bikes.push({
+
+    name:name.value,
+    img:img.value,
+    desc:desc.value,
+    rarity:rarity.value || "common"
+
+  });
+
+  saveStorage();
+  render();
+
+  modal.style.display="none";
+
+}
+
+function del(i){
+  bikes.splice(i,1);
+  saveStorage();
+  render();
+}
+
+function edit(i){
+
+  const b = bikes[i];
+
+  name.value=b.name;
+  img.value=b.img;
+  desc.value=b.desc;
+  rarity.value=b.rarity;
+
+  bikes.splice(i,1);
+
+  openModal();
+}
+
+render();
+
+</script>
+
+</body>
+</html>
