@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Steam Bike Garage - Fully Working</title>
+<title>Steam Bike Garage</title>
 
 <style>
 
@@ -25,11 +25,9 @@
 
 body{
   background:var(--bg);
-  font-family:Arial;
+  font-family:Arial, sans-serif;
   color:var(--text);
 }
-
-/* PROFILE */
 
 .container{
   max-width:1200px;
@@ -37,9 +35,11 @@ body{
   padding:40px 20px;
 }
 
+/* PROFILE */
+
 .profile-top{
   display:flex;
-  gap:50px;
+  gap:40px;
   align-items:center;
   border-bottom:1px solid var(--border);
   padding-bottom:25px;
@@ -66,10 +66,11 @@ body{
 
 .meta{
   color:var(--sub);
+  margin-top:6px;
   font-size:14px;
 }
 
-/* GARAGE */
+/* SECTION */
 
 .showcase{
   margin-top:40px;
@@ -81,17 +82,16 @@ body{
   margin-bottom:15px;
 }
 
-/* GRID */
+/* BIKE GRID */
 
 .bike-grid{
   display:flex;
   gap:15px;
   overflow-x:auto;
   padding-bottom:10px;
-  align-items:stretch;
 }
 
-/* CARD */
+/* BIKE CARD */
 
 .bike-card{
   width:220px;
@@ -108,7 +108,7 @@ body{
   display:flex;
   flex-direction:column;
 
-  transition:.2s;
+  transition:.25s;
 }
 
 .bike-card:hover{
@@ -122,22 +122,18 @@ body{
 }
 
 .bike-info{
-  padding:10px;
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
+  padding:12px;
 }
 
 .bike-name{
   font-weight:700;
-  font-size:14px;
+  font-size:15px;
 }
 
 .bike-desc{
-  font-size:12px;
+  margin-top:8px;
   color:var(--sub);
-  margin-top:6px;
+  font-size:13px;
 }
 
 /* ADD TILE */
@@ -155,9 +151,10 @@ body{
   justify-content:center;
 
   cursor:pointer;
+
   background:#fafafa;
 
-  transition:.2s;
+  transition:.25s;
 }
 
 .add-tile:hover{
@@ -166,62 +163,97 @@ body{
 }
 
 .add-plus{
-  font-size:40px;
+  font-size:45px;
   color:#888;
 }
 
-/* MODALS */
+/* MEDIA SECTION */
 
-.modal{
+.media-section{
+  margin-top:60px;
+}
+
+.media-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+.media-post{
+  position:relative;
+  overflow:hidden;
+  border-radius:14px;
+  aspect-ratio:1/1;
+  cursor:pointer;
+  background:#ddd;
+}
+
+.media-post img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.3s;
+}
+
+.media-post:hover img{
+  transform:scale(1.05);
+  opacity:.9;
+}
+
+/* MODAL */
+
+.modal,
+.inspect{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.6);
+  background:rgba(0,0,0,.65);
+
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:999;
+
+  z-index:1000;
 }
 
+/* MODAL BOX */
+
 .modal-box{
-  width:350px;
+  width:360px;
   background:#fff;
   padding:20px;
-  border-radius:12px;
+  border-radius:14px;
 }
 
 .modal-box input,
 .modal-box textarea{
   width:100%;
-  margin-bottom:10px;
-  padding:10px;
-  border:1px solid #ddd;
+  padding:12px;
+  margin-bottom:12px;
   border-radius:8px;
+  border:1px solid #ddd;
+  font-size:14px;
+}
+
+.modal-box textarea{
+  min-height:90px;
+  resize:none;
 }
 
 .save{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:8px;
   background:var(--accent);
   color:#fff;
-  border:none;
-  padding:10px;
-  border-radius:8px;
-  width:100%;
   cursor:pointer;
+  font-size:15px;
 }
 
-/* INSPECT MODAL */
-
-.inspect{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  display:none;
-  justify-content:center;
-  align-items:center;
-  z-index:1000;
-}
+/* INSPECT */
 
 .inspect-box{
-  width:420px;
+  width:430px;
   background:#fff;
   border-radius:14px;
   overflow:hidden;
@@ -229,40 +261,62 @@ body{
 
 .inspect-box img{
   width:100%;
-  height:220px;
+  height:240px;
   object-fit:cover;
 }
 
 .inspect-content{
-  padding:15px;
+  padding:16px;
 }
 
 .inspect-title{
-  font-size:18px;
+  font-size:20px;
   font-weight:700;
 }
 
 .inspect-desc{
-  font-size:13px;
-  color:var(--sub);
   margin-top:8px;
+  color:var(--sub);
+  font-size:14px;
 }
 
 .actions{
   display:flex;
   justify-content:space-between;
-  margin-top:12px;
+  margin-top:18px;
 }
 
 .btn{
-  padding:6px 10px;
   border:none;
-  border-radius:6px;
+  padding:10px 16px;
+  border-radius:8px;
   cursor:pointer;
+  font-size:14px;
 }
 
-.del{background:#ef4444;color:#fff;}
-.edit{background:#e5e7eb;}
+.edit{
+  background:#e5e7eb;
+}
+
+.del{
+  background:#ef4444;
+  color:#fff;
+}
+
+/* MOBILE */
+
+@media(max-width:700px){
+
+  .profile-top{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .media-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
 
 </style>
 </head>
@@ -270,6 +324,8 @@ body{
 <body>
 
 <div class="container">
+
+  <!-- PROFILE -->
 
   <div class="profile-top">
 
@@ -284,9 +340,50 @@ body{
 
   </div>
 
+  <!-- GARAGE -->
+
   <div class="showcase">
+
     <div class="garage-title">Bike Garage</div>
+
     <div class="bike-grid" id="grid"></div>
+
+  </div>
+
+  <!-- MEDIA -->
+
+  <div class="media-section">
+
+    <div class="garage-title">Media</div>
+
+    <div class="media-grid">
+
+      <div class="media-post">
+        <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c">
+      </div>
+
+      <div class="media-post">
+        <img src="https://images.unsplash.com/photo-1493238792000-8113da705763">
+      </div>
+
+      <div class="media-post">
+        <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70">
+      </div>
+
+      <div class="media-post">
+        <img src="https://images.unsplash.com/photo-1489824904134-891ab64532f1">
+      </div>
+
+      <div class="media-post">
+        <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b">
+      </div>
+
+      <div class="media-post">
+        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a">
+      </div>
+
+    </div>
+
   </div>
 
 </div>
@@ -298,7 +395,9 @@ body{
   <div class="modal-box">
 
     <input id="name" placeholder="Bike Name">
+
     <input id="img" placeholder="Image URL">
+
     <textarea id="desc" placeholder="Description"></textarea>
 
     <button class="save" onclick="saveBike()">SAVE</button>
@@ -307,7 +406,7 @@ body{
 
 </div>
 
-<!-- INSPECT MODAL -->
+<!-- INSPECT -->
 
 <div class="inspect" id="inspect" onclick="closeInspect(event)">
 
@@ -318,11 +417,13 @@ body{
     <div class="inspect-content">
 
       <div class="inspect-title" id="ititle"></div>
+
       <div class="inspect-desc" id="idesc"></div>
 
       <div class="actions">
 
         <button class="btn edit" onclick="editBike()">Edit</button>
+
         <button class="btn del" onclick="deleteBike()">Delete</button>
 
       </div>
@@ -335,123 +436,213 @@ body{
 
 <script>
 
+/* ELEMENTS */
+
+const modal = document.getElementById("modal");
+const inspect = document.getElementById("inspect");
+
+const nameInput = document.getElementById("name");
+const imgInput = document.getElementById("img");
+const descInput = document.getElementById("desc");
+
+const grid = document.getElementById("grid");
+
+const iimg = document.getElementById("iimg");
+const ititle = document.getElementById("ititle");
+const idesc = document.getElementById("idesc");
+
+/* DATA */
+
 let bikes = JSON.parse(localStorage.getItem("bikes")) || [
-  {name:"KTM Duke 390",img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39",desc:"Street performance beast"},
-  {name:"BMW G 310 GS",img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65",desc:"Adventure touring machine"},
-  {name:"Yamaha R15 V4",img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d",desc:"Light supersport"},
-  {name:"Ninja 400",img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04",desc:"Balanced sport bike"},
-  {name:"GT 650",img:"https://images.unsplash.com/photo-1606220838315-056192d5e927",desc:"Classic cruiser"}
+
+  {
+    name:"KTM Duke 390",
+    img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39",
+    desc:"Street performance beast"
+  },
+
+  {
+    name:"BMW G 310 GS",
+    img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65",
+    desc:"Adventure touring machine"
+  },
+
+  {
+    name:"Yamaha R15 V4",
+    img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d",
+    desc:"Light supersport"
+  },
+
+  {
+    name:"Ninja 400",
+    img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04",
+    desc:"Balanced sport bike"
+  },
+
+  {
+    name:"GT 650",
+    img:"https://images.unsplash.com/photo-1606220838315-056192d5e927",
+    desc:"Classic cruiser"
+  }
+
 ];
 
 let currentIndex = null;
 
+/* STORAGE */
+
 function saveStorage(){
   localStorage.setItem("bikes", JSON.stringify(bikes));
+}
+
+/* RESET */
+
+function resetForm(){
+
+  nameInput.value = "";
+  imgInput.value = "";
+  descInput.value = "";
 }
 
 /* RENDER */
 
 function render(){
 
-  const grid=document.getElementById("grid");
-  grid.innerHTML="";
+  grid.innerHTML = "";
 
-  bikes.forEach((b,i)=>{
+  bikes.forEach((bike,index)=>{
 
-    const card=document.createElement("div");
-    card.className="bike-card";
+    const card = document.createElement("div");
 
-    card.onclick=()=>openInspect(i);
+    card.className = "bike-card";
 
-    card.innerHTML=`
-      <img src="${b.img}">
+    card.innerHTML = `
+      <img src="${bike.img}">
       <div class="bike-info">
-        <div class="bike-name">${b.name}</div>
-        <div class="bike-desc">${b.desc}</div>
+        <div class="bike-name">${bike.name}</div>
+        <div class="bike-desc">${bike.desc}</div>
       </div>
     `;
+
+    card.onclick = () => openInspect(index);
 
     grid.appendChild(card);
 
   });
 
-  // ADD TILE LAST
-  const add=document.createElement("div");
-  add.className="add-tile";
-  add.innerHTML=`<div class="add-plus">+</div>`;
-  add.onclick=openModal;
+  /* ADD TILE */
 
-  grid.appendChild(add);
+  const addTile = document.createElement("div");
+
+  addTile.className = "add-tile";
+
+  addTile.innerHTML = `<div class="add-plus">+</div>`;
+
+  addTile.onclick = () => {
+
+    currentIndex = null;
+
+    resetForm();
+
+    modal.style.display = "flex";
+  };
+
+  grid.appendChild(addTile);
 }
 
-/* MODAL */
-
-function openModal(){
-  modal.style.display="flex";
-}
+/* SAVE */
 
 function saveBike(){
 
-  if(currentIndex!==null){
-    bikes[currentIndex]={
-      name:name.value,
-      img:img.value,
-      desc:desc.value
-    };
-    currentIndex=null;
+  const bikeData = {
+
+    name:nameInput.value,
+    img:imgInput.value,
+    desc:descInput.value
+  };
+
+  if(currentIndex !== null){
+
+    bikes[currentIndex] = bikeData;
+
   }else{
-    bikes.push({
-      name:name.value,
-      img:img.value,
-      desc:desc.value
-    });
+
+    bikes.push(bikeData);
   }
 
   saveStorage();
+
   render();
-  modal.style.display="none";
+
+  modal.style.display = "none";
+
+  resetForm();
 }
 
-/* INSPECT */
+/* OPEN INSPECT */
 
-function openInspect(i){
+function openInspect(index){
 
-  currentIndex=i;
+  currentIndex = index;
 
-  let b=bikes[i];
+  const bike = bikes[index];
 
-  ititle.innerText=b.name;
-  idesc.innerText=b.desc;
-  iimg.src=b.img;
+  ititle.innerText = bike.name;
+  idesc.innerText = bike.desc;
+  iimg.src = bike.img;
 
-  inspect.style.display="flex";
+  inspect.style.display = "flex";
 }
+
+/* CLOSE INSPECT */
 
 function closeInspect(e){
-  if(e.target.id==="inspect"){
-    inspect.style.display="none";
+
+  if(e.target === inspect){
+
+    inspect.style.display = "none";
   }
 }
+
+/* DELETE */
 
 function deleteBike(){
 
   bikes.splice(currentIndex,1);
+
   saveStorage();
+
   render();
-  inspect.style.display="none";
+
+  inspect.style.display = "none";
 }
+
+/* EDIT */
 
 function editBike(){
 
-  let b=bikes[currentIndex];
+  const bike = bikes[currentIndex];
 
-  name.value=b.name;
-  img.value=b.img;
-  desc.value=b.desc;
+  nameInput.value = bike.name;
+  imgInput.value = bike.img;
+  descInput.value = bike.desc;
 
-  inspect.style.display="none";
-  modal.style.display="flex";
+  inspect.style.display = "none";
+
+  modal.style.display = "flex";
 }
+
+/* CLOSE MODAL */
+
+window.addEventListener("click",(e)=>{
+
+  if(e.target === modal){
+
+    modal.style.display = "none";
+  }
+});
+
+/* START */
 
 render();
 
