@@ -5,6 +5,12 @@ const bikeModel=require("../models/bikeModel");
 router.get("/",async(req,res)=>{
     res.render("indexCopy.ejs");
 })
+router.get("/userprofile",(req,res)=>{
+    res.render("userProfileTest.ejs");
+})
+router.get("/userreview",(req,res)=>{
+    res.render("userReview.ejs");
+})
 router.get("/abc",async(req,res)=>{
     res.render("index.ejs");
 })
