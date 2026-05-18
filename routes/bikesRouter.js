@@ -8,6 +8,11 @@ router.get("/",async(req,res)=>{
 router.get("/userprofile",(req,res)=>{
     res.render("userProfileTest.ejs");
 })
+
+router.get("/bikeview",(req,res)=>{
+    res.render("bikeview.ejs");
+})
+
 router.get("/userreview",(req,res)=>{
     res.render("userReview.ejs");
 })

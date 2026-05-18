@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bike Detail Page</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background:#f5f5f5;
+      color:#222;
+    }
+
+    a{
+      text-decoration:none;
+      color:inherit;
+    }
+
+    img{
+      width:100%;
+      display:block;
+    }
+
+    .container{
+      width:90%;
+      max-width:1200px;
+      margin:auto;
+    }
+
+    /* NAVBAR */
+
+    .navbar{
+      background:#fff;
+      padding:18px 0;
+      border-bottom:1px solid #ddd;
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+
+    .nav-content{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .logo{
+      font-size:24px;
+      font-weight:bold;
+      color:#d9232d;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:20px;
+    }
+
+    /* HERO */
+
+    .hero{
+      padding:40px 0;
+    }
+
+    .hero-wrapper{
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:40px;
+      background:#fff;
+      padding:30px;
+      border-radius:12px;
+    }
+
+    .main-image{
+      border-radius:10px;
+      overflow:hidden;
+    }
+
+    .thumbnail-row{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .thumb{
+      width:90px;
+      height:70px;
+      object-fit:cover;
+      border-radius:8px;
+      cursor:pointer;
+      border:2px solid transparent;
+    }
+
+    .thumb.active{
+      border-color:#d9232d;
+    }
+
+    .bike-title{
+      font-size:38px;
+      margin-bottom:12px;
+    }
+
+    .price{
+      font-size:32px;
+      color:#d9232d;
+      font-weight:bold;
+      margin-bottom:20px;
+    }
+
+    .rating{
+      background:#28a745;
+      color:#fff;
+      display:inline-block;
+      padding:6px 12px;
+      border-radius:20px;
+      margin-bottom:20px;
+    }
+
+    .spec-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:15px;
+      margin-top:25px;
+    }
+
+    .spec-box{
+      background:#f8f8f8;
+      padding:15px;
+      border-radius:10px;
+    }
+
+    .spec-box h4{
+      color:#777;
+      margin-bottom:6px;
+      font-size:14px;
+    }
+
+    .spec-box p{
+      font-size:20px;
+      font-weight:bold;
+    }
+
+    .btn-group{
+      margin-top:30px;
+      display:flex;
+      gap:15px;
+    }
+
+    .btn{
+      padding:14px 22px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:bold;
+    }
+
+    .primary-btn{
+      background:#d9232d;
+      color:#fff;
+    }
+
+    .secondary-btn{
+      background:#eee;
+    }
+
+    /* STICKY TABS */
+
+    .tabs{
+      position:sticky;
+      top:72px;
+      background:#fff;
+      z-index:999;
+      border-bottom:1px solid #ddd;
+    }
+
+    .tabs-wrapper{
+      display:flex;
+      gap:30px;
+      overflow:auto;
+    }
+
+    .tab-btn{
+      padding:18px 0;
+      cursor:pointer;
+      font-weight:bold;
+      border-bottom:3px solid transparent;
+    }
+
+    .tab-btn.active{
+      color:#d9232d;
+      border-color:#d9232d;
+    }
+
+    /* SECTIONS */
+
+    section{
+      padding:60px 0;
+    }
+
+    .section-card{
+      background:#fff;
+      padding:30px;
+      border-radius:12px;
+    }
+
+    .section-title{
+      font-size:30px;
+      margin-bottom:25px;
+    }
+
+    /* SPECS TABLE */
+
+    .spec-table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    .spec-table tr{
+      border-bottom:1px solid #eee;
+    }
+
+    .spec-table td{
+      padding:16px;
+    }
+
+    .spec-table td:first-child{
+      color:#666;
+      width:40%;
+    }
+
+    /* FEATURES */
+
+    .feature-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:20px;
+    }
+
+    .feature-card{
+      background:#fafafa;
+      padding:25px;
+      border-radius:10px;
+      text-align:center;
+    }
+
+    .feature-card h3{
+      margin-top:10px;
+    }
+
+    /* REVIEWS */
+
+    .review{
+      background:#fafafa;
+      padding:20px;
+      border-radius:10px;
+      margin-bottom:20px;
+    }
+
+    .review-header{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
+
+    /* FAQ */
+
+    .faq-item{
+      border-bottom:1px solid #ddd;
+      padding:18px 0;
+    }
+
+    .faq-question{
+      cursor:pointer;
+      font-weight:bold;
+      display:flex;
+      justify-content:space-between;
+    }
+
+    .faq-answer{
+      display:none;
+      margin-top:12px;
+      color:#555;
+      line-height:1.6;
+    }
+
+    /* FOOTER */
+
+    footer{
+      background:#111;
+      color:#fff;
+      padding:40px 0;
+      margin-top:50px;
+      text-align:center;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:900px){
+
+      .hero-wrapper{
+        grid-template-columns:1fr;
+      }
+
+      .bike-title{
+        font-size:30px;
+      }
+
+      .price{
+        font-size:26px;
+      }
+
+      .spec-grid{
+        grid-template-columns:1fr;
+      }
+
+      .nav-links{
+        display:none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+    <div class="container nav-content">
+      <div class="logo">BikeZone</div>
+
+      <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Bikes</a>
+        <a href="#">Reviews</a>
+        <a href="#">Compare</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+
+  <div class="hero">
+    <div class="container">
+
+      <div class="hero-wrapper">
+
+        <!-- LEFT -->
+
+        <div>
+          <div class="main-image">
+            <img
+              id="mainBikeImage"
+              src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1200"
+              alt=""
+            />
+          </div>
+
+          <div class="thumbnail-row">
+
+            <img
+              class="thumb active"
+              src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1200"
+            />
+
+            <img
+              class="thumb"
+              src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?q=80&w=1200"
+            />
+
+            <img
+              class="thumb"
+              src="https://images.unsplash.com/photo-1625047509248-ec889cbff17f?q=80&w=1200"
+            />
+
+          </div>
+        </div>
+
+        <!-- RIGHT -->
+
+        <div>
+
+          <h1 class="bike-title">
+            Honda CB300F Flex Fuel
+          </h1>
+
+          <div class="rating">
+            ★ 4.5/5
+          </div>
+
+          <div class="price">
+            ₹1,70,000
+          </div>
+
+          <p>
+            The Honda CB300F Flex Fuel is a stylish street bike with
+            aggressive looks, powerful engine, and premium features.
+          </p>
+
+          <div class="spec-grid">
+
+            <div class="spec-box">
+              <h4>Engine</h4>
+              <p>293cc</p>
+            </div>
+
+            <div class="spec-box">
+              <h4>Mileage</h4>
+              <p>35 kmpl</p>
+            </div>
+
+            <div class="spec-box">
+              <h4>Power</h4>
+              <p>24 bhp</p>
+            </div>
+
+            <div class="spec-box">
+              <h4>Top Speed</h4>
+              <p>135 km/h</p>
+            </div>
+
+          </div>
+
+          <div class="btn-group">
+            <button class="btn primary-btn">
+              Check On-Road Price
+            </button>
+
+            <button class="btn secondary-btn">
+              Compare Bike
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+
+  <div class="tabs">
+    <div class="container tabs-wrapper">
+
+      <div class="tab-btn active" data-target="overview">
+        Overview
+      </div>
+
+      <div class="tab-btn" data-target="specs">
+        Specifications
+      </div>
+
+      <div class="tab-btn" data-target="features">
+        Features
+      </div>
+
+      <div class="tab-btn" data-target="reviews">
+        Reviews
+      </div>
+
+      <div class="tab-btn" data-target="faq">
+        FAQ
+      </div>
+
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+
+  <section id="overview">
+    <div class="container">
+      <div class="section-card">
+
+        <h2 class="section-title">
+          Bike Overview
+        </h2>
+
+        <p>
+          The Honda CB300F Flex Fuel combines sporty styling,
+          refined performance, and modern technology into one
+          exciting package. It is designed for urban riders
+          and highway touring alike.
+        </p>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SPECS -->
+
+  <section id="specs">
+    <div class="container">
+      <div class="section-card">
+
+        <h2 class="section-title">
+          Specifications
+        </h2>
+
+        <table class="spec-table">
+
+          <tr>
+            <td>Engine Capacity</td>
+            <td>293cc</td>
+          </tr>
+
+          <tr>
+            <td>Transmission</td>
+            <td>6 Speed Manual</td>
+          </tr>
+
+          <tr>
+            <td>Fuel Tank</td>
+            <td>14 Litres</td>
+          </tr>
+
+          <tr>
+            <td>Kerb Weight</td>
+            <td>153 kg</td>
+          </tr>
+
+          <tr>
+            <td>Seat Height</td>
+            <td>789 mm</td>
+          </tr>
+
+        </table>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+
+  <section id="features">
+    <div class="container">
+      <div class="section-card">
+
+        <h2 class="section-title">
+          Features
+        </h2>
+
+        <div class="feature-grid">
+
+          <div class="feature-card">
+            <h3>LED Lighting</h3>
+            <p>Modern full LED setup.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>Digital Console</h3>
+            <p>Fully digital instrument cluster.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>ABS</h3>
+            <p>Dual channel anti-lock braking.</p>
+          </div>
+
+          <div class="feature-card">
+            <h3>Bluetooth</h3>
+            <p>Smartphone connectivity support.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+
+  <section id="reviews">
+    <div class="container">
+      <div class="section-card">
+
+        <h2 class="section-title">
+          User Reviews
+        </h2>
+
+        <div class="review">
+
+          <div class="review-header">
+            <strong>Rahul</strong>
+            <span>★★★★★</span>
+          </div>
+
+          <p>
+            Amazing performance and excellent road presence.
+          </p>
+
+        </div>
+
+        <div class="review">
+
+          <div class="review-header">
+            <strong>Arjun</strong>
+            <span>★★★★☆</span>
+          </div>
+
+          <p>
+            Comfortable for city rides and highways.
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+
+  <section id="faq">
+    <div class="container">
+      <div class="section-card">
+
+        <h2 class="section-title">
+          FAQs
+        </h2>
+
+        <div class="faq-item">
+
+          <div class="faq-question">
+            What is the mileage?
+            <span>+</span>
+          </div>
+
+          <div class="faq-answer">
+            The bike offers around 35 kmpl mileage.
+          </div>
+
+        </div>
+
+        <div class="faq-item">
+
+          <div class="faq-question">
+            Does it support Bluetooth?
+            <span>+</span>
+          </div>
+
+          <div class="faq-answer">
+            Yes, it includes smartphone connectivity.
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+    <div class="container">
+      © 2026 BikeZone. All rights reserved.
+    </div>
+  </footer>
+
+  <!-- JS -->
+
+  <script>
+
+    // IMAGE GALLERY
+
+    const thumbs = document.querySelectorAll(".thumb");
+    const mainImage = document.getElementById("mainBikeImage");
+
+    thumbs.forEach((thumb) => {
+
+      thumb.addEventListener("click", () => {
+
+        mainImage.src = thumb.src;
+
+        thumbs.forEach(t => t.classList.remove("active"));
+
+        thumb.classList.add("active");
+      });
+
+    });
+
+
+    // SMOOTH SCROLL TABS
+
+    const tabs = document.querySelectorAll(".tab-btn");
+
+    tabs.forEach(tab => {
+
+      tab.addEventListener("click", () => {
+
+        const target = document.getElementById(
+          tab.dataset.target
+        );
+
+        target.scrollIntoView({
+          behavior:"smooth"
+        });
+
+        tabs.forEach(t => t.classList.remove("active"));
+
+        tab.classList.add("active");
+      });
+
+    });
+
+
+    // FAQ ACCORDION
+
+    const faqQuestions = document.querySelectorAll(".faq-question");
+
+    faqQuestions.forEach(question => {
+
+      question.addEventListener("click", () => {
+
+        const answer = question.nextElementSibling;
+
+        if(answer.style.display === "block"){
+          answer.style.display = "none";
+        } else {
+          answer.style.display = "block";
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
