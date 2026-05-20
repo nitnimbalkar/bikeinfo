@@ -1,1259 +1,1239 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>BikeInfo</title>
-
-  <style>
-
-    /* ===============================
-       GLOBAL
-    =============================== */
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    :root{
-
-      --bg:#ffffff;
-      --text:#111111;
-      --card:#ffffff;
-      --border:#d8d8d8;
-      --primary:#4CAF50;
-
-    }
-
-    html.dark{
-
-      --bg:#0f0f0f;
-      --text:#f5f5f5;
-      --card:#1b1b1b;
-      --border:#343434;
-
-    }
-
-    body{
-
-      background:var(--bg);
-      color:var(--text);
-
-      font-family:Arial,sans-serif;
-
-      transition:.3s;
-
-      padding-top:75px;
-
-    }
-
-    img{
-      width:100%;
-      display:block;
-    }
-
-    button{
-      border:none;
-      cursor:pointer;
-    }
-
-    /* ===============================
-       NAVBAR
-    =============================== */
-
-    .navbar{
-
-      position:fixed;
-
-      top:0;
-      left:0;
-
-      width:100%;
-
-      height:75px;
-
-      display:flex;
-
-      justify-content:space-between;
-      align-items:center;
-
-      padding:0 30px;
-
-      background:rgba(20,20,20,.92);
-
-      backdrop-filter:blur(10px);
-
-      color:#fff;
-
-      z-index:1000;
-
-    }
-
-    .logo{
-
-      font-size:24px;
-      font-weight:700;
-
-    }
-
-    .nav-right{
-
-      display:flex;
-      align-items:center;
-      gap:18px;
-
-    }
-
-    /* ===============================
-       TOGGLE
-    =============================== */
-
-    .switch{
-
-      position:relative;
-
-      width:52px;
-      height:26px;
-
-    }
-
-    .switch input{
-      display:none;
-    }
-
-    .slider{
-
-      position:absolute;
-
-      inset:0;
-
-      background:#666;
-
-      border-radius:50px;
-
-      transition:.3s;
-
-    }
-
-    .slider::before{
-
-      content:"";
-
-      position:absolute;
-
-      width:20px;
-      height:20px;
-
-      top:3px;
-      left:3px;
-
-      background:#fff;
-
-      border-radius:50%;
-
-      transition:.3s;
-
-    }
-
-    .switch input:checked + .slider{
-
-      background:var(--primary);
-
-    }
-
-    .switch input:checked + .slider::before{
-
-      transform:translateX(26px);
-
-    }
-
-    /* ===============================
-       LOGIN BUTTON
-    =============================== */
-
-    .login-btn{
-
-      padding:10px 18px;
-
-      border-radius:8px;
-
-      background:var(--primary);
-
-      color:#fff;
-
-      font-weight:600;
-
-    }
-
-    /* ===============================
-       HERO
-    =============================== */
-
-    .hero{
-
-      position:relative;
-
-      width:100%;
-      height:85vh;
-
-      overflow:hidden;
-
-    }
-
-    .hero img{
-
-      width:100%;
-      height:100%;
-
-      object-fit:cover;
-
-      filter:brightness(.7);
-
-    }
-
-    .quote{
-
-      position:absolute;
-
-      top:35%;
-      left:65%;
-
-      transform:translateY(-50%);
-
-      color:#fff;
-
-      font-size:34px;
-
-      line-height:1.5;
-
-      max-width:420px;
-
-      font-style:italic;
-
-    }
-
-    /* ===============================
-       SEARCH
-    =============================== */
-
-    .search-box{
-
-      position:absolute;
-
-      left:50%;
-      bottom:70px;
-
-      transform:translateX(-50%);
-
-      width:min(700px,90%);
-
-      display:flex;
-
-      overflow:hidden;
-
-      border-radius:50px;
-
-      background:rgba(255,255,255,.92);
-
-    }
-
-    .search-box input{
-
-      flex:1;
-
-      padding:18px;
-
-      border:none;
-      outline:none;
-
-      background:transparent;
-
-      font-size:16px;
-
-    }
-
-    .search-box button{
-
-      padding:0 28px;
-
-      background:var(--primary);
-
-      color:#fff;
-
-    }
-
-    html.dark .search-box{
-
-      background:rgba(30,30,30,.92);
-
-    }
-
-    html.dark .search-box input{
-
-      color:#fff;
-
-    }
-
-    /* ===============================
-       BRANDS
-    =============================== */
-
-    .brand-section{
-
-      width:min(1200px,95%);
-
-      margin:50px auto;
-
-    }
-
-    .brand-grid{
-
-      display:grid;
-
-      grid-template-columns:
-        repeat(auto-fit,minmax(170px,1fr));
-
-      gap:18px;
-
-    }
-
-    .brand-card{
-
-      padding:24px;
-
-      border-radius:14px;
-
-      background:#1b1b1b;
-
-      color:#fff;
-
-      text-align:center;
-
-      cursor:pointer;
-
-      transition:.25s;
-
-    }
-
-    .brand-card:hover{
-
-      transform:translateY(-4px);
-
-    }
-
-    /* ===============================
-       DRAWER
-    =============================== */
-
-    .backdrop{
-
-      position:fixed;
-
-      inset:0;
-
-      background:rgba(0,0,0,.55);
-
-      opacity:0;
-
-      pointer-events:none;
-
-      transition:.3s;
-
-      z-index:1000;
-
-    }
-
-    .backdrop.active{
-
-      opacity:1;
-
-      pointer-events:all;
-
-    }
-
-    .drawer{
-
-      position:fixed;
-
-      left:50%;
-      bottom:-100%;
-
-      transform:translateX(-50%);
-
-      width:min(1200px,100%);
-
-      height:500px;
-
-      background:var(--card);
-
-      color:var(--text);
-
-      border-top-left-radius:22px;
-      border-top-right-radius:22px;
-
-      transition:.4s;
-
-      z-index:1001;
-
-      padding:28px;
-
-    }
-
-    .drawer.active{
-
-      bottom:0;
-
-    }
-
-    .close-btn{
-
-      float:right;
-
-      cursor:pointer;
-
-      font-size:24px;
-
-    }
-
-    /* ===============================
-       BIKE MODULE
-    =============================== */
-
-    .bike-module{
-
-      width:min(1200px,95%);
-
-      margin:50px auto;
-
-    }
-
-    .tabs{
-
-      display:flex;
-
-      gap:12px;
-
-      margin-bottom:24px;
-
-    }
-
-    .tab{
-
-      padding:12px 20px;
-
-      border-radius:10px;
-
-      background:#ececec;
-
-      font-weight:600;
-
-    }
-
-    .tab.active{
-
-      background:#111;
-
-      color:#fff;
-
-    }
-
-    html.dark .tab{
-
-      background:#222;
-
-      color:#fff;
-
-    }
-
-    html.dark .tab.active{
-
-      background:#fff;
-
-      color:#111;
-
-    }
-
-    .bike-content{
-
-      display:none;
-
-    }
-
-    .bike-content.active{
-
-      display:block;
-
-    }
-
-    .grid,
-    .horizontal{
-
-      display:grid;
-
-      grid-template-columns:
-        repeat(auto-fit,minmax(220px,1fr));
-
-      gap:20px;
-
-    }
-
-    .card{
-
-      border:1px solid var(--border);
-
-      border-radius:14px;
-
-      overflow:hidden;
-
-      background:var(--card);
-
-    }
-
-    .card img{
-
-      height:220px;
-
-      object-fit:cover;
-
-    }
-
-    .card-body{
-
-      padding:16px;
-
-    }
-
-    .price{
-
-      color:var(--primary);
-
-      font-weight:700;
-
-    }
-
-    .container{
-
-      display:flex;
-
-      gap:20px;
-
-    }
-
-    .sidebar{
-
-      width:250px;
-
-      border:1px solid var(--border);
-
-      padding:18px;
-
-      border-radius:12px;
-
-    }
-
-    .sidebar h4{
-
-      margin-bottom:10px;
-
-    }
-
-    .content{
-
-      flex:1;
-
-    }
-
-    /* ===============================
-       LOGIN MODAL
-    =============================== */
-
-    .login-modal{
-
-      position:fixed;
-
-      inset:0;
-
-      display:flex;
-
-      justify-content:center;
-      align-items:center;
-
-      background:rgba(0,0,0,.6);
-
-      opacity:0;
-
-      pointer-events:none;
-
-      transition:.3s;
-
-      z-index:2000;
-
-    }
-
-    .login-modal.active{
-
-      opacity:1;
-
-      pointer-events:all;
-
-    }
-
-    .login-box{
-
-      width:350px;
-
-      background:var(--card);
-
-      color:var(--text);
-
-      padding:28px;
-
-      border-radius:16px;
-
-    }
-
-    .login-box h2{
-
-      margin-bottom:18px;
-
-    }
-
-    .login-box input{
-
-      width:100%;
-
-      padding:12px;
-
-      margin-bottom:14px;
-
-      border:1px solid var(--border);
-
-      border-radius:8px;
-
-      background:transparent;
-
-      color:var(--text);
-
-    }
-
-    .login-box button{
-
-      width:100%;
-
-      padding:12px;
-
-      border-radius:8px;
-
-      background:var(--primary);
-
-      color:#fff;
-
-    }
-
-    .login-close{
-
-      float:right;
-
-      cursor:pointer;
-
-      font-size:22px;
-
-    }
-
-    /* ===============================
-       RESPONSIVE
-    =============================== */
-
-    @media(max-width:900px){
-
-      .quote{
-
-        left:50%;
-
-        transform:
-          translate(-50%,-50%);
-
-        text-align:center;
-
-        width:90%;
-
-        font-size:28px;
-
-      }
-
-      .container{
-
-        flex-direction:column;
-
-      }
-
-      .sidebar{
-
-        width:100%;
-
-      }
-
-    }
-
-  </style>
-
+<meta charset="UTF-8">
+<title>BikeInfo</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #000;
+  transition: background 0.3s, color 0.3s;
+
+  /* IMPORTANT: space for fixed navbar */
+  padding-top: 40px;
+}
+
+/* ================= NAVBAR (FIXED) ================= */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+
+  background: rgba(34, 34, 34, 0.9);
+  backdrop-filter: blur(10px);
+  color: white;
+
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Toggle */
+.switch {
+  position: relative;
+  width: 50px;
+  height: 24px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: #ccc;
+  border-radius: 34px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider {
+  background-color: #4CAF50;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.login-btn {
+  padding: 8px 16px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* ================= HERO ================= */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.quote {
+  position: absolute;
+  top: 30%;
+  left: 65%;
+  transform: translateY(-50%);
+  font-style: italic;
+  font-size: 24px;
+  color: black;
+  max-width: 400px;
+}
+
+.search-box {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40%;
+  display: flex;
+  background: rgba(255,255,255,0.9);
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  outline: none;
+}
+
+.search-box button {
+  padding: 12px 20px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+}
+
+/* ================= BRAND SECTION ================= */
+.brand-section {
+  width: 60%;
+  margin: 40px auto;
+  border: 1px solid #333;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.brand-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+}
+
+.brand-card {
+  background: #1c1c1c;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.brand-card:hover {
+  background: #2a2a2a;
+}
+
+/* ================= BACKDROP ================= */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+.backdrop.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* ================= DRAWER ================= */
+.drawer {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -100%;
+  width: 100%;
+  max-width: 1200px;
+  height: 700px;
+
+  background: #1c1c1c;
+  color: white;
+
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+
+  transition: bottom 0.4s ease;
+  z-index: 1001;
+}
+
+.drawer.active {
+  bottom: 0;
+}
+
+.drawer-content {
+  padding: 20px;
+}
+
+.close-btn {
+  float: right;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* ================= DARK MODE ================= */
+.dark body {
+  background: #121212;
+  color: #fff;
+}
+
+.dark .search-box {
+  background: rgba(30,30,30,0.9);
+}
+
+.dark .search-box input {
+  background: transparent;
+  color: white;
+}
+/* ================= LOGIN MODAL ================= */
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 2000;
+}
+
+.login-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.login-box {
+  background: #1c1c1c;
+  color: white;
+  padding: 30px;
+  width: 320px;
+  border-radius: 12px;
+  text-align: center;
+
+  transform: translateY(-40px);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.login-modal.active .login-box {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.login-box h2 {
+  margin-bottom: 20px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: #4CAF50;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.login-box button:hover {
+  background: #3e8e41;
+}
+
+.login-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 18px;
+}
+.toggle-link {
+  color: #4CAF50;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.toggle-link:hover {
+  text-decoration: underline;
+}
+.profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid #4CAF50;
+}
+.profile-pic {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #4CAF50;
+  cursor: pointer;
+}
+#authBtn {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#authBtn:hover {
+  background: transparent !important;
+}
+
+#authBtn img {
+  display: block;
+}
+.profile-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Make login button act like icon holder after login */
+#authBtn {
+  background: transparent !important;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Profile image */
+.profile-pic {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #4CAF50;
+  object-fit: cover;
+}
+
+/* Dropdown */
+.profile-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+
+  background: #1c1c1c;
+  color: white;
+  width: 170px;
+
+  border-radius: 10px;
+  overflow: hidden;
+
+  display: none;
+  flex-direction: column;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.profile-menu div {
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.profile-menu div:hover {
+  background: #333;
+}
+
+.profile-menu.show {
+  display: flex;
+}
+.bike-module{
+  width:60%;
+  margin:20px auto;
+  font-family:Segoe UI, sans-serif;
+  box-sizing:border-box;
+  border-radius:12px;
+  border:1px solid #d1d5db;
+  padding:20px;
+
+  --text:#111;
+  --muted:#4b5563;
+  color:var(--text);
+}
+
+/* DARK MODE (MATCHES YOUR JS: html.dark) */
+html.dark .bike-module{
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  border:1px solid #ffffff;
+}
+
+/* GLOBAL TEXT FIX (NO BLACK TEXT ANYWHERE) */
+.bike-module,
+.bike-module *{
+  color:var(--text);
+}
+
+/* PRICE OVERRIDE */
+.bike-module .price{
+  color:#16a34a;
+}
+
+html.dark .bike-module .price{
+  color:#22c55e;
+}
+
+/* TABS */
+.bike-module .tabs{
+  display:flex;
+  margin-bottom:14px;
+}
+
+.bike-module .tab{
+  padding:8px 14px;
+  margin-right:8px;
+  background:#e5e7eb;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+  color:#111;
+}
+
+.bike-module .tab.active{
+  background:#111;
+  color:#fff;
+}
+
+html.dark .bike-module .tab{
+  background:#1f2937;
+  color:#e5e7eb;
+}
+
+html.dark .bike-module .tab.active{
+  background:#fff;
+  color:#111;
+}
+
+/* LAYOUT */
+.bike-module .container{
+  display:flex;
+  gap:15px;
+}
+
+/* SIDEBAR */
+.bike-module .sidebar{
+  width:28%;
+  background:transparent;
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  padding:12px;
+  font-size:13px;
+}
+
+html.dark .bike-module .sidebar{
+  background:#1f2937;
+  border:1px solid #374151;
+}
+
+/* CONTENT */
+.bike-module .content{
+  width:72%;
+}
+
+/* TRENDING GRID */
+.bike-module .grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+/* BROWSE GRID */
+.bike-module .horizontal{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:12px;
+}
+
+/* CARD */
+.bike-module .card{
+  border:1px solid #e5e7eb;
+  border-radius:10px;
+  background:transparent;
+  overflow:hidden;
+  font-size:13px;
+  padding-bottom:6px;
+}
+
+html.dark .bike-module .card{
+  background:#1f2937;
+  border:1px solid #374151;
+}
+
+/* IMAGE */
+.bike-module .card img{
+  width:88%;
+  height:92px;
+  object-fit:cover;
+  margin:8px auto 0;
+  display:block;
+  border-radius:8px;
+}
+
+/* CARD TEXT */
+.bike-module .card-body{
+  padding:8px 6px 10px;
+  text-align:center;
+  line-height:1.3;
+}
+
+/* INPUTS + LABEL FIX */
+.bike-module input,
+.bike-module label,
+.bike-module h1,
+.bike-module h2,
+.bike-module h3,
+.bike-module h4,
+.bike-module span,
+.bike-module div{
+  color:var(--text);
+}
+.bike-module .sidebar label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  line-height:1.4;
+  cursor:pointer;
+  white-space:nowrap;
+}
+
+/* ensure radio buttons align perfectly */
+.bike-module .sidebar input[type="radio"]{
+  margin:0;
+  transform: translateY(1px);
+}
+
+/* section spacing cleanup */
+.bike-module .sidebar h4{
+  margin-top:16px;
+  margin-bottom:8px;
+}
+
+/* make groups stack neatly */
+.bike-module .sidebar{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+/* ================= BIKE REVIEWS MODULE ================= */
+.bike-reviews-module{
+  width:60%;
+  margin:20px auto;
+  height:auto;
+  margin:20px auto;
+  border:2px solid #d1d5db;
+  border-radius:12px;
+  padding:20px 15px;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  box-sizing:border-box;
+  display: flex;
+  flex-direction: column;
+
+  --text:#111;
+  --muted:#6b7280;
+  --card:#ffffff;
+}
+
+/* DARK MODE (matches your html.dark system) */
+html.dark .bike-reviews-module{
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --card:#1f2937;
+  border-color:#ffffff;
+}
+
+/* GLOBAL TEXT INSIDE MODULE ONLY */
+.bike-reviews-module,
+.bike-reviews-module *{
+  color:var(--text);
+}
+
+/* HEADINGS */
+.bike-reviews-module h2{
+  margin-bottom:5px;
+}
+
+/* SUBTEXT */
+.bike-reviews-module .subtext{
+  color:var(--muted);
+  margin-bottom:10px;
+  font-size:14px;
+}
+
+/* SEARCH */
+.bike-reviews-module .search-bar{
+  width:60%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  margin-bottom:10px;
+}
+
+/* LABEL */
+.bike-reviews-module .recent{
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+/* GRID (3x2 SAFE) */
+.bike-reviews-module .review-list{
+  flex:1;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  grid-template-rows:repeat(2,1fr);
+  gap:12px;
+  overflow:hidden;
+}
+
+/* CARD */
+.bike-reviews-module .review-card{
+  background:var(--card);
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  padding:12px;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  min-height: 250px;
+}
+
+/* TOP */
+.bike-reviews-module .top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.bike-reviews-module .avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+}
+
+/* TEXT */
+.bike-reviews-module .preview{
+  font-size:13px;
+  margin:8px 0;
+  color:var(--muted);
+}
+
+/* BUTTON */
+.bike-reviews-module .expand-btn{
+  background:#007bff;
+  color:white;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:12px;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- ===============================
-       NAVBAR
-  =============================== -->
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">BikeInfo</div>
 
-  <nav class="navbar">
+  <div class="nav-right">
+    <label class="switch">
+      <input type="checkbox" id="darkToggle">
+      <span class="slider"></span>
+    </label>
 
-    <div class="logo">
-      BikeInfo
-    </div>
+  <div class="profile-wrapper" id="profileWrapper">
+  
+    <button class="login-btn" id="authBtn" onclick="handleAuth()">Login</button>
+      <div class="profile-menu" id="profileMenu">
+        <div onclick="goTo('edit')">Edit Profile</div>
+        <div onclick="goTo('bikes')">My Bikes</div>
+        <div onclick="goTo('reviews')">My Reviews</div>
+        <div onclick="logout()">Logout</div>
+      </div>
+  </div>
+  </div>
+</div>
 
-    <div class="nav-right">
+<!-- HERO -->
+<div class="hero">
+  <img src="man-riding-dirt-bike.jpg">
 
-      <!-- DARK MODE -->
-      <label class="switch">
+  <div class="quote">
+    Adrenaline is my fuel <br>
+    adventure is my destination - Anonymous
+  </div>
 
-        <input type="checkbox" id="darkToggle">
+  <div class="search-box">
+    <input type="text" placeholder="Find Your Dream Ride...">
+    <button>Search</button>
+  </div>
+</div>
 
-        <span class="slider"></span>
+<!-- BRAND GRID -->
+<div class="brand-section">
+  <div class="brand-grid">
+    <div class="brand-card" onclick="openDrawer('Royal Enfield')">Royal Enfield</div>
+    <div class="brand-card" onclick="openDrawer('Bajaj')">Bajaj</div>
+    <div class="brand-card" onclick="openDrawer('TVS')">TVS</div>
+    <div class="brand-card" onclick="openDrawer('Honda')">Honda</div>
+    <div class="brand-card" onclick="openDrawer('Yamaha')">Yamaha</div>
 
-      </label>
+    <div class="brand-card" onclick="openDrawer('Hero')">Hero</div>
+    <div class="brand-card" onclick="openDrawer('KTM')">KTM</div>
+    <div class="brand-card" onclick="openDrawer('BMW')">BMW</div>
+    <div class="brand-card" onclick="openDrawer('Triumph')">Triumph</div>
+    <div class="brand-card" onclick="openDrawer('Suzuki')">Suzuki</div>
 
-      <!-- LOGIN -->
-      <button class="login-btn" id="authBtn">
-        Login
-      </button>
+    <div class="brand-card" onclick="openDrawer('Aprilia')">Aprilia</div>
+    <div class="brand-card" onclick="openDrawer('Beneli')">Beneli</div>
+    <div class="brand-card" onclick="openDrawer('Ducati')">Ducati</div>
+    <div class="brand-card" onclick="openDrawer('Harley-Davidson')">Harley-Davidson</div>
+    <div class="brand-card" onclick="openDrawer('Moto Morini')">Moto Morini</div>
+  </div>
+</div>
 
-    </div>
+<!-- BACKDROP -->
+<div id="backdrop" class="backdrop" onclick="closeDrawer()"></div>
 
-  </nav>
-
-  <!-- ===============================
-       HERO
-  =============================== -->
-
-  <section class="hero">
-
-    <img
-      src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1400&auto=format&fit=crop"
-      alt="Bike Rider"
-    >
-
-    <div class="quote">
-
-      Adrenaline is my fuel <br>
-      adventure is my destination
-
-    </div>
-
-    <div class="search-box">
-
-      <input
-        type="text"
-        placeholder="Find Your Dream Ride..."
-      >
-
-      <button>
-        Search
-      </button>
-
-    </div>
-
-  </section>
-
-  <!-- ===============================
-       BRANDS
-  =============================== -->
-
-  <section class="brand-section">
-
-    <div class="brand-grid" id="brandGrid"></div>
-
-  </section>
-
-  <!-- ===============================
-       DRAWER
-  =============================== -->
-
-  <div class="backdrop" id="backdrop"></div>
-
-  <div class="drawer" id="drawer">
-
-    <span class="close-btn" id="drawerClose">
-      ✖
-    </span>
-
+<!-- DRAWER -->
+<div id="drawer" class="drawer">
+  <div class="drawer-content">
+    <span class="close-btn" onclick="closeDrawer()">✖</span>
     <h2 id="brandTitle"></h2>
+    <div id="brandDetails"></div>
+  </div>
+</div>
 
-    <p style="margin-top:20px;">
+<!-- LOGIN / SIGNUP MODAL -->
+<div id="loginModal" class="login-modal">
+  <div class="login-box">
+    <span class="login-close" onclick="closeLogin()">✖</span>
 
-      Brand details appear here.
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <h2>Login</h2>
+      <input type="text" placeholder="Username">
+      <input type="password" placeholder="Password">
+      <button onclick="loginUser()">Login</button>
+      <p style="margin-top:10px;">
+        Don't have an account?
+        <span class="toggle-link" onclick="showSignup()">Sign up</span>
+      </p>
+    </div>
 
-    </p>
+    <!-- SIGNUP FORM -->
+    <div id="signupForm" style="display:none;">
+      <h2>Sign Up</h2>
+      <input type="text" placeholder="Username">
+      <input type="email" placeholder="Email">
+      <input type="password" placeholder="Password">
+      <button onclick="registerUser()">Register</button>
+      <p style="margin-top:10px;">
+        Already have an account?
+        <span class="toggle-link" onclick="showLogin()">Login</span>
+      </p>
+    </div>
 
   </div>
 
-  <!-- ===============================
-       BIKE MODULE
-  =============================== -->
+</div>
 
-  <section class="bike-module">
+<div class="bike-module">
 
-    <!-- TABS -->
-    <div class="tabs">
+  <!-- TABS -->
+  <div class="tabs">
+    <div class="tab active" onclick="bm_show('trend',event)">Trending</div>
+    <div class="tab" onclick="bm_show('browse',event)">Browse</div>
+    <div class="tab" onclick="bm_show('upcoming',event)">Upcoming</div>
+  </div>
 
-      <button
-        class="tab active"
-        data-tab="trending"
-      >
-        Trending
-      </button>
+  <!-- TRENDING -->
+  <div id="bm_trend">
+    <div class="grid" id="bm_trendingGrid"></div>
+  </div>
 
-      <button
-        class="tab"
-        data-tab="browse"
-      >
-        Browse
-      </button>
+  <!-- BROWSE -->
+  <div id="bm_browse" style="display:none;">
+    <div class="container">
 
-      <button
-        class="tab"
-        data-tab="upcoming"
-      >
-        Upcoming
-      </button>
+      <!-- FILTERS -->
+      <div class="sidebar">
 
-    </div>
-
-    <!-- TRENDING -->
-    <div
-      class="bike-content active"
-      id="trending"
-    >
-
-      <div
-        class="grid"
-        id="trendingGrid"
-      ></div>
-
-    </div>
-
-    <!-- BROWSE -->
-    <div
-      class="bike-content"
-      id="browse"
-    >
-
-      <div class="container">
-
-        <!-- FILTER -->
-        <aside class="sidebar">
-
-          <h4>Price</h4>
-
-          <input
-            type="range"
-            min="0"
-            max="600000"
-            step="50000"
-            value="600000"
-            id="priceFilter"
-          >
-
-          <div style="margin-top:10px;">
-
-            ₹
-            <span id="priceValue">
-              600000
-            </span>
-
-          </div>
-
-        </aside>
-
-        <!-- RESULTS -->
-        <div class="content">
-
-          <div
-            class="horizontal"
-            id="browseGrid"
-          ></div>
-
+        <h4>Price</h4>
+        <input type="range" min="0" max="600000" step="50000"
+               id="bm_price" oninput="bm_filter()">
+        <div style="font-size:12px;margin-top:5px;">
+          Max: ₹<span id="bm_priceVal">600000</span>
         </div>
+
+        <h4>CC</h4>
+        <label><input type="radio" name="bm_cc" value="150" onclick="bm_filter()"> Up to 150cc</label>
+        <label><input type="radio" name="bm_cc" value="250" onclick="bm_filter()"> Up to 250cc</label>
+        <label><input type="radio" name="bm_cc" value="500" onclick="bm_filter()"> Up to 500cc</label>
+        <label><input type="radio" name="bm_cc" value="1000" onclick="bm_filter()"> 500cc+</label>
+
+        <h4>Mileage</h4>
+        <label><input type="radio" name="bm_m" value="40" onclick="bm_filter()"> 40+ kmpl</label>
+        <label><input type="radio" name="bm_m" value="60" onclick="bm_filter()"> 60+ kmpl</label>
+
+        <h4>Type</h4>
+        <label><input type="radio" name="bm_type" value="sport" onclick="bm_filter()"> Sport</label>
+        <label><input type="radio" name="bm_type" value="naked" onclick="bm_filter()"> Naked</label>
+        <label><input type="radio" name="bm_type" value="adventure" onclick="bm_filter()"> Adventure</label>
+        <label><input type="radio" name="bm_type" value="commuter" onclick="bm_filter()"> Commuter</label>
+        <label><input type="radio" name="bm_type" value="others" onclick="bm_filter()"> Others</label>
 
       </div>
 
-    </div>
-
-    <!-- UPCOMING -->
-    <div
-      class="bike-content"
-      id="upcoming"
-    >
-
-      <div
-        class="grid"
-        id="upcomingGrid"
-      ></div>
+      <!-- RESULTS -->
+      <div class="content">
+        <div class="horizontal" id="bm_bikeGrid"></div>
+      </div>
 
     </div>
+    
 
-  </section>
+  </div>
+  <!-- UPCOMING -->
+  <div id="bm_upcoming" style="display:none;">
+    <div class="grid" id="bm_upcomingGrid"></div>
+  </div>
+  
 
-  <!-- ===============================
-       LOGIN MODAL
-  =============================== -->
+</div>
+<section class="bike-reviews-module">
 
-  <div
-    class="login-modal"
-    id="loginModal"
-  >
+  <h2>Owner Reviews</h2>
 
-    <div class="login-box">
+  <p class="subtext">
+    Verified bike owners sharing real-world pros and cons.
+  </p>
 
-      <span
-        class="login-close"
-        id="loginClose"
-      >
-        ✖
-      </span>
+  <input class="search-bar" placeholder="Search bike model..." />
 
-      <h2>Login</h2>
+  <div class="recent">Recent Reviews</div>
 
-      <input
-        type="text"
-        placeholder="Username"
-      >
+  <div class="review-list">
 
-      <input
-        type="password"
-        placeholder="Password"
-      >
+    <!-- CARD -->
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=1" class="avatar">
+        <div>
+          <h4>Rahul Sharma</h4>
+          <span>Classic 350</span>
+        </div>
+      </div>
+      <p class="preview">Great highway stability and comfort.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
 
-      <button id="loginSubmit">
-        Login
-      </button>
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=5" class="avatar">
+        <div>
+          <h4>Amit Verma</h4>
+          <span>Yamaha R15</span>
+        </div>
+      </div>
+      <p class="preview">Perfect beginner sports bike.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
 
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=8" class="avatar">
+        <div>
+          <h4>Vikram Singh</h4>
+          <span>Apache RTR</span>
+        </div>
+      </div>
+      <p class="preview">Excellent mileage in city.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=9" class="avatar">
+        <div>
+          <h4>Sameer Khan</h4>
+          <span>NS200</span>
+        </div>
+      </div>
+      <p class="preview">Powerful and aggressive bike.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=10" class="avatar">
+        <div>
+          <h4>Rohit Mehta</h4>
+          <span>MT-15</span>
+        </div>
+      </div>
+      <p class="preview">Lightweight and fun to ride.</p>
+      <button class="expand-btn">See Full Review</button>
+    </div>
+
+    <div class="review-card">
+      <div class="top">
+        <img src="https://i.pravatar.cc/100?img=11" class="avatar">
+        <div>
+          <h4>Karan Patel</h4>
+          <span>Dominar 400</span>
+        </div>
+      </div>
+      <p class="preview">Best touring bike in segment.</p>
+      <button class="expand-btn">See Full Review</button>
     </div>
 
   </div>
 
-  <!-- ===============================
-       JAVASCRIPT
-  =============================== -->
+</section>
 
-  <script>
+<script>
+const toggle = document.getElementById("darkToggle");
 
-    /* ===============================
-       THEME
-    =============================== */
+if (toggle) {
+  toggle.addEventListener("change", () => {
+    document.documentElement.classList.toggle("dark", toggle.checked);
+  });
+}
 
-    const darkToggle =
-      document.getElementById("darkToggle");
+const brandData = {
+  "Royal Enfield": {
+    "Cruiser Bikes": [
+      { name: "Classic 350", cc: 349, img: "https://via.placeholder.com/200" },
+      { name: "Meteor 350", cc: 349, img: "https://via.placeholder.com/200" },
+      { name: "Hunter 350", cc: 349, img: "https://via.placeholder.com/200" }
+    ],
+    "Adventure Bikes": [
+      { name: "Himalayan 450", cc: 452, img: "https://via.placeholder.com/200" }
+    ]
+  },
 
-    darkToggle.addEventListener("change", () => {
+  "Bajaj": {
+    "Street Bikes": [
+      { name: "Pulsar NS200", cc: 199, img: "https://via.placeholder.com/200" },
+      { name: "Dominar 400", cc: 373, img: "https://via.placeholder.com/200" }
+    ]
+  }
+};
 
-      document.documentElement
-        .classList
-        .toggle("dark", darkToggle.checked);
+function openDrawer(brand) {
+  document.getElementById("drawer").classList.add("active");
+  document.getElementById("backdrop").classList.add("active");
+  document.getElementById("brandTitle").innerText = brand;
 
-    });
+  const container = document.getElementById("brandDetails");
+  container.innerHTML = "";
 
-    /* ===============================
-       LOGIN MODAL
-    =============================== */
+  const data = brandData[brand];
 
-    const authBtn =
-      document.getElementById("authBtn");
+  if (!data) {
+    container.innerHTML = "<p>No bikes available</p>";
+    return;
+  }
 
-    const loginModal =
-      document.getElementById("loginModal");
+  for (let category in data) {
+    container.innerHTML += `
+      <h3 style="margin:15px 0 10px;color:#4CAF50">${category}</h3>
 
-    const loginClose =
-      document.getElementById("loginClose");
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+        ${data[category].map(bike => `
+          <div style="
+            background:#2a2a2a;
+            border-radius:10px;
+            padding:10px;
+            text-align:center;
+          ">
+            <img src="${bike.img}" 
+                 style="width:100%;height:110px;object-fit:cover;border-radius:8px;">
 
-    const loginSubmit =
-      document.getElementById("loginSubmit");
+            <div style="margin-top:8px;font-weight:bold;">
+              ${bike.name}
+            </div>
 
-    authBtn.addEventListener("click", () => {
-
-      loginModal.classList.add("active");
-
-    });
-
-    loginClose.addEventListener("click", () => {
-
-      loginModal.classList.remove("active");
-
-    });
-
-    loginSubmit.addEventListener("click", () => {
-
-      loginModal.classList.remove("active");
-
-      authBtn.innerHTML = `
-        <img
-          src="https://i.pravatar.cc/100"
-          style="
-            width:42px;
-            height:42px;
-            border-radius:50%;
-          "
-        >
-      `;
-
-    });
-
-    /* ===============================
-       BRANDS
-    =============================== */
-
-    const brands = [
-
-      "Royal Enfield",
-      "Honda",
-      "Yamaha",
-      "KTM",
-      "BMW",
-      "TVS",
-      "Bajaj",
-      "Hero"
-
-    ];
-
-    const brandGrid =
-      document.getElementById("brandGrid");
-
-    const drawer =
-      document.getElementById("drawer");
-
-    const backdrop =
-      document.getElementById("backdrop");
-
-    const brandTitle =
-      document.getElementById("brandTitle");
-
-    brands.forEach(brand => {
-
-      const card =
-        document.createElement("div");
-
-      card.className = "brand-card";
-
-      card.textContent = brand;
-
-      card.addEventListener("click", () => {
-
-        brandTitle.textContent = brand;
-
-        drawer.classList.add("active");
-
-        backdrop.classList.add("active");
-
-      });
-
-      brandGrid.appendChild(card);
-
-    });
-
-    function closeDrawer(){
-
-      drawer.classList.remove("active");
-
-      backdrop.classList.remove("active");
-
-    }
-
-    backdrop.addEventListener("click", closeDrawer);
-
-    document
-      .getElementById("drawerClose")
-      .addEventListener("click", closeDrawer);
-
-    /* ===============================
-       BIKES DATA
-    =============================== */
-
-    const bikes = [
-
-      {
-        name:"Classic 350",
-        price:230000,
-        cc:350,
-        upcoming:false,
-        img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1200&auto=format&fit=crop"
-      },
-
-      {
-        name:"Apache RTR",
-        price:150000,
-        cc:160,
-        upcoming:false,
-        img:"https://images.unsplash.com/photo-1517846693594-1567da72af75?q=80&w=1200&auto=format&fit=crop"
-      },
-
-      {
-        name:"KTM Duke 390",
-        price:320000,
-        cc:390,
-        upcoming:true,
-        img:"https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=1200&auto=format&fit=crop"
-      },
-
-      {
-        name:"BMW GS",
-        price:580000,
-        cc:850,
-        upcoming:true,
-        img:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop"
-      }
-
-    ];
-
-    /* ===============================
-       CARD CREATOR
-    =============================== */
-
-    function createBikeCard(bike){
-
-      return `
-
-        <div class="card">
-
-          <img
-            src="${bike.img}"
-            alt="${bike.name}"
-          >
-
-          <div class="card-body">
-
-            <h3>${bike.name}</h3>
-
-            <p style="margin:10px 0;">
+            <div style="font-size:12px;color:#aaa;">
               ${bike.cc}cc
-            </p>
-
-            <span class="price">
-
-              ₹${bike.price.toLocaleString()}
-
-            </span>
-
+            </div>
           </div>
+        `).join("")}
+      </div>
+    `;
+  }
+}
+function closeDrawer() {
+  document.getElementById("drawer").classList.remove("active");
+  document.getElementById("backdrop").classList.remove("active");
+}
+function openLogin() {
+  document.getElementById("loginModal").classList.add("active");
+}
 
+function closeLogin() {
+  document.getElementById("loginModal").classList.remove("active");
+}
+
+// close when clicking outside
+document.getElementById("loginModal").addEventListener("click", function(e) {
+  if (e.target === this) {
+    closeLogin();
+  }
+});
+function showSignup() {
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("signupForm").style.display = "block";
+}
+
+function showLogin() {
+  document.getElementById("signupForm").style.display = "none";
+  document.getElementById("loginForm").style.display = "block";
+}
+function loginUser() {
+  // fake login success
+  localStorage.setItem("loggedIn", "true");
+  localStorage.setItem("profilePic", "https://i.pravatar.cc/150");
+
+  updateAuthUI();
+  closeLogin();
+}
+
+function handleAuth() {
+  const isLoggedIn = localStorage.getItem("loggedIn");
+
+  if (isLoggedIn) {
+    toggleMenu(); // 👈 open dropdown menu
+  } else {
+    openLogin(); // 👈 open login popup
+  }
+}
+function toggleMenu() {
+  document.getElementById("profileMenu").classList.toggle("show");
+}
+
+function updateAuthUI() {
+  const btn = document.getElementById("authBtn");
+  const isLoggedIn = localStorage.getItem("loggedIn");
+
+  if (isLoggedIn) {
+    const img = document.createElement("img");
+    img.src = localStorage.getItem("profilePic");
+    img.className = "profile-pic";
+
+    btn.innerHTML = "";
+    btn.appendChild(img);
+    btn.onclick = handleAuth;
+  } else {
+    btn.innerText = "Login";
+  }
+}
+const bm_bikes = [
+  {name:"Bike A", price:100000, cc:150, mileage:60, type:"commuter", img:"https://via.placeholder.com/200"},
+  {name:"Bike B", price:200000, cc:250, mileage:40, type:"sport", img:"https://via.placeholder.com/200"},
+  {name:"Bike C", price:300000, cc:400, mileage:30, type:"naked", img:"https://via.placeholder.com/200"},
+  {name:"Bike D", price:500000, cc:650, mileage:25, type:"adventure", img:"https://via.placeholder.com/200", upcoming:true},
+  {name:"Bike E", price:120000, cc:125, mileage:70, type:"commuter", img:"https://via.placeholder.com/200"},
+  {name:"Bike F", price:180000, cc:200, mileage:55, type:"naked", img:"https://via.placeholder.com/200", upcoming:true},
+  {name:"Bike G", price:400000, cc:500, mileage:35, type:"sport", img:"https://via.placeholder.com/200"},
+  {name:"Bike H", price:600000, cc:900, mileage:20, type:"adventure", img:"https://via.placeholder.com/200", upcoming:true},
+  {name:"Bike A", price:100000, cc:150, mileage:60, type:"commuter", img:"https://via.placeholder.com/200"},
+  {name:"Bike B", price:200000, cc:250, mileage:40, type:"sport", img:"https://via.placeholder.com/200"},
+  {name:"Bike C", price:300000, cc:400, mileage:30, type:"naked", img:"https://via.placeholder.com/200"},
+  {name:"Bike D", price:500000, cc:650, mileage:25, type:"adventure", img:"https://via.placeholder.com/200", upcoming:true},
+  {name:"Bike E", price:120000, cc:125, mileage:70, type:"commuter", img:"https://via.placeholder.com/200"},
+  {name:"Bike F", price:180000, cc:200, mileage:55, type:"naked", img:"https://via.placeholder.com/200", upcoming:true},
+  {name:"Bike G", price:400000, cc:500, mileage:35, type:"sport", img:"https://via.placeholder.com/200"},
+  {name:"Bike H", price:600000, cc:900, mileage:20, type:"adventure", img:"https://via.placeholder.com/200", upcoming:true},
+];
+
+/* TRENDING */
+function bm_loadTrending(){
+  const g=document.getElementById("bm_trendingGrid");
+  g.innerHTML="";
+  bm_bikes.forEach(b=>{
+    g.innerHTML+=`
+      <div class="card">
+        <img src="${b.img}">
+        <div class="card-body">
+          <b>${b.name}</b><br>${b.cc}cc
         </div>
+      </div>`;
+  });
+}
 
-      `;
+/* FILTER */
+function bm_filter(){
+  const price=document.getElementById("bm_price").value;
+  document.getElementById("bm_priceVal").innerText=
+    Number(price).toLocaleString();
 
-    }
+  const cc=document.querySelector('input[name="bm_cc"]:checked')?.value;
+  const m=document.querySelector('input[name="bm_m"]:checked')?.value;
+  const type=document.querySelector('input[name="bm_type"]:checked')?.value;
 
-    /* ===============================
-       RENDER BIKES
-    =============================== */
+  const g=document.getElementById("bm_bikeGrid");
+  g.innerHTML="";
 
-    const trendingGrid =
-      document.getElementById("trendingGrid");
-
-    const browseGrid =
-      document.getElementById("browseGrid");
-
-    const upcomingGrid =
-      document.getElementById("upcomingGrid");
-
-    function renderTrending(){
-
-      trendingGrid.innerHTML =
-        bikes.map(createBikeCard).join("");
-
-    }
-
-    function renderBrowse(){
-
-      const maxPrice =
-        Number(priceFilter.value);
-
-      priceValue.innerText =
-        maxPrice.toLocaleString();
-
-      const filtered =
-        bikes.filter(b => b.price <= maxPrice);
-
-      browseGrid.innerHTML =
-        filtered.map(createBikeCard).join("");
-
-    }
-
-    function renderUpcoming(){
-
-      const upcoming =
-        bikes.filter(b => b.upcoming);
-
-      upcomingGrid.innerHTML =
-        upcoming.map(createBikeCard).join("");
-
-    }
-
-    renderTrending();
-    renderBrowse();
-    renderUpcoming();
-
-    /* ===============================
-       FILTER
-    =============================== */
-
-    const priceFilter =
-      document.getElementById("priceFilter");
-
-    const priceValue =
-      document.getElementById("priceValue");
-
-    priceFilter.addEventListener("input", () => {
-
-      renderBrowse();
-
+  bm_bikes
+    .filter(b =>
+      (!cc || b.cc<=cc) &&
+      (!m || b.mileage>=m) &&
+      (!type || b.type===type) &&
+      (b.price<=price)
+    )
+    .forEach(b=>{
+      g.innerHTML+=`
+        <div class="card">
+          <img src="${b.img}">
+          <div class="card-body">
+            <b>${b.name}</b><br>
+            <span class="price">₹${b.price.toLocaleString()}</span><br>
+            ${b.cc}cc | ${b.type}
+          </div>
+        </div>`;
     });
+}
 
-    /* ===============================
-       TABS
-    =============================== */
+function bm_loadUpcoming(){
+  const g=document.getElementById("bm_upcomingGrid");
+  g.innerHTML="";
 
-    const tabs =
-      document.querySelectorAll(".tab");
-
-    const contents =
-      document.querySelectorAll(".bike-content");
-
-    tabs.forEach(tab => {
-
-      tab.addEventListener("click", () => {
-
-        tabs.forEach(t =>
-          t.classList.remove("active")
-        );
-
-        contents.forEach(c =>
-          c.classList.remove("active")
-        );
-
-        tab.classList.add("active");
-
-        document
-          .getElementById(tab.dataset.tab)
-          .classList.add("active");
-
-      });
-
+  bm_bikes
+    .filter(b=>b.upcoming)
+    .forEach(b=>{
+      g.innerHTML+=`
+        <div class="card">
+          <img src="${b.img}">
+          <div class="card-body">
+            <b>${b.name}</b><br>
+            <span style="color:#f59e0b;font-weight:600;">Upcoming</span><br>
+            ${b.cc}cc
+          </div>
+        </div>`;
     });
+}
+/* TABS */
+function bm_show(tab,e){
 
-  </script>
+  document.getElementById("bm_trend").style.display =
+    tab==="trend" ? "block" : "none";
+
+  document.getElementById("bm_browse").style.display =
+    tab==="browse" ? "block" : "none";
+
+  document.getElementById("bm_upcoming").style.display =
+    tab==="upcoming" ? "block" : "none";
+
+  document.querySelectorAll(".bike-module .tab")
+    .forEach(t=>t.classList.remove("active"));
+
+  e.target.classList.add("active");
+
+  if(tab==="upcoming"){
+    bm_loadUpcoming();
+  }
+}
+
+
+/* INIT */
+bm_loadTrending();
+bm_filter();
+bm_loadUpcoming();
+// run on page load
+updateAuthUI();
+</script>
 
 </body>
 </html>
