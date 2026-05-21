@@ -1384,7 +1384,47 @@ function bm_show(tab,e){
     bm_loadUpcoming();
   }
 }
+function openModal(name, bike, text) {
+  document.getElementById("reviewModal").style.display = "flex";
 
+  document.getElementById("modalName").innerText = name;
+  document.getElementById("modalBike").innerText = bike;
+  document.getElementById("modalText").innerText = text;
+}
+
+function closeModal() {
+  document.getElementById("reviewModal").style.display = "none";
+}
+
+/* MODAL LIKE */
+let liked = false;
+
+function toggleLike(){
+  const heart = document.getElementById("heartBtn");
+
+  liked = !liked;
+
+  heart.innerHTML = liked ? "♥" : "♡";
+  heart.classList.toggle("liked", liked);
+}
+
+/* CARD LIKE */
+function toggleCardLike(btn){
+  const heart = btn.querySelector(".heart");
+  const countEl = btn.nextElementSibling;
+
+  let count = parseInt(countEl.innerText);
+
+  if(btn.classList.contains("liked")){
+    btn.classList.remove("liked");
+    heart.innerText = "♡";
+    countEl.innerText = count - 1;
+  } else {
+    btn.classList.add("liked");
+    heart.innerText = "♥";
+    countEl.innerText = count + 1;
+  }
+}
 
 /* INIT */
 bm_loadTrending();
