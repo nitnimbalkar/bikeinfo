@@ -13,9 +13,7 @@ router.get("/bikeview",(req,res)=>{
     res.render("bikeview.ejs");
 })
 
-router.get("/userreview",(req,res)=>{
-    res.render("userReview.ejs");
-})
+
 router.get("/abc",async(req,res)=>{
     res.render("index.ejs");
 })

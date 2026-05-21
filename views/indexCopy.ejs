@@ -617,24 +617,22 @@ html.dark .bike-module .card{
 .bike-reviews-module{
   width:60%;
   margin:20px auto;
-  height:auto;
-  margin:20px auto;
+  min-height:60vh;
+
   border:2px solid #d1d5db;
   border-radius:12px;
   padding:20px 15px;
+
   display:flex;
   flex-direction:column;
-  overflow:hidden;
   box-sizing:border-box;
-  display: flex;
-  flex-direction: column;
 
   --text:#111;
   --muted:#6b7280;
   --card:#ffffff;
 }
 
-/* DARK MODE (matches your html.dark system) */
+/* DARK MODE */
 html.dark .bike-reviews-module{
   --text:#e5e7eb;
   --muted:#9ca3af;
@@ -642,13 +640,13 @@ html.dark .bike-reviews-module{
   border-color:#ffffff;
 }
 
-/* GLOBAL TEXT INSIDE MODULE ONLY */
+/* GLOBAL TEXT */
 .bike-reviews-module,
 .bike-reviews-module *{
   color:var(--text);
 }
 
-/* HEADINGS */
+/* HEADER */
 .bike-reviews-module h2{
   margin-bottom:5px;
 }
@@ -656,8 +654,8 @@ html.dark .bike-reviews-module{
 /* SUBTEXT */
 .bike-reviews-module .subtext{
   color:var(--muted);
-  margin-bottom:10px;
   font-size:14px;
+  margin-bottom:10px;
 }
 
 /* SEARCH */
@@ -675,14 +673,13 @@ html.dark .bike-reviews-module{
   margin-bottom:10px;
 }
 
-/* GRID (3x2 SAFE) */
+/* GRID */
 .bike-reviews-module .review-list{
   flex:1;
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  grid-template-rows:repeat(2,1fr);
+  grid-auto-rows:minmax(180px,auto);
   gap:12px;
-  overflow:hidden;
 }
 
 /* CARD */
@@ -691,11 +688,18 @@ html.dark .bike-reviews-module{
   border:1px solid #e5e7eb;
   border-radius:12px;
   padding:12px;
-  box-sizing:border-box;
+
   display:flex;
   flex-direction:column;
-  justify-content:space-between;
-  min-height: 250px;
+
+  height:277px;          /* FIXED HEIGHT */
+  overflow:hidden;       /* prevents expansion */
+}
+.bike-reviews-module .review-list{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  grid-auto-rows:minmax(180px, auto);
+  gap:12px;
 }
 
 /* TOP */
@@ -716,6 +720,12 @@ html.dark .bike-reviews-module{
   font-size:13px;
   margin:8px 0;
   color:var(--muted);
+
+  display:-webkit-box;
+  -webkit-line-clamp:3;   /* number of lines to show */
+  -webkit-box-orient:vertical;
+
+  overflow:hidden;
 }
 
 /* BUTTON */
@@ -727,6 +737,107 @@ html.dark .bike-reviews-module{
   border-radius:6px;
   cursor:pointer;
   font-size:12px;
+
+  margin-top:10px;
+}
+
+/* ================= LIKE SECTION ================= */
+.like-row{
+  display:flex;
+  align-items:center;
+  gap:6px;
+
+  margin-top:auto;
+  padding-top:6px;
+}
+
+.like-btn{
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:18px;
+  padding:0;
+  color:#9ca3af;
+  transition:0.2s;
+}
+
+.like-btn.liked .heart{
+  color:#ff4d6d;
+}
+
+.like-btn:hover{
+  transform:scale(1.1);
+}
+
+.like-count{
+  font-size:13px;
+  color:var(--muted);
+}
+
+/* ================= MODAL ================= */
+.review-modal{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+
+  display:none;
+  justify-content:center;
+  align-items:center;
+
+  background:rgba(0,0,0,0.6);
+  z-index:9999;
+}
+
+.review-modal-box{
+  width:60vw;
+  height:60vh;
+
+  background:#fff;
+  border-radius:12px;
+  padding:20px;
+
+  position:relative;
+  overflow-y:auto;
+}
+
+html.dark .review-modal-box{
+  background:#1f2937;
+  color:#e5e7eb;
+}
+
+.close-modal{
+  position:absolute;
+  top:10px;
+  right:15px;
+  font-size:24px;
+  cursor:pointer;
+}
+
+.like-section{
+  margin-top:20px;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+}
+
+.heart-btn{
+  background:none;
+  border:none;
+  font-size:34px;
+  cursor:pointer;
+  color:#9ca3af;
+  padding:0;
+  transition:0.2s ease;
+}
+
+.heart-btn:hover{
+  transform:scale(1.15);
+}
+
+.heart-btn.liked{
+  color:#ff4d6d;
 }
 </style>
 </head>
