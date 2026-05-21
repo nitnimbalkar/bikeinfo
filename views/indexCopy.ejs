@@ -1028,7 +1028,7 @@ html.dark .review-modal-box{
 
   <div class="review-list">
 
-    <!-- CARD -->
+    <!-- CARD 1 -->
     <div class="review-card">
       <div class="top">
         <img src="https://i.pravatar.cc/100?img=1" class="avatar">
@@ -1037,10 +1037,23 @@ html.dark .review-modal-box{
           <span>Classic 350</span>
         </div>
       </div>
-      <p class="preview">Great highway stability and comfort.</p>
-      <button class="expand-btn">See Full Review</button>
+
+      <p class="preview">Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.Great highway stability and comfort.vGreat highway stability and comfort.</p>
+
+      <div class="like-row">
+        <button class="like-btn" onclick="toggleCardLike(this)">
+          <span class="heart">♡</span>
+        </button>
+        <span class="like-count">0</span>
+      </div>
+
+      <button class="expand-btn"
+        onclick="openModal('Rahul Sharma','Classic 350','Excellent highway stability, very comfortable on long rides but slightly heavy in city traffic.')">
+        See Full Review
+      </button>
     </div>
 
+    <!-- CARD 2 -->
     <div class="review-card">
       <div class="top">
         <img src="https://i.pravatar.cc/100?img=5" class="avatar">
@@ -1049,10 +1062,23 @@ html.dark .review-modal-box{
           <span>Yamaha R15</span>
         </div>
       </div>
+
       <p class="preview">Perfect beginner sports bike.</p>
-      <button class="expand-btn">See Full Review</button>
+
+      <div class="like-row">
+        <button class="like-btn" onclick="toggleCardLike(this)">
+          <span class="heart">♡</span>
+        </button>
+        <span class="like-count">0</span>
+      </div>
+
+      <button class="expand-btn"
+        onclick="openModal('Amit Verma','Yamaha R15','Sharp design, great handling, but riding posture is aggressive for long trips.')">
+        See Full Review
+      </button>
     </div>
 
+    <!-- CARD 3 -->
     <div class="review-card">
       <div class="top">
         <img src="https://i.pravatar.cc/100?img=8" class="avatar">
@@ -1061,48 +1087,42 @@ html.dark .review-modal-box{
           <span>Apache RTR</span>
         </div>
       </div>
+
       <p class="preview">Excellent mileage in city.</p>
-      <button class="expand-btn">See Full Review</button>
-    </div>
 
-    <div class="review-card">
-      <div class="top">
-        <img src="https://i.pravatar.cc/100?img=9" class="avatar">
-        <div>
-          <h4>Sameer Khan</h4>
-          <span>NS200</span>
-        </div>
+      <div class="like-row">
+        <button class="like-btn" onclick="toggleCardLike(this)">
+          <span class="heart">♡</span>
+        </button>
+        <span class="like-count">0</span>
       </div>
-      <p class="preview">Powerful and aggressive bike.</p>
-      <button class="expand-btn">See Full Review</button>
-    </div>
 
-    <div class="review-card">
-      <div class="top">
-        <img src="https://i.pravatar.cc/100?img=10" class="avatar">
-        <div>
-          <h4>Rohit Mehta</h4>
-          <span>MT-15</span>
-        </div>
-      </div>
-      <p class="preview">Lightweight and fun to ride.</p>
-      <button class="expand-btn">See Full Review</button>
-    </div>
-
-    <div class="review-card">
-      <div class="top">
-        <img src="https://i.pravatar.cc/100?img=11" class="avatar">
-        <div>
-          <h4>Karan Patel</h4>
-          <span>Dominar 400</span>
-        </div>
-      </div>
-      <p class="preview">Best touring bike in segment.</p>
-      <button class="expand-btn">See Full Review</button>
+      <button class="expand-btn"
+        onclick="openModal('Vikram Singh','Apache RTR','Very fuel efficient, smooth in traffic, and low maintenance cost.')">
+        See Full Review
+      </button>
     </div>
 
   </div>
+</section>
 
+<!-- MODAL -->
+<div class="review-modal" id="reviewModal">
+  <div class="review-modal-box">
+
+    <span class="close-modal" onclick="closeModal()">×</span>
+
+    <h3 id="modalName"></h3>
+    <p id="modalBike"></p>
+    <hr style="margin:10px 0;">
+    <p id="modalText"></p>
+
+    <div class="like-section">
+      <button class="heart-btn" id="heartBtn" onclick="toggleLike()">♡</button>
+    </div>
+
+  </div>
+</div>
 </section>
 
 <script>
