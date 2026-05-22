@@ -1697,6 +1697,155 @@ function toggleCardLike(btn){
     countEl.innerText = count + 1;
   }
 }
+/* ================= news module ================= */
+
+const tabs = document.querySelectorAll(".tab-btn");
+const contents = document.querySelectorAll(".tab-content");
+
+tabs.forEach(tab => {
+
+  tab.addEventListener("click", () => {
+
+    tabs.forEach(t => t.classList.remove("active"));
+    contents.forEach(c => c.classList.remove("active"));
+
+    tab.classList.add("active");
+
+    document
+      .getElementById(tab.dataset.tab)
+      .classList.add("active");
+
+  });
+
+});
+
+/* ================= ELEMENTS ================= */
+
+const modal = document.getElementById("modal");
+const modalBox = document.querySelector(".modal-box");
+const modalImg = document.getElementById("modalImg");
+const modalTitle = document.getElementById("modalTitle");
+const modalText = document.getElementById("modalText");
+const videoContainer = document.getElementById("videoContainer");
+const closeBtn = document.getElementById("closeBtn");
+
+/* ================= OPEN NORMAL MODAL ================= */
+
+function openModal(title, img, text){
+
+  modal.classList.add("active");
+
+  modalBox.classList.remove("video-mode");
+
+  modalImg.style.display = "block";
+  modalImg.src = img;
+  modalImg.alt = title;
+
+  modalTitle.innerText = title;
+  modalText.innerText = text;
+
+  document.body.style.overflow = "hidden";
+
+}
+
+/* ================= OPEN VIDEO MODAL ================= */
+
+function openVideoModal(videoUrl){
+
+  modal.classList.add("active");
+
+  modalBox.classList.add("video-mode");
+
+  modalImg.style.display = "none";
+  modalImg.src = "";
+
+  videoContainer.innerHTML = `
+    <iframe
+      src="${videoUrl}?autoplay=1&rel=0&modestbranding=1"
+      title="YouTube video player"
+      allow="autoplay; encrypted-media"
+      allowfullscreen>
+    </iframe>
+  `;
+
+  document.body.style.overflow = "hidden";
+
+}
+
+/* ================= CLOSE MODAL ================= */
+
+function closeModal(){
+
+  modal.classList.remove("active");
+
+  modalBox.classList.remove("video-mode");
+
+  videoContainer.innerHTML = "";
+
+  modalImg.style.display = "block";
+
+  document.body.style.overflow = "auto";
+
+}
+
+/* ================= CARD EVENTS ================= */
+
+document.querySelectorAll(".card").forEach(card => {
+
+  const triggerCard = () => {
+
+    const type = card.dataset.type;
+
+    if(type === "modal"){
+
+      openModal(
+        card.dataset.title,
+        card.dataset.image,
+        card.dataset.text
+      );
+
+    }
+
+    if(type === "video"){
+
+      openVideoModal(card.dataset.video);
+
+    }
+
+  };
+
+  card.addEventListener("click", triggerCard);
+
+  card.addEventListener("keydown", e => {
+
+    if(e.key === "Enter" || e.key === " "){
+      e.preventDefault();
+      triggerCard();
+    }
+
+  });
+
+});
+
+/* ================= CLOSE EVENTS ================= */
+
+closeBtn.addEventListener("click", closeModal);
+
+modal.addEventListener("click", (e) => {
+
+  if(e.target === modal){
+    closeModal();
+  }
+
+});
+
+document.addEventListener("keydown", (e) => {
+
+  if(e.key === "Escape"){
+    closeModal();
+  }
+
+});
 
 /* INIT */
 bm_loadTrending();
