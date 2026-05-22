@@ -8,11 +8,7 @@
 
 <style>
 
-/* ================= NEWS BASE ================= */
-
-*{
-  margin:0;
-  padding/* ================= BASE ================= */
+/* ================= BASE ================= */
 
 *{
   margin:0;
@@ -58,6 +54,7 @@ body{
   display:flex;
   flex-direction:column;
   overflow:hidden;
+  background:var(--bg);
 }
 
 .heading{
@@ -72,6 +69,7 @@ body{
   display:flex;
   gap:12px;
   margin-bottom:18px;
+  flex-wrap:wrap;
 }
 
 .tab-btn{
@@ -85,6 +83,10 @@ body{
   transition:.2s ease;
 }
 
+.tab-btn:hover{
+  opacity:.9;
+}
+
 .tab-btn.active{
   background:var(--active);
   color:var(--active-text);
@@ -95,8 +97,7 @@ body{
 .tab-content{
   display:none;
   flex:1;
-  overflow:auto;
-  padding-right:6px;
+  overflow:hidden;
   animation:fade .3s ease;
 }
 
@@ -115,36 +116,18 @@ body{
   }
 }
 
-/* ================= SCROLLBAR ================= */
-
-.tab-content::-webkit-scrollbar,
-.modal-box::-webkit-scrollbar{
-  width:8px;
-}
-
-.tab-content::-webkit-scrollbar-thumb,
-.modal-box::-webkit-scrollbar-thumb{
-  background:#8884;
-  border-radius:10px;
-}
-
-/* ================= CARDS (FIXED HORIZONTAL SCROLL) ================= */
+/* ================= CARDS ================= */
 
 .cards{
   display:grid;
-
   grid-auto-flow:column;
-
-  grid-auto-columns:300px;
-
+  grid-auto-columns:minmax(280px,1fr);
   gap:20px;
-
   overflow-x:auto;
   overflow-y:hidden;
-
   padding-bottom:12px;
-
   scroll-behavior:smooth;
+  height:100%;
 }
 
 .cards::-webkit-scrollbar{
@@ -160,6 +143,8 @@ body{
   background:transparent;
 }
 
+/* ================= CARD ================= */
+
 .card{
   border:1px solid var(--border);
   border-radius:18px;
@@ -172,10 +157,11 @@ body{
     transform .25s ease,
     box-shadow .25s ease;
   background:var(--bg);
-  flex-shrink:0;
+  outline:none;
 }
 
-.card:hover{
+.card:hover,
+.card:focus{
   transform:translateY(-6px);
   box-shadow:0 12px 28px rgba(0,0,0,0.12);
 }
@@ -239,7 +225,6 @@ body{
   border-radius:18px;
   overflow:auto;
   position:relative;
-  padding-bottom:20px;
   animation:modalIn .28s ease;
 }
 
@@ -256,12 +241,20 @@ body{
 
 .close-btn{
   position:absolute;
-  top:10px;
-  right:15px;
-  font-size:24px;
+  top:12px;
+  right:16px;
+  font-size:28px;
   cursor:pointer;
   z-index:10;
-  color:white;
+  color:var(--text);
+  background:rgba(255,255,255,0.12);
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  backdrop-filter:blur(4px);
 }
 
 .modal-img{
@@ -304,7 +297,6 @@ body{
 
 .modal-box.video-mode{
   width:70%;
-  padding-bottom:0;
 }
 
 .modal-box.video-mode .modal-content,
@@ -320,9 +312,18 @@ body{
 
 @media(max-width:900px){
 
+  body{
+    padding:20px 14px;
+  }
+
   .updates-module{
-    width:95%;
+    width:100%;
     height:auto;
+    padding:20px;
+  }
+
+  .heading{
+    font-size:28px;
   }
 
   .cards{
@@ -340,317 +341,7 @@ body{
   .modal-img{
     height:220px;
   }
-}:0;
-  box-sizing:border-box;
-}
 
-:root{
-  --bg:#ffffff;
-  --text:#111111;
-  --border:#d8d8d8;
-  --tab-bg:#f4f4f4;
-  --active:#111111;
-  --active-text:#ffffff;
-}
-
-body.dark{
-  --bg:#0f0f0f;
-  --text:#f5f5f5;
-  --border:#343434;
-  --tab-bg:#1b1b1b;
-  --active:#ffffff;
-  --active-text:#111111;
-}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,sans-serif;
-  display:flex;
-  justify-content:center;
-  padding:50px 20px;
-}
-
-/* ================= MODULE ================= */
-
-.updates-module{
-  width:60%;
-  height:680px;
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:26px;
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
-}
-
-.heading{
-  font-size:34px;
-  font-weight:700;
-  margin-bottom:20px;
-}
-
-/* ================= TABS ================= */
-
-.tabs{
-  display:flex;
-  gap:12px;
-  margin-bottom:18px;
-}
-
-.tab-btn{
-  padding:10px 18px;
-  border-radius:10px;
-  border:1px solid var(--border);
-  background:var(--tab-bg);
-  color:var(--text);
-  cursor:pointer;
-  font-weight:600;
-  transition:.2s ease;
-}
-
-.tab-btn.active{
-  background:var(--active);
-  color:var(--active-text);
-}
-
-/* ================= CONTENT ================= */
-
-.tab-content{
-  display:none;
-  flex:1;
-  overflow:auto;
-  padding-right:6px;
-  animation:fade .3s ease;
-}
-
-.tab-content.active{
-  display:block;
-}
-
-@keyframes fade{
-  from{
-    opacity:0;
-    transform:translateY(8px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* ================= SCROLLBAR ================= */
-
-.tab-content::-webkit-scrollbar,
-.modal-box::-webkit-scrollbar{
-  width:8px;
-}
-
-.tab-content::-webkit-scrollbar-thumb,
-.modal-box::-webkit-scrollbar-thumb{
-  background:#8884;
-  border-radius:10px;
-}
-
-/* ================= CARDS ================= */
-
-.cards{
-   display:grid;
-
-  /* 3 cards visible */
-  grid-auto-flow:column;
-  grid-auto-columns:calc((100% - 40px) / 3);
-
-  gap:20px;
-
-  overflow-x:auto;
-  overflow-y:hidden;
-
-  padding-bottom:12px;
-
-  scroll-behavior:smooth;
-}
-
-
-.card{
-  border:1px solid var(--border);
-  border-radius:18px;
-  overflow:hidden;
-  min-height:460px;
-  display:flex;
-  flex-direction:column;
-  cursor:pointer;
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease;
-  background:var(--bg);
-}
-
-.card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 12px 28px rgba(0,0,0,0.12);
-}
-
-.card-image{
-  width:100%;
-  height:210px;
-  object-fit:cover;
-  border-bottom:1px solid var(--border);
-}
-
-.card-content{
-  padding:20px;
-  display:flex;
-  flex-direction:column;
-  flex:1;
-}
-
-.card-tag{
-  font-size:12px;
-  text-transform:uppercase;
-  opacity:.7;
-  margin-bottom:10px;
-  font-weight:700;
-}
-
-.card-title{
-  font-size:22px;
-  font-weight:700;
-  margin-bottom:10px;
-}
-
-.card-desc{
-  font-size:15px;
-  line-height:1.6;
-  opacity:.82;
-}
-
-/* ================= MODAL ================= */
-
-.modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(6px);
-  z-index:999;
-}
-
-.modal.active{
-  display:flex;
-}
-
-.modal-box{
-  width:70%;
-  max-height:85vh;
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:18px;
-  overflow:auto;
-  position:relative;
-  padding-bottom:20px;
-  animation:modalIn .28s ease;
-}
-
-@keyframes modalIn{
-  from{
-    opacity:0;
-    transform:scale(.92);
-  }
-  to{
-    opacity:1;
-    transform:scale(1);
-  }
-}
-
-.close-btn{
-  position:absolute;
-  top:10px;
-  right:15px;
-  font-size:24px;
-  cursor:pointer;
-  z-index:10;
-  color:white;
-}
-
-.modal-img{
-  width:100%;
-  height:300px;
-  object-fit:cover;
-}
-
-.modal-content{
-  padding:24px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-}
-
-.modal-title{
-  font-size:28px;
-  font-weight:700;
-}
-
-.modal-text{
-  font-size:16px;
-  line-height:1.7;
-  opacity:.85;
-}
-
-/* ================= VIDEO MODAL ================= */
-
-.video-modal{
-  width:100%;
-  aspect-ratio:16/9;
-  display:none;
-}
-
-.video-modal iframe{
-  width:100%;
-  height:100%;
-  border:none;
-}
-
-.modal-box.video-mode{
-  width:70%;
-  padding-bottom:0;
-}
-
-.modal-box.video-mode .modal-content,
-.modal-box.video-mode .modal-img{
-  display:none;
-}
-
-.modal-box.video-mode .video-modal{
-  display:block;
-}
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:900px){
-
-  .updates-module{
-    width:95%;
-    height:auto;
-  }
-
-  .cards{
-    grid-template-columns:1fr;
-  }
-
-  .modal-box{
-    width:92%;
-  }
-
-  .modal-box.video-mode{
-    width:95%;
-  }
-
-  .modal-img{
-    height:220px;
-  }
 }
 
 </style>
@@ -664,9 +355,17 @@ body{
 
   <!-- TABS -->
   <div class="tabs">
-    <button class="tab-btn active" data-tab="news">News</button>
-    <button class="tab-btn" data-tab="reviews">Expert Reviews</button>
-    <button class="tab-btn" data-tab="videos">Videos</button>
+    <button class="tab-btn active" data-tab="news" aria-label="News Tab">
+      News
+    </button>
+
+    <button class="tab-btn" data-tab="reviews" aria-label="Reviews Tab">
+      Expert Reviews
+    </button>
+
+    <button class="tab-btn" data-tab="videos" aria-label="Videos Tab">
+      Videos
+    </button>
   </div>
 
   <!-- NEWS -->
@@ -674,17 +373,20 @@ body{
 
     <div class="cards">
 
-      <div class="card"
-        onclick="openModal(
-          'Product Launch This Week',
-          'https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1200&auto=format&fit=crop',
-          'Full breakdown of the upcoming product launch with new features, roadmap, and impact analysis.'
-        )">
+      <div
+        class="card"
+        tabindex="0"
+        data-type="modal"
+        data-title="Product Launch This Week"
+        data-image="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=600&auto=format&fit=crop"
+        data-text="Full breakdown of the upcoming product launch with new features, roadmap, and impact analysis."
+      >
 
         <img
           class="card-image"
           loading="lazy"
-          src="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1200&auto=format&fit=crop">
+          alt="Product Launch"
+          src="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=600&auto=format&fit=crop">
 
         <div class="card-content">
           <div class="card-tag">News</div>
@@ -694,17 +396,20 @@ body{
 
       </div>
 
-      <div class="card"
-        onclick="openModal(
-          'Global Rollout Begins',
-          'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop',
-          'Early rollout has started globally with performance improvements and UI redesign being tested.'
-        )">
+      <div
+        class="card"
+        tabindex="0"
+        data-type="modal"
+        data-title="Global Rollout Begins"
+        data-image="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop"
+        data-text="Early rollout has started globally with performance improvements and UI redesign being tested."
+      >
 
         <img
           class="card-image"
           loading="lazy"
-          src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop">
+          alt="Global Rollout"
+          src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop">
 
         <div class="card-content">
           <div class="card-tag">News</div>
@@ -714,17 +419,20 @@ body{
 
       </div>
 
-      <div class="card"
-        onclick="openModal(
-          'Community Reactions',
-          'https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop',
-          'Community engagement is rapidly increasing with discussions and feedback across platforms.'
-        )">
+      <div
+        class="card"
+        tabindex="0"
+        data-type="modal"
+        data-title="Community Reactions"
+        data-image="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=600&auto=format&fit=crop"
+        data-text="Community engagement is rapidly increasing with discussions and feedback across platforms."
+      >
 
         <img
           class="card-image"
           loading="lazy"
-          src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200&auto=format&fit=crop">
+          alt="Community Reactions"
+          src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=600&auto=format&fit=crop">
 
         <div class="card-content">
           <div class="card-tag">News</div>
@@ -743,17 +451,20 @@ body{
 
     <div class="cards">
 
-      <div class="card"
-        onclick="openModal(
-          'Interface Design Review',
-          'https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop',
-          'Experts highlight improved usability, clean UI and better accessibility across the platform.'
-        )">
+      <div
+        class="card"
+        tabindex="0"
+        data-type="modal"
+        data-title="Interface Design Review"
+        data-image="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=600&auto=format&fit=crop"
+        data-text="Experts highlight improved usability, clean UI and better accessibility across the platform."
+      >
 
         <img
           class="card-image"
           loading="lazy"
-          src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop">
+          alt="Interface Design"
+          src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=600&auto=format&fit=crop">
 
         <div class="card-content">
           <div class="card-tag">Expert Reviews</div>
@@ -763,17 +474,20 @@ body{
 
       </div>
 
-      <div class="card"
-        onclick="openModal(
-          'Performance Boost Review',
-          'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop',
-          'Performance upgrades result in faster loading, smoother navigation and improved stability.'
-        )">
+      <div
+        class="card"
+        tabindex="0"
+        data-type="modal"
+        data-title="Performance Boost Review"
+        data-image="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop"
+        data-text="Performance upgrades result in faster loading, smoother navigation and improved stability."
+      >
 
         <img
           class="card-image"
           loading="lazy"
-          src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop">
+          alt="Performance Boost"
+          src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop">
 
         <div class="card-content">
           <div class="card-tag">Expert Reviews</div>
@@ -783,17 +497,20 @@ body{
 
       </div>
 
-      <div class="card"
-        onclick="openModal(
-          'Future Scope Review',
-          'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop',
-          'Experts discuss scalability, roadmap direction and long-term platform evolution.'
-        )">
+      <div
+        class="card"
+        tabindex="0"
+        data-type="modal"
+        data-title="Future Scope Review"
+        data-image="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop"
+        data-text="Experts discuss scalability, roadmap direction and long-term platform evolution."
+      >
 
         <img
           class="card-image"
           loading="lazy"
-          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200&auto=format&fit=crop">
+          alt="Future Scope"
+          src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop">
 
         <div class="card-content">
           <div class="card-tag">Expert Reviews</div>
@@ -812,12 +529,17 @@ body{
 
     <div class="cards">
 
-      <div class="card"
-        onclick="openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+      <div
+        class="card"
+        tabindex="0"
+        data-type="video"
+        data-video="https://www.youtube.com/embed/dQw4w9WgXcQ"
+      >
 
         <img
           class="card-image"
           loading="lazy"
+          alt="Walkthrough"
           src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg">
 
         <div class="card-content">
@@ -828,12 +550,17 @@ body{
 
       </div>
 
-      <div class="card"
-        onclick="openVideoModal('https://www.youtube.com/embed/ysz5S6PUM-U')">
+      <div
+        class="card"
+        tabindex="0"
+        data-type="video"
+        data-video="https://www.youtube.com/embed/ysz5S6PUM-U"
+      >
 
         <img
           class="card-image"
           loading="lazy"
+          alt="Behind Scenes"
           src="https://img.youtube.com/vi/ysz5S6PUM-U/maxresdefault.jpg">
 
         <div class="card-content">
@@ -844,12 +571,17 @@ body{
 
       </div>
 
-      <div class="card"
-        onclick="openVideoModal('https://www.youtube.com/embed/jNQXAC9IVRw')">
+      <div
+        class="card"
+        tabindex="0"
+        data-type="video"
+        data-video="https://www.youtube.com/embed/jNQXAC9IVRw"
+      >
 
         <img
           class="card-image"
           loading="lazy"
+          alt="Tutorials"
           src="https://img.youtube.com/vi/jNQXAC9IVRw/maxresdefault.jpg">
 
         <div class="card-content">
@@ -871,10 +603,10 @@ body{
 
   <div class="modal-box">
 
-    <div class="close-btn" onclick="closeModal()">×</div>
+    <div class="close-btn" id="closeBtn">×</div>
 
     <!-- IMAGE -->
-    <img id="modalImg" class="modal-img"/>
+    <img id="modalImg" class="modal-img" alt="Modal Image"/>
 
     <!-- VIDEO -->
     <div id="videoContainer" class="video-modal"></div>
@@ -896,12 +628,12 @@ body{
 const tabs = document.querySelectorAll(".tab-btn");
 const contents = document.querySelectorAll(".tab-content");
 
-tabs.forEach(tab=>{
+tabs.forEach(tab => {
 
-  tab.addEventListener("click",()=>{
+  tab.addEventListener("click", () => {
 
-    tabs.forEach(t=>t.classList.remove("active"));
-    contents.forEach(c=>c.classList.remove("active"));
+    tabs.forEach(t => t.classList.remove("active"));
+    contents.forEach(c => c.classList.remove("active"));
 
     tab.classList.add("active");
 
@@ -916,45 +648,42 @@ tabs.forEach(tab=>{
 /* ================= ELEMENTS ================= */
 
 const modal = document.getElementById("modal");
-
 const modalBox = document.querySelector(".modal-box");
-
 const modalImg = document.getElementById("modalImg");
-
 const modalTitle = document.getElementById("modalTitle");
-
 const modalText = document.getElementById("modalText");
+const videoContainer = document.getElementById("videoContainer");
+const closeBtn = document.getElementById("closeBtn");
 
-const videoContainer =
-  document.getElementById("videoContainer");
+/* ================= OPEN NORMAL MODAL ================= */
 
-/* ================= NORMAL MODAL ================= */
+function openModal(title, img, text){
 
-function openModal(title,img,text){
+  modal.classList.add("active");
 
   modalBox.classList.remove("video-mode");
 
   modalImg.style.display = "block";
-
   modalImg.src = img;
+  modalImg.alt = title;
 
   modalTitle.innerText = title;
-
   modalText.innerText = text;
-
-  modal.classList.add("active");
 
   document.body.style.overflow = "hidden";
 
 }
 
-/* ================= VIDEO MODAL ================= */
+/* ================= OPEN VIDEO MODAL ================= */
 
 function openVideoModal(videoUrl){
 
   modal.classList.add("active");
 
   modalBox.classList.add("video-mode");
+
+  modalImg.style.display = "none";
+  modalImg.src = "";
 
   videoContainer.innerHTML = `
     <iframe
@@ -969,7 +698,7 @@ function openVideoModal(videoUrl){
 
 }
 
-/* ================= CLOSE ================= */
+/* ================= CLOSE MODAL ================= */
 
 function closeModal(){
 
@@ -979,25 +708,66 @@ function closeModal(){
 
   videoContainer.innerHTML = "";
 
+  modalImg.style.display = "block";
+
   document.body.style.overflow = "auto";
 
 }
 
-/* ================= OUTSIDE CLICK ================= */
+/* ================= CARD EVENTS ================= */
 
-modal.addEventListener("click",(e)=>{
+document.querySelectorAll(".card").forEach(card => {
 
-  if(e.target.id==="modal"){
+  const triggerCard = () => {
+
+    const type = card.dataset.type;
+
+    if(type === "modal"){
+
+      openModal(
+        card.dataset.title,
+        card.dataset.image,
+        card.dataset.text
+      );
+
+    }
+
+    if(type === "video"){
+
+      openVideoModal(card.dataset.video);
+
+    }
+
+  };
+
+  card.addEventListener("click", triggerCard);
+
+  card.addEventListener("keydown", e => {
+
+    if(e.key === "Enter" || e.key === " "){
+      e.preventDefault();
+      triggerCard();
+    }
+
+  });
+
+});
+
+/* ================= CLOSE EVENTS ================= */
+
+closeBtn.addEventListener("click", closeModal);
+
+modal.addEventListener("click", (e) => {
+
+  if(e.target === modal){
     closeModal();
   }
 
 });
 
-/* ================= ESC KEY ================= */
+document.addEventListener("keydown", (e) => {
 
-document.addEventListener("keydown",(e)=>{
-
-  if(e.key==="Escape"){
+  if(e.key === "Escape"){
     closeModal();
   }
 
