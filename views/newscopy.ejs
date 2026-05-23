@@ -10,12 +10,6 @@
 
 /* ================= news css start from here ================= */
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
 :root{
   --bg:#ffffff;
   --text:#111111;
@@ -32,15 +26,6 @@ body.dark{
   --tab-bg:#1b1b1b;
   --active:#ffffff;
   --active-text:#111111;
-}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,sans-serif;
-  display:flex;
-  justify-content:center;
-  padding:50px 20px;
 }
 
 /* ================= MODULE ================= */
@@ -121,7 +106,7 @@ body{
 .cards{
   display:grid;
   grid-auto-flow:column;
-  grid-auto-columns:minmax(280px,1fr);
+  grid-auto-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:20px;
   overflow-x:auto;
   overflow-y:hidden;
@@ -349,7 +334,8 @@ body{
 
 <body>
 
-<div class="updates-module">
+<div class="news-wrapper">
+  <div class="updates-module">
 
   <div class="heading">Latest Updates</div>
 
@@ -618,7 +604,7 @@ body{
     </div>
 
   </div>
-
+</div>
 </div>
 
 <script>
