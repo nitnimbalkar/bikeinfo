@@ -4,19 +4,18 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<title>Namespaced Updates Module</title>
+<title>UFM Updates Module</title>
 
 <style>
 
 /* =========================================================
-   UFM = Updates Feature Module
-   Fully namespaced to avoid page conflicts
+   ROOT VARIABLES
 ========================================================= */
 
 :root{
   --ufm-bg:#ffffff;
   --ufm-text:#111111;
-  --ufm-border:#d8d8d8;
+  --ufm-border:#d9d9d9;
   --ufm-tab-bg:#f4f4f4;
   --ufm-active:#111111;
   --ufm-active-text:#ffffff;
@@ -32,35 +31,56 @@ html.dark{
 }
 
 /* =========================================================
-   ROOT MODULE
+   BODY LOCK
+========================================================= */
+
+body.ufm-body-lock{
+  overflow:hidden;
+}
+
+/* =========================================================
+   MODULE WRAPPER
 ========================================================= */
 
 .ufm-module-wrapper{
+  width:100%;
   display:flex;
   justify-content:center;
-  padding:50px 20px;
+  padding:40px 20px;
   background:var(--ufm-bg);
   color:var(--ufm-text);
   font-family:Inter,sans-serif;
+  box-sizing:border-box;
 }
 
+/* =========================================================
+   MODULE
+========================================================= */
+
 .ufm-module{
-  width:60%;
-  min-height:680px;
+  width:min(1200px,60%);
+  height:60vh;
+  min-height:650px;
   border:1px solid var(--ufm-border);
-  border-radius:22px;
-  padding:26px;
+  border-radius:24px;
+  padding:28px;
   display:flex;
   flex-direction:column;
   overflow:hidden;
   background:var(--ufm-bg);
   isolation:isolate;
+  box-sizing:border-box;
 }
+
+/* =========================================================
+   HEADING
+========================================================= */
 
 .ufm-heading{
   font-size:34px;
   font-weight:700;
-  margin-bottom:20px;
+  margin-bottom:24px;
+  flex-shrink:0;
 }
 
 /* =========================================================
@@ -70,23 +90,26 @@ html.dark{
 .ufm-tabs{
   display:flex;
   gap:12px;
-  margin-bottom:18px;
   flex-wrap:wrap;
+  margin-bottom:24px;
+  flex-shrink:0;
 }
 
 .ufm-tab-btn{
-  padding:10px 18px;
-  border-radius:10px;
-  border:1px solid var(--ufm-border);
+  border:none;
+  outline:none;
+  cursor:pointer;
+  padding:12px 18px;
+  border-radius:12px;
   background:var(--ufm-tab-bg);
   color:var(--ufm-text);
-  cursor:pointer;
   font-weight:600;
-  transition:.2s ease;
+  transition:.25s ease;
+  border:1px solid var(--ufm-border);
 }
 
 .ufm-tab-btn:hover{
-  opacity:.9;
+  transform:translateY(-2px);
 }
 
 .ufm-tab-btn.ufm-active{
@@ -95,18 +118,19 @@ html.dark{
 }
 
 /* =========================================================
-   TAB CONTENT
+   CONTENT
 ========================================================= */
 
 .ufm-tab-content{
   display:none;
+  animation:ufmFade .3s ease;
   flex:1;
   overflow:hidden;
-  animation:ufmFade .3s ease;
+  min-height:0;
 }
 
 .ufm-tab-content.ufm-active{
-  display:block;
+  display:flex;
 }
 
 @keyframes ufmFade{
@@ -121,28 +145,34 @@ html.dark{
 }
 
 /* =========================================================
-   CARDS
+   CARD CONTAINER
 ========================================================= */
 
 .ufm-cards{
   display:grid;
   grid-auto-flow:column;
-  grid-auto-columns:minmax(280px,1fr);
-  gap:20px;
+  grid-auto-columns:minmax(220px,1fr);
+  gap:18px;
+
+  width:100%;
+  max-width:100%;
+
   overflow-x:auto;
   overflow-y:hidden;
-  padding-bottom:12px;
-  scroll-behavior:smooth;
-  height:100%;
-}
 
+  padding-bottom:10px;
+
+  scroll-behavior:smooth;
+
+  box-sizing:border-box;
+}
 .ufm-cards::-webkit-scrollbar{
   height:8px;
 }
 
 .ufm-cards::-webkit-scrollbar-thumb{
   background:#8884;
-  border-radius:10px;
+  border-radius:20px;
 }
 
 /* =========================================================
@@ -151,56 +181,58 @@ html.dark{
 
 .ufm-card{
   border:1px solid var(--ufm-border);
-  border-radius:18px;
+  border-radius:20px;
   overflow:hidden;
-  min-height:460px;
-  display:flex;
-  flex-direction:column;
+  background:var(--ufm-bg);
   cursor:pointer;
   transition:
     transform .25s ease,
     box-shadow .25s ease;
-  background:var(--ufm-bg);
+  display:flex;
+  flex-direction:column;
   outline:none;
+  height:100%;
 }
 
 .ufm-card:hover,
 .ufm-card:focus{
   transform:translateY(-6px);
-  box-shadow:0 12px 28px rgba(0,0,0,0.12);
+  box-shadow:0 14px 30px rgba(0,0,0,.12);
 }
 
 .ufm-card-image{
   width:100%;
-  height:210px;
+  height:180px;
   object-fit:cover;
-  border-bottom:1px solid var(--ufm-border);
+  display:block;
+  flex-shrink:0;
 }
 
 .ufm-card-content{
-  padding:20px;
+  padding:22px;
   display:flex;
   flex-direction:column;
+  gap:10px;
   flex:1;
 }
 
 .ufm-card-tag{
   font-size:12px;
   text-transform:uppercase;
-  opacity:.7;
-  margin-bottom:10px;
   font-weight:700;
+  opacity:.65;
+  letter-spacing:.08em;
 }
 
 .ufm-card-title{
-  font-size:22px;
+  font-size:24px;
   font-weight:700;
-  margin-bottom:10px;
+  line-height:1.3;
 }
 
 .ufm-card-desc{
   font-size:15px;
-  line-height:1.6;
+  line-height:1.7;
   opacity:.82;
 }
 
@@ -211,13 +243,15 @@ html.dark{
 .ufm-modal{
   position:fixed;
   inset:0;
-  width:100vw;
-  height:100vh;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,.65);
   display:none;
-  justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,0.6);
+  justify-content:center;
   z-index:999999;
+  padding:20px;
+  box-sizing:border-box;
 }
 
 .ufm-modal.ufm-active{
@@ -225,10 +259,10 @@ html.dark{
 }
 
 .ufm-modal-box{
-  width:min(70%,900px);
-  max-height:85vh;
+  width:min(900px,100%);
+  max-height:90vh;
   overflow:auto;
-  border-radius:18px;
+  border-radius:22px;
   background:var(--ufm-bg);
   border:1px solid var(--ufm-border);
   position:relative;
@@ -248,43 +282,42 @@ html.dark{
 
 .ufm-close-btn{
   position:absolute;
-  top:12px;
-  right:16px;
-  width:40px;
-  height:40px;
+  top:14px;
+  right:14px;
+  width:42px;
+  height:42px;
   border-radius:50%;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(6px);
   display:flex;
   align-items:center;
   justify-content:center;
   font-size:28px;
   cursor:pointer;
-  z-index:10;
-  color:var(--ufm-text);
-  background:rgba(255,255,255,0.12);
-  backdrop-filter:blur(4px);
+  color:white;
+  z-index:20;
 }
 
 .ufm-modal-img{
   width:100%;
-  height:300px;
+  height:320px;
   object-fit:cover;
+  display:block;
 }
 
 .ufm-modal-content{
-  padding:24px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
+  padding:28px;
 }
 
 .ufm-modal-title{
-  font-size:28px;
+  font-size:30px;
   font-weight:700;
+  margin-bottom:14px;
 }
 
 .ufm-modal-text{
   font-size:16px;
-  line-height:1.7;
+  line-height:1.8;
   opacity:.85;
 }
 
@@ -296,16 +329,18 @@ html.dark{
   width:100%;
   aspect-ratio:16/9;
   display:none;
+  background:black;
 }
 
 .ufm-video-container iframe{
   width:100%;
   height:100%;
   border:none;
+  display:block;
 }
 
-.ufm-modal-box.ufm-video-mode .ufm-modal-content,
-.ufm-modal-box.ufm-video-mode .ufm-modal-img{
+.ufm-modal-box.ufm-video-mode .ufm-modal-img,
+.ufm-modal-box.ufm-video-mode .ufm-modal-content{
   display:none;
 }
 
@@ -324,7 +359,8 @@ html.dark{
   }
 
   .ufm-module{
-    width:100%;
+    height:auto;
+    min-height:auto;
     padding:20px;
   }
 
@@ -336,12 +372,16 @@ html.dark{
     grid-auto-columns:85%;
   }
 
-  .ufm-modal-box{
-    width:92%;
+  .ufm-card-image{
+    height:200px;
   }
 
   .ufm-modal-img{
     height:220px;
+  }
+
+  .ufm-modal-content{
+    padding:22px;
   }
 
 }
@@ -353,424 +393,607 @@ html.dark{
 
 <div class="ufm-module-wrapper">
 
-  <div class="ufm-module">
+<div class="ufm-module">
 
-    <div class="ufm-heading">
-      Latest Updates
-    </div>
+<div class="ufm-heading">
+Latest Updates
+</div>
 
-    <!-- TABS -->
+<!-- =========================================================
+     TABS
+========================================================= -->
 
-    <div class="ufm-tabs">
+<div class="ufm-tabs">
 
-      <button class="ufm-tab-btn ufm-active" data-ufm-tab="news">
-        News
-      </button>
+<button class="ufm-tab-btn ufm-active" data-ufm-tab="news">
+News
+</button>
 
-      <button class="ufm-tab-btn" data-ufm-tab="reviews">
-        Reviews
-      </button>
+<button class="ufm-tab-btn" data-ufm-tab="reviews">
+Reviews
+</button>
 
-      <button class="ufm-tab-btn" data-ufm-tab="videos">
-        Videos
-      </button>
+<button class="ufm-tab-btn" data-ufm-tab="videos">
+Videos
+</button>
 
-    </div>
+</div>
 
-    <!-- NEWS -->
+<!-- =========================================================
+     NEWS
+========================================================= -->
 
-    <div class="ufm-tab-content ufm-active" id="ufm-news">
+<div class="ufm-tab-content ufm-active" id="ufm-news">
 
-      <div class="ufm-cards">
+<div class="ufm-cards">
 
-        <div
-          class="ufm-card"
-          tabindex="0"
-          data-ufm-type="modal"
-          data-ufm-title="Product Launch This Week"
-          data-ufm-image="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=600&auto=format&fit=crop"
-          data-ufm-text="Complete breakdown of the latest product release and roadmap."
-        >
+<div
+class="ufm-card"
+tabindex="0"
+data-ufm-type="modal"
+data-ufm-title="Global Product Launch"
+data-ufm-image="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1200"
+data-ufm-text="The company officially announced its global rollout with enhanced AI features and major infrastructure improvements.">
 
-          <img
-            class="ufm-card-image"
-            loading="lazy"
-            src="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=600&auto=format&fit=crop"
-            alt="Launch">
+<img
+class="ufm-card-image"
+loading="lazy"
+src="https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1200"
+alt="Launch">
 
-          <div class="ufm-card-content">
+<div class="ufm-card-content">
 
-            <div class="ufm-card-tag">
-              News
-            </div>
+<div class="ufm-card-tag">
+News
+</div>
 
-            <div class="ufm-card-title">
-              Product Launch
-            </div>
+<div class="ufm-card-title">
+Global Product Launch
+</div>
 
-            <div class="ufm-card-desc">
-              Latest release insights.
-            </div>
+<div class="ufm-card-desc">
+Major release with advanced updates.
+</div>
 
-          </div>
+</div>
+</div>
 
-        </div>
+<div
+class="ufm-card"
+tabindex="0"
+data-ufm-type="modal"
+data-ufm-title="Platform Expansion"
+data-ufm-image="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200"
+data-ufm-text="The platform is expanding globally with optimized regional support and performance upgrades.">
 
-      </div>
+<img
+class="ufm-card-image"
+loading="lazy"
+src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200"
+alt="Expansion">
 
-    </div>
+<div class="ufm-card-content">
 
-    <!-- REVIEWS -->
+<div class="ufm-card-tag">
+News
+</div>
 
-    <div class="ufm-tab-content" id="ufm-reviews">
+<div class="ufm-card-title">
+Platform Expansion
+</div>
 
-      <div class="ufm-cards">
+<div class="ufm-card-desc">
+New regions and markets supported.
+</div>
 
-        <div
-          class="ufm-card"
-          tabindex="0"
-          data-ufm-type="modal"
-          data-ufm-title="Performance Review"
-          data-ufm-image="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop"
-          data-ufm-text="Performance improvements analyzed by experts."
-        >
+</div>
+</div>
 
-          <img
-            class="ufm-card-image"
-            loading="lazy"
-            src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=600&auto=format&fit=crop"
-            alt="Review">
+<div
+class="ufm-card"
+tabindex="0"
+data-ufm-type="modal"
+data-ufm-title="Community Growth"
+data-ufm-image="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200"
+data-ufm-text="Community engagement is rapidly increasing with developers and creators joining daily.">
 
-          <div class="ufm-card-content">
+<img
+class="ufm-card-image"
+loading="lazy"
+src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1200"
+alt="Community">
 
-            <div class="ufm-card-tag">
-              Review
-            </div>
+<div class="ufm-card-content">
 
-            <div class="ufm-card-title">
-              Performance Boost
-            </div>
+<div class="ufm-card-tag">
+News
+</div>
 
-            <div class="ufm-card-desc">
-              Speed and UX improvements.
-            </div>
+<div class="ufm-card-title">
+Community Growth
+</div>
 
-          </div>
+<div class="ufm-card-desc">
+Rapid increase in platform activity.
+</div>
 
-        </div>
+</div>
+</div>
 
-      </div>
+</div>
+</div>
 
-    </div>
+<!-- =========================================================
+     REVIEWS
+========================================================= -->
 
-    <!-- VIDEOS -->
+<div class="ufm-tab-content" id="ufm-reviews">
 
-    <div class="ufm-tab-content" id="ufm-videos">
+<div class="ufm-cards">
 
-      <div class="ufm-cards">
+<div
+class="ufm-card"
+tabindex="0"
+data-ufm-type="modal"
+data-ufm-title="Design Review"
+data-ufm-image="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200"
+data-ufm-text="Experts praised the modern layout, cleaner typography and intuitive navigation system.">
 
-        <div
-          class="ufm-card"
-          tabindex="0"
-          data-ufm-type="video"
-          data-ufm-video="https://www.youtube.com/embed/dQw4w9WgXcQ"
-        >
+<img
+class="ufm-card-image"
+loading="lazy"
+src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200"
+alt="Design">
 
-          <img
-            class="ufm-card-image"
-            loading="lazy"
-            src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
-            alt="Video">
+<div class="ufm-card-content">
 
-          <div class="ufm-card-content">
+<div class="ufm-card-tag">
+Review
+</div>
 
-            <div class="ufm-card-tag">
-              Video
-            </div>
+<div class="ufm-card-title">
+Design Review
+</div>
 
-            <div class="ufm-card-title">
-              Product Walkthrough
-            </div>
+<div class="ufm-card-desc">
+Cleaner UI and improved experience.
+</div>
 
-            <div class="ufm-card-desc">
-              Complete feature overview.
-            </div>
+</div>
+</div>
 
-          </div>
+<div
+class="ufm-card"
+tabindex="0"
+data-ufm-type="modal"
+data-ufm-title="Performance Review"
+data-ufm-image="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200"
+data-ufm-text="Performance improvements delivered faster rendering and smoother navigation across devices.">
 
-        </div>
+<img
+class="ufm-card-image"
+loading="lazy"
+src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200"
+alt="Performance">
 
-      </div>
+<div class="ufm-card-content">
 
-    </div>
+<div class="ufm-card-tag">
+Review
+</div>
 
-  </div>
+<div class="ufm-card-title">
+Performance Review
+</div>
 
+<div class="ufm-card-desc">
+Speed and optimization improvements.
+</div>
+
+</div>
+</div>
+
+<div
+class="ufm-card"
+tabindex="0"
+data-ufm-type="modal"
+data-ufm-title="Future Scope Analysis"
+data-ufm-image="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200"
+data-ufm-text="Experts discussed scalability, AI integrations and future roadmap possibilities.">
+
+<img
+class="ufm-card-image"
+loading="lazy"
+src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=1200"
+alt="Future">
+
+<div class="ufm-card-content">
+
+<div class="ufm-card-tag">
+Review
+</div>
+
+<div class="ufm-card-title">
+Future Scope Analysis
+</div>
+
+<div class="ufm-card-desc">
+Long-term roadmap and scalability.
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- =========================================================
+     VIDEOS
+========================================================= -->
+
+<div class="ufm-tab-content" id="ufm-videos">
+
+<div class="ufm-cards">
+
+<div
+class="ufm-card"
+tabindex="0"
+data-ufm-type="video"
+data-ufm-video="https://www.youtube.com/embed/dQw4w9WgXcQ">
+
+<img
+class="ufm-card-image"
+loading="lazy"
+src="https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg"
+alt="Video">
+
+<div class="ufm-card-content">
+
+<div class="ufm-card-tag">
+Video
+</div>
+
+<div class="ufm-card-title">
+Product Walkthrough
+</div>
+
+<div class="ufm-card-desc">
+Feature overview and demonstration.
+</div>
+
+</div>
+</div>
+
+<div
+class="ufm-card"
+tabindex="0"
+data-ufm-type="video"
+data-ufm-video="https://www.youtube.com/embed/ysz5S6PUM-U">
+
+<img
+class="ufm-card-image"
+loading="lazy"
+src="https://img.youtube.com/vi/ysz5S6PUM-U/hqdefault.jpg"
+alt="Video">
+
+<div class="ufm-card-content">
+
+<div class="ufm-card-tag">
+Video
+</div>
+
+<div class="ufm-card-title">
+Behind The Scenes
+</div>
+
+<div class="ufm-card-desc">
+Development process and workflow.
+</div>
+
+</div>
+</div>
+
+<div
+class="ufm-card"
+tabindex="0"
+data-ufm-type="video"
+data-ufm-video="https://www.youtube.com/embed/jNQXAC9IVRw">
+
+<img
+class="ufm-card-image"
+loading="lazy"
+src="https://img.youtube.com/vi/jNQXAC9IVRw/hqdefault.jpg"
+alt="Video">
+
+<div class="ufm-card-content">
+
+<div class="ufm-card-tag">
+Video
+</div>
+
+<div class="ufm-card-title">
+Quick Tutorials
+</div>
+
+<div class="ufm-card-desc">
+Tips, tricks and user tutorials.
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
 </div>
 
 <!-- =========================================================
      MODAL
 ========================================================= -->
 
-<div class="ufm-modal" role="dialog" aria-modal="true">
+<div class="ufm-modal">
 
-  <div class="ufm-modal-box">
+<div class="ufm-modal-box">
 
-    <div class="ufm-close-btn">
-      ×
-    </div>
+<div class="ufm-close-btn">
+×
+</div>
 
-    <img class="ufm-modal-img" alt="Modal Image">
+<img class="ufm-modal-img" alt="Modal Image">
 
-    <div class="ufm-video-container"></div>
+<div class="ufm-video-container"></div>
 
-    <div class="ufm-modal-content">
+<div class="ufm-modal-content">
 
-      <div class="ufm-modal-title"></div>
+<div class="ufm-modal-title"></div>
 
-      <div class="ufm-modal-text"></div>
+<div class="ufm-modal-text"></div>
 
-    </div>
+</div>
 
-  </div>
-
+</div>
 </div>
 
 <script>
 
 (() => {
 
-  /* =========================================================
-     MODULE ROOT
-  ========================================================= */
+/* =========================================================
+   MODULE
+========================================================= */
 
-  const ufmModule = document.querySelector(".ufm-module");
+const ufmModule =
+document.querySelector(".ufm-module");
 
-  if(!ufmModule) return;
+if(!ufmModule) return;
 
-  /* =========================================================
-     TABS
-  ========================================================= */
+/* =========================================================
+   TABS
+========================================================= */
 
-  const ufmTabs =
-    ufmModule.querySelectorAll(".ufm-tab-btn");
+const ufmTabs =
+ufmModule.querySelectorAll(".ufm-tab-btn");
 
-  const ufmContents =
-    ufmModule.querySelectorAll(".ufm-tab-content");
+const ufmContents =
+ufmModule.querySelectorAll(".ufm-tab-content");
 
-  ufmTabs.forEach(tab => {
+ufmTabs.forEach(tab => {
 
-    tab.addEventListener("click", () => {
+tab.addEventListener("click", () => {
 
-      ufmTabs.forEach(btn =>
-        btn.classList.remove("ufm-active")
-      );
+ufmTabs.forEach(btn =>
+btn.classList.remove("ufm-active")
+);
 
-      ufmContents.forEach(content =>
-        content.classList.remove("ufm-active")
-      );
+ufmContents.forEach(content =>
+content.classList.remove("ufm-active")
+);
 
-      tab.classList.add("ufm-active");
+tab.classList.add("ufm-active");
 
-      const target =
-        document.getElementById(
-          `ufm-${tab.dataset.ufmTab}`
-        );
+document
+.getElementById(`ufm-${tab.dataset.ufmTab}`)
+.classList.add("ufm-active");
 
-      if(target){
-        target.classList.add("ufm-active");
-      }
+});
 
-    });
+});
 
-  });
+/* =========================================================
+   MODAL ELEMENTS
+========================================================= */
 
-  /* =========================================================
-     MODAL ELEMENTS
-  ========================================================= */
+const ufmModal =
+document.querySelector(".ufm-modal");
 
-  const ufmModal =
-    document.querySelector(".ufm-modal");
+const ufmModalBox =
+ufmModal.querySelector(".ufm-modal-box");
 
-  const ufmModalBox =
-    ufmModal.querySelector(".ufm-modal-box");
+const ufmModalImg =
+ufmModal.querySelector(".ufm-modal-img");
 
-  const ufmModalImg =
-    ufmModal.querySelector(".ufm-modal-img");
+const ufmModalTitle =
+ufmModal.querySelector(".ufm-modal-title");
 
-  const ufmModalTitle =
-    ufmModal.querySelector(".ufm-modal-title");
+const ufmModalText =
+ufmModal.querySelector(".ufm-modal-text");
 
-  const ufmModalText =
-    ufmModal.querySelector(".ufm-modal-text");
+const ufmVideoContainer =
+ufmModal.querySelector(".ufm-video-container");
 
-  const ufmVideoContainer =
-    ufmModal.querySelector(".ufm-video-container");
+const ufmCloseBtn =
+ufmModal.querySelector(".ufm-close-btn");
 
-  const ufmCloseBtn =
-    ufmModal.querySelector(".ufm-close-btn");
+/* =========================================================
+   OPEN NORMAL MODAL
+========================================================= */
 
-  /* =========================================================
-     OPEN CONTENT MODAL
-  ========================================================= */
+function ufmOpenModal(title,image,text){
 
-  function ufmOpenModal(title,image,text){
+ufmModal.classList.add("ufm-active");
 
-    ufmModal.classList.add("ufm-active");
+ufmModalBox.classList.remove("ufm-video-mode");
 
-    ufmModalBox.classList.remove("ufm-video-mode");
+ufmModalImg.style.display = "block";
 
-    ufmModalImg.style.display = "block";
+ufmModalImg.src = image;
 
-    ufmModalImg.src = image;
+ufmModalTitle.textContent = title;
 
-    ufmModalTitle.textContent = title;
+ufmModalText.textContent = text;
 
-    ufmModalText.textContent = text;
+document.body.classList.add("ufm-body-lock");
 
-    document.body.classList.add("ufm-body-lock");
+}
 
-  }
+/* =========================================================
+   OPEN VIDEO MODAL
+========================================================= */
 
-  /* =========================================================
-     OPEN VIDEO MODAL
-  ========================================================= */
+function ufmOpenVideoModal(videoUrl){
 
-  function ufmOpenVideoModal(videoUrl){
+ufmModal.classList.add("ufm-active");
 
-    ufmModal.classList.add("ufm-active");
+ufmModalBox.classList.add("ufm-video-mode");
 
-    ufmModalBox.classList.add("ufm-video-mode");
+ufmModalImg.removeAttribute("src");
 
-    ufmVideoContainer.innerHTML = "";
+ufmModalImg.style.display = "none";
 
-    const iframe =
-      document.createElement("iframe");
+ufmVideoContainer.innerHTML = "";
 
-    iframe.src =
-      `${videoUrl}?autoplay=1&mute=1&rel=0`;
+const iframe =
+document.createElement("iframe");
 
-    iframe.allow =
-      "autoplay; encrypted-media";
+iframe.src =
+`${videoUrl}?autoplay=1&mute=1&rel=0`;
 
-    iframe.allowFullscreen = true;
+iframe.allow =
+"autoplay; encrypted-media";
 
-    ufmVideoContainer.appendChild(iframe);
+iframe.allowFullscreen = true;
 
-    document.body.classList.add("ufm-body-lock");
+iframe.loading = "lazy";
 
-  }
+ufmVideoContainer.appendChild(iframe);
 
-  /* =========================================================
-     CLOSE MODAL
-  ========================================================= */
+document.body.classList.add("ufm-body-lock");
 
-  function ufmCloseModal(){
+}
 
-    ufmModal.classList.remove("ufm-active");
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
 
-    ufmModalBox.classList.remove("ufm-video-mode");
+function ufmCloseModal(){
 
-    ufmVideoContainer.innerHTML = "";
+ufmModal.classList.remove("ufm-active");
 
-    document.body.classList.remove("ufm-body-lock");
+ufmModalBox.classList.remove("ufm-video-mode");
 
-  }
+ufmVideoContainer.innerHTML = "";
 
-  /* =========================================================
-     CARD EVENTS
-  ========================================================= */
+ufmModalImg.removeAttribute("src");
 
-  const ufmCards =
-    ufmModule.querySelectorAll(".ufm-card");
+ufmModalImg.style.display = "block";
 
-  ufmCards.forEach(card => {
+document.body.classList.remove("ufm-body-lock");
 
-    const ufmTriggerCard = () => {
+}
 
-      const type =
-        card.dataset.ufmType;
+/* =========================================================
+   CARD EVENTS
+========================================================= */
 
-      if(type === "modal"){
+const ufmCards =
+ufmModule.querySelectorAll(".ufm-card");
 
-        ufmOpenModal(
-          card.dataset.ufmTitle,
-          card.dataset.ufmImage,
-          card.dataset.ufmText
-        );
+ufmCards.forEach(card => {
 
-      }
+const triggerCard = () => {
 
-      if(type === "video"){
+const type =
+card.dataset.ufmType;
 
-        ufmOpenVideoModal(
-          card.dataset.ufmVideo
-        );
+if(type === "modal"){
 
-      }
+ufmOpenModal(
+card.dataset.ufmTitle,
+card.dataset.ufmImage,
+card.dataset.ufmText
+);
 
-    };
+}
 
-    card.addEventListener(
-      "click",
-      ufmTriggerCard
-    );
+if(type === "video"){
 
-    card.addEventListener(
-      "keydown",
-      e => {
+ufmOpenVideoModal(
+card.dataset.ufmVideo
+);
 
-        if(
-          e.key === "Enter" ||
-          e.key === " "
-        ){
+}
 
-          e.preventDefault();
+};
 
-          ufmTriggerCard();
+card.addEventListener(
+"click",
+triggerCard
+);
 
-        }
+card.addEventListener(
+"keydown",
+e => {
 
-      }
-    );
+if(
+e.key === "Enter" ||
+e.key === " "
+){
 
-  });
+e.preventDefault();
 
-  /* =========================================================
-     CLOSE EVENTS
-  ========================================================= */
+triggerCard();
 
-  ufmCloseBtn.addEventListener(
-    "click",
-    ufmCloseModal
-  );
+}
 
-  ufmModal.addEventListener(
-    "click",
-    e => {
+}
+);
 
-      if(e.target === ufmModal){
-        ufmCloseModal();
-      }
+});
 
-    }
-  );
+/* =========================================================
+   CLOSE EVENTS
+========================================================= */
 
-  document.addEventListener(
-    "keydown",
-    e => {
+ufmCloseBtn.addEventListener(
+"click",
+ufmCloseModal
+);
 
-      if(
-        e.key === "Escape" &&
-        ufmModal.classList.contains("ufm-active")
-      ){
+ufmModal.addEventListener(
+"click",
+e => {
 
-        ufmCloseModal();
+if(e.target === ufmModal){
+ufmCloseModal();
+}
 
-      }
+}
+);
 
-    }
-  );
+document.addEventListener(
+"keydown",
+e => {
+
+if(
+e.key === "Escape" &&
+ufmModal.classList.contains("ufm-active")
+){
+ufmCloseModal();
+}
+
+}
+);
 
 })();
 
