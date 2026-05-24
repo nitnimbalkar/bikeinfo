@@ -2168,7 +2168,245 @@ function toggleCardLike(btn){
     countEl.innerText = count + 1;
   }
 }
-/* ================= news module ================= */
+/* ========== News JS start form here ======== */
+(() => {
+
+
+
+const ufmModule =
+document.querySelector(".ufm-module");
+
+if(!ufmModule) return;
+
+/* =========================================================
+   TABS
+========================================================= */
+
+const ufmTabs =
+ufmModule.querySelectorAll(".ufm-tab-btn");
+
+const ufmContents =
+ufmModule.querySelectorAll(".ufm-tab-content");
+
+ufmTabs.forEach(tab => {
+
+tab.addEventListener("click", () => {
+
+ufmTabs.forEach(btn =>
+btn.classList.remove("ufm-active")
+);
+
+ufmContents.forEach(content =>
+content.classList.remove("ufm-active")
+);
+
+tab.classList.add("ufm-active");
+
+document
+.getElementById(`ufm-${tab.dataset.ufmTab}`)
+.classList.add("ufm-active");
+
+});
+
+});
+
+/* =========================================================
+   MODAL ELEMENTS
+========================================================= */
+
+const ufmModal =
+document.querySelector(".ufm-modal");
+
+const ufmModalBox =
+ufmModal.querySelector(".ufm-modal-box");
+
+const ufmModalImg =
+ufmModal.querySelector(".ufm-modal-img");
+
+const ufmModalTitle =
+ufmModal.querySelector(".ufm-modal-title");
+
+const ufmModalText =
+ufmModal.querySelector(".ufm-modal-text");
+
+const ufmVideoContainer =
+ufmModal.querySelector(".ufm-video-container");
+
+const ufmCloseBtn =
+ufmModal.querySelector(".ufm-close-btn");
+
+/* =========================================================
+   OPEN NORMAL MODAL
+========================================================= */
+
+function ufmOpenModal(title,image,text){
+
+ufmModal.classList.add("ufm-active");
+
+ufmModalBox.classList.remove("ufm-video-mode");
+
+ufmModalImg.style.display = "block";
+
+ufmModalImg.src = image;
+
+ufmModalTitle.textContent = title;
+
+ufmModalText.textContent = text;
+
+document.body.classList.add("ufm-body-lock");
+
+}
+
+/* =========================================================
+   OPEN VIDEO MODAL
+========================================================= */
+
+function ufmOpenVideoModal(videoUrl){
+
+ufmModal.classList.add("ufm-active");
+
+ufmModalBox.classList.add("ufm-video-mode");
+
+ufmModalImg.removeAttribute("src");
+
+ufmModalImg.style.display = "none";
+
+ufmVideoContainer.innerHTML = "";
+
+const iframe =
+document.createElement("iframe");
+
+iframe.src =
+`${videoUrl}?autoplay=1&mute=1&rel=0`;
+
+iframe.allow =
+"autoplay; encrypted-media";
+
+iframe.allowFullscreen = true;
+
+iframe.loading = "lazy";
+
+ufmVideoContainer.appendChild(iframe);
+
+document.body.classList.add("ufm-body-lock");
+
+}
+
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
+
+function ufmCloseModal(){
+
+ufmModal.classList.remove("ufm-active");
+
+ufmModalBox.classList.remove("ufm-video-mode");
+
+ufmVideoContainer.innerHTML = "";
+
+ufmModalImg.removeAttribute("src");
+
+ufmModalImg.style.display = "block";
+
+document.body.classList.remove("ufm-body-lock");
+
+}
+
+/* =========================================================
+   CARD EVENTS
+========================================================= */
+
+const ufmCards =
+ufmModule.querySelectorAll(".ufm-card");
+
+ufmCards.forEach(card => {
+
+const triggerCard = () => {
+
+const type =
+card.dataset.ufmType;
+
+if(type === "modal"){
+
+ufmOpenModal(
+card.dataset.ufmTitle,
+card.dataset.ufmImage,
+card.dataset.ufmText
+);
+
+}
+
+if(type === "video"){
+
+ufmOpenVideoModal(
+card.dataset.ufmVideo
+);
+
+}
+
+};
+
+card.addEventListener(
+"click",
+triggerCard
+);
+
+card.addEventListener(
+"keydown",
+e => {
+
+if(
+e.key === "Enter" ||
+e.key === " "
+){
+
+e.preventDefault();
+
+triggerCard();
+
+}
+
+}
+);
+
+});
+
+/* =========================================================
+   CLOSE EVENTS
+========================================================= */
+
+ufmCloseBtn.addEventListener(
+"click",
+ufmCloseModal
+);
+
+ufmModal.addEventListener(
+"click",
+e => {
+
+if(e.target === ufmModal){
+ufmCloseModal();
+}
+
+}
+);
+
+document.addEventListener(
+"keydown",
+e => {
+
+if(
+e.key === "Escape" &&
+ufmModal.classList.contains("ufm-active")
+){
+ufmCloseModal();
+}
+
+}
+);
+
+})();
+/* ========== News ends start form here ======== */
 
 
 /* INIT */
