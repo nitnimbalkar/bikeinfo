@@ -1,0 +1,88 @@
+[33mbd43d2d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m css +
+[33m8f121f5[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m news fix css and overflow
+[33m5b9bde4[m testing news
+[33m3f55a37[m reverted changes
+[33m74ca20c[m news js to main
+[33m1eb2d3d[m news html to main html
+[33mda96a66[m news->Video fix 1.0
+[33m0d84b31[m js constr
+[33m6c86297[m html constr1
+[33mee0fc31[m html const
+[33m12dfaf3[m review module integration
+[33m70364c5[m drawer fix
+[33m64096fa[m added bikes at drawer
+[33m2c73012[m index 1.0
+[33m31a8ecd[m ui-issue
+[33mf7f74fb[m bikeview
+[33m23b8be5[m routes
+[33m2ceff40[m env
+[33m7d6e96d[m tuning media and reviews
+[33mdaf0536[m user reviews added
+[33m097bf5e[m media addition user profile
+[33m9ef9984[m js for bikeshowcase
+[33mb04d49f[m bike showcase fix 2.0
+[33m2da0f77[m testing steam styling in user profile
+[33m0786231[m bike module at profile
+[33m9dccef1[m user profile core
+[33m90660ce[m Merge branch 'main' of https://github.com/nitnimbalkar/bikeinfo
+[33mfb0c173[m video popup fix
+[33mb7289ed[m Update README.md
+[33mc2d288a[m html+css tuning
+[33mb2310a4[m hover added
+[33m69d6c04[m user hover profile
+[33m7cf24cf[m hover to play addition
+[33m73304bd[m video feature added to fordged main page
+[33m340db33[m fine tunning video showcase
+[33m2698c9e[m css bikevid
+[33mcb1b3cd[m js bikevid
+[33me497e12[m bike video feature
+[33m34a56c1[m js
+[33m3a3c91b[m news fix
+[33mc42f88e[m news css added to forged index
+[33m8f4e3a8[m added to forged page for testing
+[33me0508c8[m final main page edits
+[33m615cccf[m Create README.md
+[33mef0f98b[m final ui fixes for news and review module
+[33m76072d3[m minor ui fixes
+[33m88d839e[m fine tuning
+[33m9b7f747[m added popup to news and expert reviews
+[33md959764[m added news features
+[33m1ca7c89[m v
+[33me17faa1[m making changes in See Full review
+[33mb150fb5[m see full review feature
+[33ma3bfc9f[m review module css fix
+[33m877b974[m created user reviews showcase for index page
+[33mc49aa95[m added swagger and winston logger as future expantion
+[33me26232e[m fixing dark mode toggle
+[33m9ce789e[m added upcomming bikes tab
+[33m982e365[m UI fix
+[33me623ae0[m compare bike feature added
+[33m9a92616[m fixing log in and logout in main
+[33m0ee0217[m tuning bike add route
+[33mcfa686d[m adding bike /create route successfully
+[33m5182bd0[m html page for addbike feature
+[33m672d212[m routing changes and html addition
+[33me6a3fbf[m managing bikes route
+[33mb81c0ac[m fixing ui
+[33me439133[m adding find best bike for you feature
+[33me61fe1b[m final
+[33mca9b477[m added drawer function to brands
+[33m593a74e[m setting up EXPRESS_SESSION_SECREAT
+[33m2eaa59e[m new router created for index
+[33mfff52f9[m added login middleware
+[33m8d695b1[m added logged in method
+[33m3dbd89e[m added authcontroller
+[33m19b8ad5[m adding bcrypt and jwt
+[33mf636144[m added account registration
+[33m303bfda[m last changes of the day
+[33m0359fbf[m tagline
+[33m43ee80e[m designing the homepage
+[33m15dc80b[m designing the homepage
+[33m69477aa[m setting up env and owner creation
+[33m161871e[m added saperation of concerns
+[33mcd270ae[m mongoose setup
+[33m7d0d035[m complete schema model
+[33m4f47925[m Update app.js
+[33m831a564[m git keep
+[33m178ea08[m git keep
+[33me513f08[m setting up
