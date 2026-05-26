@@ -8,7 +8,7 @@ const bikeSchema = new mongoose.Schema({
         required: true
     },
 
-    name: {
+    bname: {
         type: String,
         required: true,
         trim: true
@@ -46,7 +46,7 @@ const bikeSchema = new mongoose.Schema({
         type: Number
     },
 
-    transmission: {
+    gears: {
         type: String,
         required: true
     },
