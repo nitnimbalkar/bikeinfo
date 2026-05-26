@@ -23,7 +23,7 @@ module.exports.addbrand=async(req,res)=>{
             return res.status(201).json({
                 success: true,
                 message: "Brand Added Successfully",
-                bike: addBike
+                bike: addbrand
             });
     }catch (error) {
 
