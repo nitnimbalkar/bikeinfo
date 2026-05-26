@@ -1,6 +1,7 @@
 const express=require('express');
 const router = express.Router();
 const bikeModel=require("../models/bikeModel");
+const { addbike } = require('../controllers/bikeController');
 
 router.get("/",async(req,res)=>{
     res.render("indexCopy.ejs");
@@ -14,8 +15,8 @@ router.get("/bikeview",(req,res)=>{
 })
 
 
-router.get("/abc",async(req,res)=>{
-    res.render("index.ejs");
+router.get("/addbike",async(req,res)=>{
+    res.render("addbike.ejs");
 })
 
 router.get("/newscopy",(req,res)=>{
@@ -146,47 +147,5 @@ router.get("/news",async(req,res)=>{
  *       500:
  *         description: Server error
  */
-router.post("/create", async(req,res)=>{
-    let {brand,name,engineCapacity,transmission,isAvailableIndia,bProfileImg,
-    bikeImgs,bReview,mileage,weight,fuelTankCapacity,seatHeight,maxPower,
-    maxTorque,noOfCylinder,compressRatio,emissionStandard,fuelType,qShifter,
-    mConnect,gps,tracControl,cControl,serCost,fService,sService,tService,
-    sInterval,vWarentyKm}=req.body;
-    
-    let addBike= await bikeModel.create({
-        brand,
-        name,
-        engineCapacity,
-        transmission,
-        isAvailableIndia,
-        bProfileImg,
-        bikeImgs,
-        bReview,
-        mileage,
-        weight,
-        fuelTankCapacity,
-        seatHeight,
-        maxPower,
-        maxTorque,
-        noOfCylinder,
-        compressRatio,
-        emissionStandard,
-        fuelType,
-        qShifter,
-        mConnect,
-        gps,
-        tracControl,
-        cControl,
-        serCost,
-        fService,
-        sService,
-        tService,
-        sInterval,
-        vWarentyKm,
-
-    });
-    res.status(201).send("Bike Added");
-});
-
-
+router.post("/create",addbike);
 module.exports=router;
