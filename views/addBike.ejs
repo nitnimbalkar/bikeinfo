@@ -152,13 +152,13 @@ button:hover {
 <div class="container">
   <h2>Add New Bike</h2>
 
-  <form action="/add-bike" method="POST" enctype="multipart/form-data">
+  <form action="/bikes/add-bike" method="POST" enctype="multipart/form-data">
 
     <div class="section">
       <h3>Basic Info</h3>
       <div class="grid">
-        <input type="text" name="brand" placeholder="Brand ID" required>
-        <input type="text" name="name" placeholder="Bike Name" required>
+        <input type="text" name="brand" placeholder="Brand Name" required>
+        <input type="text" name="bname" placeholder="Bike Name" required>
 
         <select name="isAvailableIndia">
           <option value="true">Available in India</option>
@@ -174,7 +174,7 @@ button:hover {
       <div class="grid">
         <input type="number" name="engineCapacity" placeholder="Engine CC" required>
         <input type="number" name="mileage" placeholder="Mileage">
-        <input type="text" name="transmission" placeholder="Transmission" required>
+        <input type="text" name="gears" placeholder="Transmission / Gears" required>
         <input type="number" name="weight" placeholder="Weight">
         <input type="number" name="fuelTankCapacity" placeholder="Fuel Tank Capacity">
         <input type="number" name="seatHeight" placeholder="Seat Height">
@@ -196,11 +196,11 @@ button:hover {
     <div class="section">
       <h3>Features</h3>
       <div class="checkbox-group">
-        <label><input type="checkbox" name="qShifter"> Quick Shifter</label>
-        <label><input type="checkbox" name="mConnect"> Mobile Connect</label>
-        <label><input type="checkbox" name="gps"> GPS</label>
-        <label><input type="checkbox" name="tracControl"> Traction Control</label>
-        <label><input type="checkbox" name="cControl"> Cruise Control</label>
+        <label><input type="checkbox" name="qShifter" value="true"> Quick Shifter</label>
+        <label><input type="checkbox" name="mConnect" value="true"> Mobile Connect</label>
+        <label><input type="checkbox" name="gps" value="true"> GPS</label>
+        <label><input type="checkbox" name="tracControl" value="true"> Traction Control</label>
+        <label><input type="checkbox" name="cControl" value="true"> Cruise Control</label>
       </div>
     </div>
 
@@ -222,6 +222,8 @@ button:hover {
     </div>
 
     <button type="submit">Add Bike</button>
+
+</form>
 
   </form>
 </div>
