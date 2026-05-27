@@ -10,5 +10,8 @@ router.get("/",async(req,res)=>{
 
 router.post("/create",addbrand);
 
+router.get("/addbrand",(req,res)=>{
+    res.render("addBrand.ejs");
+})
 
 module.exports=router;
