@@ -3,6 +3,7 @@ const router = express.Router();
 const bikeModel=require("../models/bikeModel");
 const { addbike } = require('../controllers/bikeController');
 
+
 router.get("/",async(req,res)=>{
     res.render("indexCopy.ejs");
 })
@@ -149,3 +150,7 @@ router.get("/news",async(req,res)=>{
  */
 router.post("/create",addbike);
 module.exports=router;
+
+router.get("/addbike",(req,res)=>{
+    res.render("addbike.ejs");
+})
