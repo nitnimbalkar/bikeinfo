@@ -15,7 +15,7 @@ const bikeSchema = new mongoose.Schema({
     },
 
     bProfileImg: {
-        type: String,
+        type: Buffer,
         default: ""
     },
 
@@ -31,7 +31,7 @@ const bikeSchema = new mongoose.Schema({
 
     bikeImgs: [
         {
-        type: String
+        type: Buffer,
         }
     ],
 
