@@ -7,224 +7,211 @@
 
 <style>
 
-/* ================= RESET ================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:Arial;
+  background:#fff;
+  color:#000;
+  padding-top:60px;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  background: #ffffff;
-  color: #000;
-  transition: background 0.3s, color 0.3s;
-  padding-top: 60px;
+/* NAVBAR */
+.navbar{
+  position:fixed;
+  top:0;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 20px;
+  background:rgba(30,30,30,0.95);
+  color:white;
 }
 
-/* ================= NAVBAR ================= */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
+.logo{font-weight:bold;}
 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* TOGGLE */
+.switch{position:relative;width:50px;height:26px;}
+.switch input{display:none;}
+.slider{
+  position:absolute;inset:0;
+  background:#ccc;border-radius:30px;cursor:pointer;
+}
+.slider:before{
+  content:"";
+  position:absolute;width:20px;height:20px;
+  left:3px;top:3px;background:white;border-radius:50%;
+  transition:0.3s;
+}
+input:checked + .slider{background:#4CAF50;}
+input:checked + .slider:before{transform:translateX(24px);}
 
-  padding: 12px 20px;
-
-  background: rgba(34, 34, 34, 0.92);
-  backdrop-filter: blur(10px);
-  color: white;
-
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+/* PROFILE */
+.profile{
+  width:60%;
+  margin:20px auto;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#fafafa;
 }
 
-.logo {
-  font-size: 20px;
-  font-weight: bold;
+.profile-left{
+  display:flex;
+  align-items:center;
+  gap:15px;
 }
 
-/* ================= TOGGLE SWITCH ================= */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 26px;
+.profile-img{
+  width:70px;height:70px;
+  border-radius:50%;
+  overflow:hidden;
+  border:2px solid #ddd;
 }
 
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+.profile-img img{
+  width:100%;height:100%;
+  object-fit:cover;
 }
 
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  transition: 0.4s;
-  border-radius: 34px;
+/* RIGHT INFO */
+.profile-right{
+  display:flex;
+  flex-direction:column;
+  text-align:right;
+  gap:6px;
 }
 
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 20px;
-  width: 20px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: 0.4s;
-  border-radius: 50%;
+/* EDIT BUTTON */
+.edit-btn{
+  padding:6px 12px;
+  background:#4CAF50;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  margin-bottom:6px;
 }
 
-input:checked + .slider {
-  background-color: #4CAF50;
+/* GARAGE */
+.garage{
+  width:60%;
+  margin:20px auto;
+  border:1px solid #ddd;
+  border-radius:14px;
+  padding:18px;
+  background:#fafafa;
 }
 
-input:checked + .slider:before {
-  transform: translateX(24px);
+.garage-top{
+  display:flex;
+  justify-content:space-between;
 }
 
-/* ================= PROFILE ================= */
-.profile {
-  width: 60%;
-  margin: 20px auto;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 15px;
+.bike-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:12px;
 }
 
-.profile-left {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.bike-card{
+  border:1px solid #ddd;
+  border-radius:10px;
+  overflow:hidden;
+  background:#fff;
 }
 
-.profile-image {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  overflow: hidden;
+.bike-card img{
+  width:100%;
+  height:90px;
+  object-fit:cover;
 }
 
-.profile-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.bike-info{padding:8px;}
+.bike-name{font-size:13px;font-weight:bold;}
+.bike-type{font-size:11px;color:#666;}
+
+/* ================= MODALS ================= */
+.modal,
+.cropper{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.6);
+  z-index:9999;
 }
 
-.profile-info h2 {
-  font-size: 18px;
+/* PROFILE MODAL */
+.modal-box{
+  width:340px;
+  background:white;
+  border-radius:16px;
+  padding:20px;
 }
 
-.profile-info p {
-  color: #555;
-  font-size: 13px;
+.modal-box input{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border:1px solid #ddd;
+  border-radius:10px;
 }
 
-/* ================= GARAGE ================= */
-.garage {
-  width: 60%;
-  margin: 20px auto;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 18px;
+.modal-box button{
+  width:100%;
+  padding:10px;
+  background:#4CAF50;
+  border:none;
+  color:white;
+  border-radius:10px;
+  cursor:pointer;
 }
 
-.garage-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+/* CROPPER */
+.crop-box{
+  width:260px;
+  height:260px;
+  border-radius:50%;
+  overflow:hidden;
+  border:3px solid white;
+  position:relative;
+  background:#111;
 }
 
-.garage-title {
-  font-size: 20px;
-  font-weight: bold;
+.crop-img{
+  position:absolute;
+  width:400px;
+  cursor:grab;
 }
 
-.add-btn {
-  padding: 8px 12px;
-  border: none;
-  background: #4CAF50;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
+.zoom{
+  margin-top:12px;
+  width:200px;
 }
 
-/* ================= BIKE GRID ================= */
-.bike-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-  gap: 12px;
+.crop-actions{
+  margin-top:12px;
+  display:flex;
+  gap:10px;
 }
 
-/* ================= BIKE CARD ================= */
-.bike-card {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #f5f5f5;
-  transition: 0.25s;
+.crop-actions button{
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
 }
 
-.bike-card:hover {
-  transform: translateY(-4px);
-}
-
-.bike-card img {
-  width: 100%;
-  height: 95px;
-  object-fit: cover;
-}
-
-.bike-info {
-  padding: 8px;
-}
-
-.bike-name {
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.bike-type {
-  font-size: 11px;
-  color: #666;
-}
-
-/* ================= DARK MODE ================= */
-body.dark {
-  background: #121212;
-  color: #fff;
-}
-
-body.dark .profile,
-body.dark .garage {
-  background: #1c1c1c;
-  border-color: #333;
-}
-
-body.dark .bike-card {
-  background: #222;
-  border-color: #333;
-}
-
-body.dark .bike-type {
-  color: #aaa;
-}
-
-body.dark .navbar {
-  background: rgba(20,20,20,0.95);
-}
+.save{background:#4CAF50;color:white;}
+.cancel{background:#999;color:white;}
 
 </style>
 </head>
@@ -233,92 +220,191 @@ body.dark .navbar {
 
 <!-- NAVBAR -->
 <div class="navbar">
-
   <div class="logo">BikeInfo</div>
 
-  <!-- DARK MODE SWITCH -->
   <label class="switch">
     <input type="checkbox" id="darkToggle">
     <span class="slider"></span>
   </label>
-
 </div>
 
 <!-- PROFILE -->
 <div class="profile">
+
   <div class="profile-left">
-    <div class="profile-image">
-      <img src="https://i.pravatar.cc/300?img=12">
+    <div class="profile-img">
+      <img id="profilePic" src="https://i.pravatar.cc/300?img=12">
     </div>
-    <div class="profile-info">
-      <h2>Rahul Sharma</h2>
+
+    <div>
+      <h3 id="name">Rahul Sharma</h3>
       <p>@riderx</p>
+      <button class="edit-btn" onclick="openProfile()">Edit Profile</button>
     </div>
   </div>
+
+  <div class="profile-right">
+    <div id="age">Age: 24</div>
+    <div id="city">City: Pune</div>
+    <div id="email">Email: test@gmail.com</div>
+  </div>
+
 </div>
 
 <!-- GARAGE -->
 <div class="garage">
-
   <div class="garage-top">
-    <div class="garage-title">My Garage</div>
-    <button class="add-btn" onclick="addBike()">+ Add Bike</button>
+    <h3>Garage</h3>
+    <button>+ Add Bike</button>
   </div>
 
   <div class="bike-grid" id="grid"></div>
+</div>
+
+<!-- PROFILE MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+
+    <input id="first" placeholder="First Name">
+    <input id="last" placeholder="Last Name">
+    <input id="ageInput" placeholder="Age">
+    <input id="cityInput" placeholder="City">
+
+    <!-- IMAGE UPLOAD -->
+    <input type="file" accept="image/*" onchange="openCrop(event)">
+
+    <button onclick="saveProfile()">Save</button>
+
+  </div>
+</div>
+
+<!-- CROPPER -->
+<div class="cropper" id="cropper">
+
+  <div class="crop-box">
+    <img id="cropImg" class="crop-img">
+  </div>
+
+  <input type="range" min="1" max="2" step="0.01" id="zoom" class="zoom">
+
+  <div class="crop-actions">
+    <button class="cancel" onclick="closeCrop()">Cancel</button>
+    <button class="save" onclick="applyCrop()">Crop</button>
+  </div>
 
 </div>
 
 <script>
 
-/* DARK MODE TOGGLE */
-document.getElementById("darkToggle").addEventListener("change", function(){
+/* DARK MODE */
+document.getElementById("darkToggle").onchange=()=>{
   document.body.classList.toggle("dark");
-});
+}
 
-/* BIKES */
-let bikes = [
-  {
-    name: "KTM Duke 390",
-    type: "Street",
-    img: "https://images.unsplash.com/photo-1558981806-ec527fa84c39"
-  },
-  {
-    name: "Yamaha R15 V4",
-    type: "Sport",
-    img: "https://images.unsplash.com/photo-1580310614729-ccd69652491d"
+/* PROFILE MODAL */
+function openProfile(){
+  document.getElementById("modal").style.display="flex";
+}
+
+/* CROPPER LOGIC */
+let img=document.getElementById("cropImg");
+let zoom=document.getElementById("zoom");
+
+let x=0,y=0,scale=1,drag=false,sx,sy;
+
+function openCrop(e){
+  let file=e.target.files[0];
+  let reader=new FileReader();
+
+  reader.onload=ev=>{
+    img.src=ev.target.result;
+    document.getElementById("cropper").style.display="flex";
+    x=0;y=0;scale=1;
   }
+  reader.readAsDataURL(file);
+}
+
+/* DRAG */
+img.onmousedown=e=>{
+  drag=true;
+  sx=e.clientX;
+  sy=e.clientY;
+};
+
+document.onmousemove=e=>{
+  if(!drag)return;
+  x+=e.clientX-sx;
+  y+=e.clientY-sy;
+  sx=e.clientX;
+  sy=e.clientY;
+  update();
+};
+
+document.onmouseup=()=>drag=false;
+
+/* ZOOM */
+zoom.oninput=()=>{
+  scale=zoom.value;
+  update();
+};
+
+function update(){
+  img.style.transform=`translate(${x}px,${y}px) scale(${scale})`;
+}
+
+function closeCrop(){
+  document.getElementById("cropper").style.display="none";
+}
+
+/* APPLY CROP */
+function applyCrop(){
+  let canvas=document.createElement("canvas");
+  canvas.width=200;
+  canvas.height=200;
+  let ctx=canvas.getContext("2d");
+
+  let im=new Image();
+  im.src=img.src;
+
+  im.onload=()=>{
+    ctx.drawImage(im,0,0,200,200);
+    document.getElementById("profilePic").src=canvas.toDataURL();
+    closeCrop();
+  }
+}
+
+/* SAVE PROFILE */
+function saveProfile(){
+  document.getElementById("name").innerText=
+    document.getElementById("first").value+" "+document.getElementById("last").value;
+
+  document.getElementById("age").innerText="Age: "+document.getElementById("ageInput").value;
+  document.getElementById("city").innerText="City: "+document.getElementById("cityInput").value;
+
+  document.getElementById("modal").style.display="none";
+}
+
+/* BIKE DATA */
+let bikes=[
+  {name:"KTM Duke",type:"Street"},
+  {name:"Yamaha R15",type:"Sport"},
+  {name:"BMW GS",type:"ADV"},
+  {name:"Ninja 400",type:"Sport"}
 ];
 
-function render(){
-  const grid = document.getElementById("grid");
-  grid.innerHTML = "";
+let grid=document.getElementById("grid");
 
-  bikes.forEach(b => {
-    grid.innerHTML += `
-      <div class="bike-card">
-        <img src="${b.img}">
-        <div class="bike-info">
-          <div class="bike-name">${b.name}</div>
-          <div class="bike-type">${b.type}</div>
-        </div>
+bikes.forEach(b=>{
+  grid.innerHTML+=`
+    <div class="bike-card">
+      <img src="https://source.unsplash.com/300x200/?bike">
+      <div class="bike-info">
+        <div class="bike-name">${b.name}</div>
+        <div class="bike-type">${b.type}</div>
       </div>
-    `;
-  });
-}
-
-function addBike(){
-  const name = prompt("Enter bike name:");
-  const type = prompt("Enter bike type:");
-  const img = prompt("Enter image URL:");
-
-  if(!name || !type || !img) return;
-
-  bikes.push({ name, type, img });
-  render();
-}
-
-render();
+    </div>
+  `;
+});
 
 </script>
 
