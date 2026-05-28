@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>BikeInfo</title>
 
 <style>
 
 /* RESET */
-*{margin:0;padding:0;box-sizing:border-box;}
+* { margin:0; padding:0; box-sizing:border-box; }
 
-body{
-  font-family:Arial;
+body {
+  font-family: Arial, sans-serif;
   background:#fff;
   color:#000;
   padding-top:60px;
 }
 
 /* NAVBAR */
-.navbar{
+.navbar {
   position:fixed;
   top:0;
   width:100%;
@@ -26,32 +26,51 @@ body{
   justify-content:space-between;
   align-items:center;
   padding:12px 20px;
-  background:rgba(30,30,30,0.95);
+  background:rgba(34,34,34,0.92);
   color:white;
   z-index:1000;
 }
 
-.logo{font-weight:bold;}
+.logo { font-weight:bold; }
 
-/* TOGGLE */
-.switch{position:relative;width:50px;height:26px;}
-.switch input{display:none;}
-
-.slider{
-  position:absolute;inset:0;
-  background:#ccc;border-radius:30px;cursor:pointer;
+/* SWITCH */
+.switch {
+  position:relative;
+  width:50px;
+  height:26px;
 }
-.slider:before{
+.switch input { display:none; }
+
+.slider {
+  position:absolute;
+  inset:0;
+  background:#ccc;
+  border-radius:30px;
+  cursor:pointer;
+}
+
+.slider:before {
   content:"";
-  position:absolute;width:20px;height:20px;
-  left:3px;top:3px;background:white;border-radius:50%;
+  position:absolute;
+  width:20px;
+  height:20px;
+  left:3px;
+  top:3px;
+  background:white;
+  border-radius:50%;
   transition:0.3s;
 }
-input:checked + .slider{background:#4CAF50;}
-input:checked + .slider:before{transform:translateX(24px);}
+
+input:checked + .slider {
+  background:#4CAF50;
+}
+
+input:checked + .slider:before {
+  transform:translateX(24px);
+}
 
 /* PROFILE */
-.profile{
+.profile {
   width:60%;
   margin:20px auto;
   border:1px solid #ddd;
@@ -63,35 +82,47 @@ input:checked + .slider:before{transform:translateX(24px);}
   background:#fafafa;
 }
 
-.profile-left{display:flex;gap:15px;align-items:center;}
+.profile-left {
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
 
-.profile-img{
-  width:70px;height:70px;
+.profile-image {
+  width:70px;
+  height:70px;
   border-radius:50%;
   overflow:hidden;
   border:2px solid #ddd;
 }
-.profile-img img{width:100%;height:100%;object-fit:cover;}
 
-.profile-right{
-  display:flex;
-  flex-direction:column;
-  text-align:right;
-  gap:6px;
+.profile-image img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
 }
 
-.edit-btn{
+.profile-extra {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  text-align:right;
+  font-size:13px;
+}
+
+/* EDIT BUTTON */
+.edit-btn {
   padding:6px 12px;
-  background:#4CAF50;
   border:none;
+  background:#4CAF50;
   color:white;
   border-radius:8px;
   cursor:pointer;
-  margin-bottom:6px;
+  margin-bottom:8px;
 }
 
 /* GARAGE */
-.garage{
+.garage {
   width:60%;
   margin:20px auto;
   border:1px solid #ddd;
@@ -100,136 +131,139 @@ input:checked + .slider:before{transform:translateX(24px);}
   background:#fafafa;
 }
 
-.garage-top{
+.garage-top {
   display:flex;
   justify-content:space-between;
+  align-items:center;
 }
 
-.bike-grid{
+.garage-title {
+  font-size:20px;
+  font-weight:bold;
+}
+
+.add-btn {
+  background:#4CAF50;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:8px;
+}
+
+/* GRID */
+.bike-grid {
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:12px;
   margin-top:12px;
 }
 
-.bike-card{
+.bike-card {
   border:1px solid #ddd;
   border-radius:10px;
   overflow:hidden;
   background:#fff;
 }
 
-.bike-card img{
+.bike-card img {
   width:100%;
   height:90px;
   object-fit:cover;
 }
 
-.bike-info{padding:8px;}
-.bike-name{font-size:13px;font-weight:bold;}
-.bike-type{font-size:11px;color:#666;}
+.bike-info {
+  padding:8px;
+}
 
-/* MODALS */
-.modal{
+.bike-name { font-size:13px; font-weight:bold; }
+.bike-type { font-size:11px; color:#666; }
+
+/* ================= PROFILE MODAL ================= */
+.modal {
   position:fixed;
   inset:0;
+  background:rgba(0,0,0,0.6);
   display:none;
   justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,0.6);
-  z-index:9999;
+  z-index:1000;
 }
 
-.modal-box{
+.modal-box {
   width:340px;
   background:white;
   border-radius:16px;
   padding:20px;
 }
 
-.modal-box input{
+.modal-box input {
   width:100%;
   padding:10px;
-  margin:6px 0;
+  margin:7px 0;
   border:1px solid #ddd;
   border-radius:10px;
 }
 
-.modal-box button{
+.modal-box button {
   width:100%;
   padding:10px;
   background:#4CAF50;
+  color:white;
   border:none;
-  color:white;
   border-radius:10px;
-  cursor:pointer;
 }
 
-/* BIKE SEARCH RESULTS */
-#bikeResults div{
-  padding:10px;
-  margin:5px 0;
-  border:1px solid #ddd;
-  border-radius:8px;
-  cursor:pointer;
-}
-
-#bikeResults div:hover{
-  background:#f0f0f0;
-}
-
-.selectedBike{
-  background:#4CAF50 !important;
-  color:white;
-}
-
-/* CROPPER */
-.cropper{
+/* ================= CROPPER ================= */
+.cropper {
   position:fixed;
   inset:0;
+  background:rgba(0,0,0,0.85);
   display:none;
   justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,0.7);
-  z-index:20000;
+  z-index:2000;
   flex-direction:column;
 }
 
-.crop-box{
+.crop-circle {
   width:260px;
   height:260px;
   border-radius:50%;
   overflow:hidden;
   border:3px solid white;
   position:relative;
+  background:#111;
 }
 
-.crop-img{
+.crop-img {
   position:absolute;
   width:400px;
+  top:0;
+  left:0;
   cursor:grab;
+  user-select:none;
 }
 
-.zoom{
-  margin-top:12px;
+.zoom-control {
+  margin-top:15px;
   width:200px;
 }
 
-.crop-actions{
-  margin-top:10px;
+.crop-actions {
+  margin-top:15px;
   display:flex;
   gap:10px;
 }
 
-.crop-actions button{
+.crop-actions button {
   padding:8px 12px;
   border:none;
   border-radius:8px;
   cursor:pointer;
 }
 
-.save{background:#4CAF50;color:white;}
-.cancel{background:#999;color:white;}
+.save-btn { background:#4CAF50; color:white; }
+.cancel-btn { background:#999; color:white; }
 
 </style>
 </head>
@@ -239,7 +273,6 @@ input:checked + .slider:before{transform:translateX(24px);}
 <!-- NAVBAR -->
 <div class="navbar">
   <div class="logo">BikeInfo</div>
-
   <label class="switch">
     <input type="checkbox" id="darkToggle">
     <span class="slider"></span>
@@ -250,21 +283,21 @@ input:checked + .slider:before{transform:translateX(24px);}
 <div class="profile">
 
   <div class="profile-left">
-    <div class="profile-img">
-      <img id="profilePic" src="https://i.pravatar.cc/300?img=12">
+    <div class="profile-image">
+      <img id="profileImg" src="https://i.pravatar.cc/300?img=12">
     </div>
 
     <div>
-      <h3 id="name">Rahul Sharma</h3>
+      <h2 id="fullName">Rahul Sharma</h2>
       <p>@riderx</p>
-      <button class="edit-btn" onclick="openProfile()">Edit Profile</button>
+      <button class="edit-btn" onclick="openModal()">Edit Profile</button>
     </div>
   </div>
 
-  <div class="profile-right">
-    <div id="age">Age: 24</div>
-    <div id="city">City: Pune</div>
-    <div id="email">Email: test@gmail.com</div>
+  <div class="profile-extra">
+    <div id="age">🎂 Age: 24</div>
+    <div id="city">📍 City: Pune</div>
+    <div id="email">📧 Email: rahul@gmail.com</div>
   </div>
 
 </div>
@@ -272,8 +305,8 @@ input:checked + .slider:before{transform:translateX(24px);}
 <!-- GARAGE -->
 <div class="garage">
   <div class="garage-top">
-    <h3>Garage</h3>
-    <button onclick="openBikeModal()">+ Add Bike</button>
+    <div class="garage-title">My Garage</div>
+    <button class="add-btn">+ Add Bike</button>
   </div>
 
   <div class="bike-grid" id="grid"></div>
@@ -288,26 +321,9 @@ input:checked + .slider:before{transform:translateX(24px);}
     <input id="ageInput" placeholder="Age">
     <input id="cityInput" placeholder="City">
 
-    <input type="file" accept="image/*" onchange="openCrop(event)">
+    <input type="file" id="imgInput" accept="image/*" onchange="openCrop(event)">
 
     <button onclick="saveProfile()">Save</button>
-
-  </div>
-</div>
-
-<!-- BIKE MODAL -->
-<div class="modal" id="bikeModal">
-  <div class="modal-box">
-
-    <h3>Select Bike</h3>
-
-    <input id="bikeSearch" placeholder="Search bike..." oninput="searchBike()">
-
-    <div id="bikeResults"></div>
-
-    <button id="addBikeBtn" onclick="addBike()" style="display:none;margin-top:10px;">
-      Add Bike
-    </button>
 
   </div>
 </div>
@@ -315,185 +331,193 @@ input:checked + .slider:before{transform:translateX(24px);}
 <!-- CROPPER -->
 <div class="cropper" id="cropper">
 
-  <div class="crop-box">
+  <div class="crop-circle">
     <img id="cropImg" class="crop-img">
   </div>
 
-  <input type="range" min="1" max="2" step="0.01" id="zoom" class="zoom">
+  <input type="range" min="1" max="2" step="0.01" value="1" class="zoom-control" id="zoom">
 
   <div class="crop-actions">
-    <button class="cancel" onclick="closeCrop()">Cancel</button>
-    <button class="save" onclick="applyCrop()">Crop</button>
+    <button class="cancel-btn" onclick="closeCrop()">Cancel</button>
+    <button class="save-btn" onclick="applyCrop()">Crop & Save</button>
+  </div>
+
+</div>
+<div class="profileModule_container">
+
+  <!-- TABS -->
+  <div class="profileModule_tabHeader">
+    <button class="profileModule_tab active" data-tab="posts">Posts</button>
+    <button class="profileModule_tab" data-tab="reviews">Bike Reviews</button>
+  </div>
+
+  <!-- POSTS -->
+  <div id="postsTab">
+
+    <div class="profileModule_topBar">
+      <button class="profileModule_addBtn" id="addPostBtn">+</button>
+    </div>
+
+    <div id="postGrid" class="profileModule_postGrid"></div>
+  </div>
+
+  <!-- REVIEWS (UPDATED) -->
+  <div id="reviewsTab" class="profileModule_hidden">
+
+    <div class="profileModule_topBar">
+      <button class="profileModule_addBtn" id="addReviewBtn">+</button>
+    </div>
+
+    <div id="reviewGrid" class="profileModule_reviewGrid"></div>
   </div>
 
 </div>
 
+<!-- MODAL -->
+<div id="modal" class="profileModule_modalBackdrop profileModule_hidden">
+  <div class="profileModule_modal">
+
+    <h3 id="modalTitle">Add</h3>
+
+    <input type="text" id="titleInput" placeholder="Title / Bike Name">
+    <input type="text" id="locationInput" placeholder="Location (only for posts)">
+    <textarea id="textInput" placeholder="Review Text (only for reviews)"></textarea>
+
+    <input type="file" id="fileInput" accept="image/*">
+
+    <button id="saveBtn">Save</button>
+    <button id="closeBtn">Cancel</button>
+
+  </div>
+</div>
+
 <script>
 
-/* DARK MODE */
-document.getElementById("darkToggle").onchange=()=>{
-  document.body.classList.toggle("dark");
-};
+let cropImg = document.getElementById("cropImg");
+let cropper = document.getElementById("cropper");
+let zoom = document.getElementById("zoom");
 
-/* PROFILE */
-function openProfile(){
-  document.getElementById("modal").style.display="flex";
-}
+let posX = 0, posY = 0;
+let scale = 1;
+let dragging = false;
+let startX = 0, startY = 0;
 
-/* CROPPER */
-let img=document.getElementById("cropImg");
-let zoom=document.getElementById("zoom");
-
-let x=0,y=0,scale=1,drag=false,sx,sy;
-
+/* OPEN CROPPER */
 function openCrop(e){
-  let file=e.target.files[0];
-  let reader=new FileReader();
+  let file = e.target.files[0];
+  let reader = new FileReader();
 
-  reader.onload=ev=>{
-    img.src=ev.target.result;
-    document.getElementById("cropper").style.display="flex";
+  reader.onload = function(ev){
+    cropImg.src = ev.target.result;
+    cropper.style.display = "flex";
+
+    posX = 0; posY = 0; scale = 1;
+    zoom.value = 1;
+    updateTransform();
   }
 
   reader.readAsDataURL(file);
 }
 
 /* DRAG */
-img.onmousedown=e=>{
-  drag=true;
-  sx=e.clientX;
-  sy=e.clientY;
-};
+cropImg.addEventListener("mousedown", (e)=>{
+  dragging = true;
+  startX = e.clientX;
+  startY = e.clientY;
+  cropImg.style.cursor="grabbing";
+});
 
-document.onmousemove=e=>{
-  if(!drag)return;
-  x+=e.clientX-sx;
-  y+=e.clientY-sy;
-  sx=e.clientX;
-  sy=e.clientY;
-  update();
-};
+document.addEventListener("mousemove",(e)=>{
+  if(!dragging) return;
 
-document.onmouseup=()=>drag=false;
+  posX += e.clientX - startX;
+  posY += e.clientY - startY;
+
+  startX = e.clientX;
+  startY = e.clientY;
+
+  updateTransform();
+});
+
+document.addEventListener("mouseup",()=>{
+  dragging=false;
+  cropImg.style.cursor="grab";
+});
 
 /* ZOOM */
-zoom.oninput=()=>{
-  scale=zoom.value;
-  update();
-};
+zoom.addEventListener("input",()=>{
+  scale = zoom.value;
+  updateTransform();
+});
 
-function update(){
-  img.style.transform=`translate(${x}px,${y}px) scale(${scale})`;
+function updateTransform(){
+  cropImg.style.transform =
+    `translate(${posX}px,${posY}px) scale(${scale})`;
 }
 
+/* CLOSE */
 function closeCrop(){
-  document.getElementById("cropper").style.display="none";
+  cropper.style.display="none";
 }
 
 /* APPLY CROP */
 function applyCrop(){
-  let canvas=document.createElement("canvas");
-  canvas.width=200;
-  canvas.height=200;
-  let ctx=canvas.getContext("2d");
 
-  let im=new Image();
-  im.src=img.src;
+  let canvas = document.createElement("canvas");
+  canvas.width = 200;
+  canvas.height = 200;
+  let ctx = canvas.getContext("2d");
 
-  im.onload=()=>{
-    ctx.drawImage(im,0,0,200,200);
-    document.getElementById("profilePic").src=canvas.toDataURL();
+  let img = new Image();
+  img.src = cropImg.src;
+
+  img.onload = function(){
+    ctx.drawImage(img, 0, 0, 200, 200);
+    document.getElementById("profileImg").src = canvas.toDataURL();
     closeCrop();
   }
 }
 
 /* SAVE PROFILE */
 function saveProfile(){
-  document.getElementById("name").innerText=
-    document.getElementById("first").value+" "+document.getElementById("last").value;
+  document.getElementById("fullName").innerText =
+    document.getElementById("first").value +
+    " " +
+    document.getElementById("last").value;
 
-  document.getElementById("age").innerText="Age: "+document.getElementById("ageInput").value;
-  document.getElementById("city").innerText="City: "+document.getElementById("cityInput").value;
+  document.getElementById("age").innerText =
+    "🎂 Age: " + document.getElementById("ageInput").value;
+
+  document.getElementById("city").innerText =
+    "📍 City: " + document.getElementById("cityInput").value;
 
   document.getElementById("modal").style.display="none";
 }
 
-/* BIKE SYSTEM */
-const bikeDB=[
-  "KTM Duke 390",
-  "Yamaha R15 V4",
-  "BMW G 310 GS",
-  "Kawasaki Ninja 400",
-  "Royal Enfield GT 650",
-  "Ducati Panigale V2",
-  "TVS Apache RR 310"
+/* BIKE DATA */
+let bikes=[
+  {name:"KTM Duke 390",type:"Street",img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39"},
+  {name:"Yamaha R15",type:"Sport",img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d"},
+  {name:"BMW GS",type:"Adventure",img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65"},
+  {name:"Ninja 400",type:"Sport",img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04"}
 ];
 
-let selectedBike=null;
-
-function openBikeModal(){
-  document.getElementById("bikeModal").style.display="flex";
-  renderList(bikeDB);
-}
-
-function renderList(list){
-  let box=document.getElementById("bikeResults");
-  box.innerHTML="";
-  list.forEach(b=>{
-    let div=document.createElement("div");
-    div.innerText=b;
-
-    div.onclick=()=>{
-      selectedBike=b;
-      document.querySelectorAll("#bikeResults div")
-      .forEach(d=>d.classList.remove("selectedBike"));
-      div.classList.add("selectedBike");
-      document.getElementById("addBikeBtn").style.display="block";
-    };
-
-    box.appendChild(div);
+function render(){
+  let grid=document.getElementById("grid");
+  grid.innerHTML="";
+  bikes.forEach(b=>{
+    grid.innerHTML+=`
+      <div class="bike-card">
+        <img src="${b.img}">
+        <div class="bike-info">
+          <div class="bike-name">${b.name}</div>
+          <div class="bike-type">${b.type}</div>
+        </div>
+      </div>`;
   });
 }
 
-function searchBike(){
-  let val=document.getElementById("bikeSearch").value.toLowerCase();
-  let filtered=bikeDB.filter(b=>b.toLowerCase().includes(val));
-  renderList(filtered);
-}
-
-function addBike(){
-  if(!selectedBike)return;
-
-  let grid=document.getElementById("grid");
-
-  grid.innerHTML+=`
-    <div class="bike-card">
-      <img src="https://source.unsplash.com/300x200/?motorcycle">
-      <div class="bike-info">
-        <div class="bike-name">${selectedBike}</div>
-        <div class="bike-type">Custom</div>
-      </div>
-    </div>
-  `;
-
-  document.getElementById("bikeModal").style.display="none";
-  document.getElementById("bikeSearch").value="";
-  document.getElementById("addBikeBtn").style.display="none";
-  selectedBike=null;
-}
-
-/* INIT */
-let grid=document.getElementById("grid");
-["KTM Duke 390","Yamaha R15","BMW GS","Ninja 400"].forEach(b=>{
-  grid.innerHTML+=`
-    <div class="bike-card">
-      <img src="https://source.unsplash.com/300x200/?bike">
-      <div class="bike-info">
-        <div class="bike-name">${b}</div>
-        <div class="bike-type">Default</div>
-      </div>
-    </div>`;
-});
+render();
 
 </script>
 

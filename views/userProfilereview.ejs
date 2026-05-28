@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Profile Module</title>
+
+<style>
+.profileModule_container {
+  width: 60%;
+  margin: 30px auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: Arial;
+}
+
+.profileModule_tabHeader {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.profileModule_tabHeader button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.profileModule_tabHeader .active {
+  border-bottom: 2px solid black;
+  font-weight: bold;
+}
+
+.profileModule_hidden {
+  display: none !important;
+}
+
+/* TOP BAR */
+.profileModule_topBar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.profileModule_addBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: black;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* POSTS */
+.profileModule_postGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+.profileModule_postCard {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.profileModule_postCard img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.profileModule_overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 8px;
+}
+
+/* =========================
+   BIKE REVIEWS (ADDED ONLY)
+========================= */
+
+.profileModule_reviewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+.profileModule_reviewCard {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.profileModule_reviewCard img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.profileModule_reviewBody {
+  padding: 10px;
+}
+
+/* MODAL (UNCHANGED) */
+.profileModule_modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileModule_modal {
+  background: white;
+  padding: 20px;
+  width: 320px;
+  border-radius: 10px;
+}
+
+.profileModule_modal input,
+.profileModule_modal textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="profileModule_container">
+
+  <!-- TABS -->
+  <div class="profileModule_tabHeader">
+    <button class="profileModule_tab active" data-tab="posts">Posts</button>
+    <button class="profileModule_tab" data-tab="reviews">Bike Reviews</button>
+  </div>
+
+  <!-- POSTS -->
+  <div id="postsTab">
+
+    <div class="profileModule_topBar">
+      <button class="profileModule_addBtn" id="addPostBtn">+</button>
+    </div>
+
+    <div id="postGrid" class="profileModule_postGrid"></div>
+  </div>
+
+  <!-- REVIEWS (UPDATED) -->
+  <div id="reviewsTab" class="profileModule_hidden">
+
+    <div class="profileModule_topBar">
+      <button class="profileModule_addBtn" id="addReviewBtn">+</button>
+    </div>
+
+    <div id="reviewGrid" class="profileModule_reviewGrid"></div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="profileModule_modalBackdrop profileModule_hidden">
+  <div class="profileModule_modal">
+
+    <h3 id="modalTitle">Add</h3>
+
+    <input type="text" id="titleInput" placeholder="Title / Bike Name">
+    <input type="text" id="locationInput" placeholder="Location (only for posts)">
+    <textarea id="textInput" placeholder="Review Text (only for reviews)"></textarea>
+
+    <input type="file" id="fileInput" accept="image/*">
+
+    <button id="saveBtn">Save</button>
+    <button id="closeBtn">Cancel</button>
+
+  </div>
+</div>
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let posts = [
+  { id: 1, title: "Beach Ride", location: "Goa", image: "https://picsum.photos/400/400" }
+];
+
+let reviews = [
+  { id: 1, bike: "Yamaha R15", text: "Smooth ride and great mileage", image: "https://picsum.photos/401/400" }
+];
+
+/* STATE */
+let mode = "post";
+let editId = null;
+let selectedImage = null;
+
+/* =========================
+   INIT
+========================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  renderPosts();
+  renderReviews();
+
+  document.getElementById("addPostBtn").onclick = () => openModal("post");
+  document.getElementById("addReviewBtn").onclick = () => openModal("review");
+
+  document.getElementById("saveBtn").onclick = saveData;
+  document.getElementById("closeBtn").onclick = closeModal;
+
+  document.getElementById("fileInput").onchange = (e) => {
+    selectedImage = URL.createObjectURL(e.target.files[0]);
+  };
+
+  document.querySelectorAll(".profileModule_tab").forEach(btn => {
+    btn.onclick = () => switchTab(btn.dataset.tab);
+  });
+
+});
+
+/* =========================
+   TAB SWITCH
+========================= */
+
+function switchTab(tab) {
+  document.getElementById("postsTab").classList.add("profileModule_hidden");
+  document.getElementById("reviewsTab").classList.add("profileModule_hidden");
+
+  if (tab === "posts") {
+    document.getElementById("postsTab").classList.remove("profileModule_hidden");
+  } else {
+    document.getElementById("reviewsTab").classList.remove("profileModule_hidden");
+  }
+}
+
+/* =========================
+   POSTS (UNCHANGED LOGIC)
+========================= */
+
+function renderPosts() {
+  const grid = document.getElementById("postGrid");
+  grid.innerHTML = "";
+
+  posts.forEach(p => {
+    grid.innerHTML += `
+      <div class="profileModule_postCard">
+        <img src="${p.image}">
+        <div class="profileModule_overlay">
+          <b>${p.title}</b><br/>
+          ${p.location}
+        </div>
+      </div>
+    `;
+  });
+}
+
+/* =========================
+   BIKE REVIEWS (UPDATED)
+========================= */
+
+function renderReviews() {
+  const grid = document.getElementById("reviewGrid");
+  grid.innerHTML = "";
+
+  reviews.forEach(r => {
+    grid.innerHTML += `
+      <div class="profileModule_reviewCard">
+        <img src="${r.image}">
+        <div class="profileModule_reviewBody">
+          <b>${r.bike}</b>
+          <p>${r.text}</p>
+
+          <button onclick="editReview(${r.id})">Edit</button>
+          <button onclick="deleteReview(${r.id})">Delete</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+/* =========================
+   MODAL
+========================= */
+
+function openModal(type, data=null) {
+  mode = type;
+  editId = data ? data.id : null;
+
+  document.getElementById("modal").classList.remove("profileModule_hidden");
+
+  document.getElementById("titleInput").value = data?.title || data?.bike || "";
+  document.getElementById("locationInput").value = data?.location || "";
+  document.getElementById("textInput").value = data?.text || "";
+
+  selectedImage = data?.image || null;
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.add("profileModule_hidden");
+}
+
+/* =========================
+   SAVE LOGIC
+========================= */
+
+function saveData() {
+
+  if (mode === "post") {
+
+    const title = document.getElementById("titleInput").value;
+    const location = document.getElementById("locationInput").value;
+
+    posts.unshift({
+      id: Date.now(),
+      title,
+      location,
+      image: selectedImage || "https://picsum.photos/400/400"
+    });
+
+    renderPosts();
+  }
+
+  else {
+
+    const bike = document.getElementById("titleInput").value;
+    const text = document.getElementById("textInput").value;
+
+    if (editId) {
+      reviews = reviews.map(r =>
+        r.id === editId
+          ? { ...r, bike, text, image: selectedImage }
+          : r
+      );
+    } else {
+      reviews.unshift({
+        id: Date.now(),
+        bike,
+        text,
+        image: selectedImage || "https://picsum.photos/401/400"
+      });
+    }
+
+    renderReviews();
+  }
+
+  closeModal();
+}
+
+/* =========================
+   REVIEW ACTIONS
+========================= */
+
+function editReview(id) {
+  const r = reviews.find(x => x.id === id);
+  openModal("review", r);
+}
+
+function deleteReview(id) {
+  reviews = reviews.filter(r => r.id !== id);
+  renderReviews();
+}
+
+</script>
+
+</body>
+</html>
