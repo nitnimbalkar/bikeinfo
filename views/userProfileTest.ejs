@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>BikeInfo</title>
 
@@ -28,6 +28,7 @@ body{
   padding:12px 20px;
   background:rgba(30,30,30,0.95);
   color:white;
+  z-index:1000;
 }
 
 .logo{font-weight:bold;}
@@ -35,6 +36,7 @@ body{
 /* TOGGLE */
 .switch{position:relative;width:50px;height:26px;}
 .switch input{display:none;}
+
 .slider{
   position:absolute;inset:0;
   background:#ccc;border-radius:30px;cursor:pointer;
@@ -61,11 +63,7 @@ input:checked + .slider:before{transform:translateX(24px);}
   background:#fafafa;
 }
 
-.profile-left{
-  display:flex;
-  align-items:center;
-  gap:15px;
-}
+.profile-left{display:flex;gap:15px;align-items:center;}
 
 .profile-img{
   width:70px;height:70px;
@@ -73,13 +71,8 @@ input:checked + .slider:before{transform:translateX(24px);}
   overflow:hidden;
   border:2px solid #ddd;
 }
+.profile-img img{width:100%;height:100%;object-fit:cover;}
 
-.profile-img img{
-  width:100%;height:100%;
-  object-fit:cover;
-}
-
-/* RIGHT INFO */
 .profile-right{
   display:flex;
   flex-direction:column;
@@ -87,12 +80,11 @@ input:checked + .slider:before{transform:translateX(24px);}
   gap:6px;
 }
 
-/* EDIT BUTTON */
 .edit-btn{
   padding:6px 12px;
   background:#4CAF50;
-  color:white;
   border:none;
+  color:white;
   border-radius:8px;
   cursor:pointer;
   margin-bottom:6px;
@@ -137,9 +129,8 @@ input:checked + .slider:before{transform:translateX(24px);}
 .bike-name{font-size:13px;font-weight:bold;}
 .bike-type{font-size:11px;color:#666;}
 
-/* ================= MODALS ================= */
-.modal,
-.cropper{
+/* MODALS */
+.modal{
   position:fixed;
   inset:0;
   display:none;
@@ -149,7 +140,6 @@ input:checked + .slider:before{transform:translateX(24px);}
   z-index:9999;
 }
 
-/* PROFILE MODAL */
 .modal-box{
   width:340px;
   background:white;
@@ -175,7 +165,36 @@ input:checked + .slider:before{transform:translateX(24px);}
   cursor:pointer;
 }
 
+/* BIKE SEARCH RESULTS */
+#bikeResults div{
+  padding:10px;
+  margin:5px 0;
+  border:1px solid #ddd;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+#bikeResults div:hover{
+  background:#f0f0f0;
+}
+
+.selectedBike{
+  background:#4CAF50 !important;
+  color:white;
+}
+
 /* CROPPER */
+.cropper{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.7);
+  z-index:20000;
+  flex-direction:column;
+}
+
 .crop-box{
   width:260px;
   height:260px;
@@ -183,7 +202,6 @@ input:checked + .slider:before{transform:translateX(24px);}
   overflow:hidden;
   border:3px solid white;
   position:relative;
-  background:#111;
 }
 
 .crop-img{
@@ -198,7 +216,7 @@ input:checked + .slider:before{transform:translateX(24px);}
 }
 
 .crop-actions{
-  margin-top:12px;
+  margin-top:10px;
   display:flex;
   gap:10px;
 }
@@ -255,7 +273,7 @@ input:checked + .slider:before{transform:translateX(24px);}
 <div class="garage">
   <div class="garage-top">
     <h3>Garage</h3>
-    <button>+ Add Bike</button>
+    <button onclick="openBikeModal()">+ Add Bike</button>
   </div>
 
   <div class="bike-grid" id="grid"></div>
@@ -270,10 +288,26 @@ input:checked + .slider:before{transform:translateX(24px);}
     <input id="ageInput" placeholder="Age">
     <input id="cityInput" placeholder="City">
 
-    <!-- IMAGE UPLOAD -->
     <input type="file" accept="image/*" onchange="openCrop(event)">
 
     <button onclick="saveProfile()">Save</button>
+
+  </div>
+</div>
+
+<!-- BIKE MODAL -->
+<div class="modal" id="bikeModal">
+  <div class="modal-box">
+
+    <h3>Select Bike</h3>
+
+    <input id="bikeSearch" placeholder="Search bike..." oninput="searchBike()">
+
+    <div id="bikeResults"></div>
+
+    <button id="addBikeBtn" onclick="addBike()" style="display:none;margin-top:10px;">
+      Add Bike
+    </button>
 
   </div>
 </div>
@@ -299,14 +333,14 @@ input:checked + .slider:before{transform:translateX(24px);}
 /* DARK MODE */
 document.getElementById("darkToggle").onchange=()=>{
   document.body.classList.toggle("dark");
-}
+};
 
-/* PROFILE MODAL */
+/* PROFILE */
 function openProfile(){
   document.getElementById("modal").style.display="flex";
 }
 
-/* CROPPER LOGIC */
+/* CROPPER */
 let img=document.getElementById("cropImg");
 let zoom=document.getElementById("zoom");
 
@@ -319,8 +353,8 @@ function openCrop(e){
   reader.onload=ev=>{
     img.src=ev.target.result;
     document.getElementById("cropper").style.display="flex";
-    x=0;y=0;scale=1;
   }
+
   reader.readAsDataURL(file);
 }
 
@@ -384,26 +418,81 @@ function saveProfile(){
   document.getElementById("modal").style.display="none";
 }
 
-/* BIKE DATA */
-let bikes=[
-  {name:"KTM Duke",type:"Street"},
-  {name:"Yamaha R15",type:"Sport"},
-  {name:"BMW GS",type:"ADV"},
-  {name:"Ninja 400",type:"Sport"}
+/* BIKE SYSTEM */
+const bikeDB=[
+  "KTM Duke 390",
+  "Yamaha R15 V4",
+  "BMW G 310 GS",
+  "Kawasaki Ninja 400",
+  "Royal Enfield GT 650",
+  "Ducati Panigale V2",
+  "TVS Apache RR 310"
 ];
 
-let grid=document.getElementById("grid");
+let selectedBike=null;
 
-bikes.forEach(b=>{
+function openBikeModal(){
+  document.getElementById("bikeModal").style.display="flex";
+  renderList(bikeDB);
+}
+
+function renderList(list){
+  let box=document.getElementById("bikeResults");
+  box.innerHTML="";
+  list.forEach(b=>{
+    let div=document.createElement("div");
+    div.innerText=b;
+
+    div.onclick=()=>{
+      selectedBike=b;
+      document.querySelectorAll("#bikeResults div")
+      .forEach(d=>d.classList.remove("selectedBike"));
+      div.classList.add("selectedBike");
+      document.getElementById("addBikeBtn").style.display="block";
+    };
+
+    box.appendChild(div);
+  });
+}
+
+function searchBike(){
+  let val=document.getElementById("bikeSearch").value.toLowerCase();
+  let filtered=bikeDB.filter(b=>b.toLowerCase().includes(val));
+  renderList(filtered);
+}
+
+function addBike(){
+  if(!selectedBike)return;
+
+  let grid=document.getElementById("grid");
+
+  grid.innerHTML+=`
+    <div class="bike-card">
+      <img src="https://source.unsplash.com/300x200/?motorcycle">
+      <div class="bike-info">
+        <div class="bike-name">${selectedBike}</div>
+        <div class="bike-type">Custom</div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("bikeModal").style.display="none";
+  document.getElementById("bikeSearch").value="";
+  document.getElementById("addBikeBtn").style.display="none";
+  selectedBike=null;
+}
+
+/* INIT */
+let grid=document.getElementById("grid");
+["KTM Duke 390","Yamaha R15","BMW GS","Ninja 400"].forEach(b=>{
   grid.innerHTML+=`
     <div class="bike-card">
       <img src="https://source.unsplash.com/300x200/?bike">
       <div class="bike-info">
-        <div class="bike-name">${b.name}</div>
-        <div class="bike-type">${b.type}</div>
+        <div class="bike-name">${b}</div>
+        <div class="bike-type">Default</div>
       </div>
-    </div>
-  `;
+    </div>`;
 });
 
 </script>
