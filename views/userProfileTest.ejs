@@ -3,237 +3,227 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Steam Bike Garage</title>
+<title>BikeInfo</title>
 
 <style>
 
-:root{
-  --bg:#f5f6f8;
-  --text:#111;
-  --sub:#666;
-  --border:#d9dbe1;
-  --accent:#4c8bf5;
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+body {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  color: #000;
+  transition: background 0.3s, color 0.3s;
+  padding-top: 60px;
 }
 
-body{
-  background:var(--bg);
-  font-family:Arial, sans-serif;
-  color:var(--text);
+/* ================= NAVBAR ================= */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 12px 20px;
+
+  background: rgba(34, 34, 34, 0.92);
+  backdrop-filter: blur(10px);
+  color: white;
+
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:40px 20px;
+.logo {
+  font-size: 20px;
+  font-weight: bold;
 }
 
-/* PROFILE */
-
-.profile-top{
-  display:flex;
-  gap:40px;
-  align-items:center;
-  border-bottom:1px solid var(--border);
-  padding-bottom:25px;
+/* ================= TOGGLE SWITCH ================= */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
 }
 
-.profile-image{
-  width:130px;
-  height:130px;
-  border-radius:50%;
-  overflow:hidden;
-  border:3px solid var(--border);
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.profile-image img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
 }
 
-.username{
-  font-size:28px;
-  font-weight:700;
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
 }
 
-.meta{
-  color:var(--sub);
-  margin-top:6px;
-  font-size:14px;
+input:checked + .slider {
+  background-color: #4CAF50;
 }
 
-/* GARAGE */
-
-.showcase{
-  margin-top:40px;
+input:checked + .slider:before {
+  transform: translateX(24px);
 }
 
-.garage-title{
-  font-size:22px;
-  font-weight:700;
-  margin-bottom:15px;
+/* ================= PROFILE ================= */
+.profile {
+  width: 60%;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 15px;
 }
 
-/* BIKE GRID */
-
-.bike-grid{
-  display:flex;
-  gap:15px;
-  overflow-x:auto;
-  padding-bottom:10px;
+.profile-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
-.bike-card{
-  width:220px;
-  height:300px;
-  flex-shrink:0;
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:14px;
-  overflow:hidden;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  transition:.25s;
+.profile-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-.bike-card:hover{
-  transform:translateY(-6px);
+.profile-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.bike-card img{
-  width:100%;
-  height:170px;
-  object-fit:cover;
+.profile-info h2 {
+  font-size: 18px;
 }
 
-.bike-info{
-  padding:12px;
+.profile-info p {
+  color: #555;
+  font-size: 13px;
 }
 
-.bike-name{
-  font-weight:700;
-  font-size:15px;
+/* ================= GARAGE ================= */
+.garage {
+  width: 60%;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 18px;
 }
 
-.bike-desc{
-  margin-top:8px;
-  color:var(--sub);
-  font-size:13px;
+.garage-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-/* TABS */
-
-.tabs{
-  display:flex;
-  gap:12px;
-  margin-top:60px;
-  margin-bottom:20px;
+.garage-title {
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.tab{
-  padding:12px 20px;
-  border-radius:10px;
-  background:#e5e7eb;
-  cursor:pointer;
-  font-weight:600;
+.add-btn {
+  padding: 8px 12px;
+  border: none;
+  background: #4CAF50;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.tab.active{
-  background:var(--accent);
-  color:#fff;
+/* ================= BIKE GRID ================= */
+.bike-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
 }
 
-.tab-content{
-  display:none;
+/* ================= BIKE CARD ================= */
+.bike-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f5f5f5;
+  transition: 0.25s;
 }
 
-.tab-content.active{
-  display:block;
+.bike-card:hover {
+  transform: translateY(-4px);
 }
 
-/* MEDIA */
-
-.media-grid{
-  display:grid;
-  grid-template-columns:repeat(3, 1fr);
-  gap:12px;
+.bike-card img {
+  width: 100%;
+  height: 95px;
+  object-fit: cover;
 }
 
-.media-post{
-  aspect-ratio:1/1;
-  border-radius:14px;
-  overflow:hidden;
-  background:#ddd;
+.bike-info {
+  padding: 8px;
 }
 
-.media-post img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:.3s;
+.bike-name {
+  font-size: 13px;
+  font-weight: bold;
 }
 
-.media-post:hover img{
-  transform:scale(1.05);
+.bike-type {
+  font-size: 11px;
+  color: #666;
 }
 
-/* REVIEWS */
-
-.review-list{
-  display:flex;
-  flex-direction:column;
-  gap:18px;
+/* ================= DARK MODE ================= */
+body.dark {
+  background: #121212;
+  color: #fff;
 }
 
-.review-card{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:16px;
-  padding:18px;
+body.dark .profile,
+body.dark .garage {
+  background: #1c1c1c;
+  border-color: #333;
 }
 
-.review-bike{
-  display:flex;
-  align-items:center;
-  gap:14px;
+body.dark .bike-card {
+  background: #222;
+  border-color: #333;
 }
 
-.review-bike img{
-  width:70px;
-  height:70px;
-  border-radius:12px;
-  object-fit:cover;
+body.dark .bike-type {
+  color: #aaa;
 }
 
-.review-bike-name{
-  font-size:18px;
-  font-weight:700;
-}
-
-.review-date{
-  margin-top:4px;
-  color:var(--sub);
-  font-size:13px;
-}
-
-.review-stars{
-  margin-top:14px;
-  color:#f59e0b;
-  font-size:20px;
-}
-
-.review-text{
-  margin-top:12px;
-  color:var(--sub);
-  line-height:1.7;
-  font-size:14px;
+body.dark .navbar {
+  background: rgba(20,20,20,0.95);
 }
 
 </style>
@@ -241,160 +231,96 @@ body{
 
 <body>
 
-<div class="container">
+<!-- NAVBAR -->
+<div class="navbar">
 
-  <!-- PROFILE -->
-  <div class="profile-top">
+  <div class="logo">BikeInfo</div>
+
+  <!-- DARK MODE SWITCH -->
+  <label class="switch">
+    <input type="checkbox" id="darkToggle">
+    <span class="slider"></span>
+  </label>
+
+</div>
+
+<!-- PROFILE -->
+<div class="profile">
+  <div class="profile-left">
     <div class="profile-image">
-      <img src="https://i.pravatar.cc/400?img=12">
+      <img src="https://i.pravatar.cc/300?img=12">
     </div>
-    <div>
-      <div class="username">Rider_X</div>
-      <div class="meta">Mumbai • Steam Garage System</div>
-    </div>
-  </div>
-
-  <!-- BIKE GARAGE -->
-  <div class="showcase">
-    <div class="garage-title">Bike Garage</div>
-
-    <div class="bike-grid">
-
-      <div class="bike-card">
-        <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39">
-        <div class="bike-info">
-          <div class="bike-name">KTM Duke 390</div>
-          <div class="bike-desc">Street performance beast</div>
-        </div>
-      </div>
-
-      <div class="bike-card">
-        <img src="https://images.unsplash.com/photo-1609630875171-b1321377ee65">
-        <div class="bike-info">
-          <div class="bike-name">BMW G 310 GS</div>
-          <div class="bike-desc">Adventure touring machine</div>
-        </div>
-      </div>
-
-      <div class="bike-card">
-        <img src="https://images.unsplash.com/photo-1580310614729-ccd69652491d">
-        <div class="bike-info">
-          <div class="bike-name">Yamaha R15 V4</div>
-          <div class="bike-desc">Light supersport machine</div>
-        </div>
-      </div>
-
-      <div class="bike-card">
-        <img src="https://images.unsplash.com/photo-1625047509168-a7026f36de04">
-        <div class="bike-info">
-          <div class="bike-name">Kawasaki Ninja 400</div>
-          <div class="bike-desc">Balanced sport performance</div>
-        </div>
-      </div>
-
-      <div class="bike-card">
-        <img src="https://images.unsplash.com/photo-1606220838315-056192d5e927">
-        <div class="bike-info">
-          <div class="bike-name">Royal Enfield GT 650</div>
-          <div class="bike-desc">Classic modern cruiser</div>
-        </div>
-      </div>
-
-      <div class="bike-card">
-        <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a">
-        <div class="bike-info">
-          <div class="bike-name">Harley Davidson Iron 883</div>
-          <div class="bike-desc">Pure American cruiser feel</div>
-        </div>
-      </div>
-
-      <div class="bike-card">
-        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
-        <div class="bike-info">
-          <div class="bike-name">Ducati Panigale V2</div>
-          <div class="bike-desc">Superbike performance machine</div>
-        </div>
-      </div>
-
-      <div class="bike-card">
-        <img src="https://images.unsplash.com/photo-1491553895911-0055eca6402d">
-        <div class="bike-info">
-          <div class="bike-name">TVS Apache RR 310</div>
-          <div class="bike-desc">Affordable sport tourer</div>
-        </div>
-      </div>
-
+    <div class="profile-info">
+      <h2>Rahul Sharma</h2>
+      <p>@riderx</p>
     </div>
   </div>
+</div>
 
-  <!-- TABS -->
-  <div class="tabs">
-    <div class="tab active" onclick="switchTab('media',this)">Media</div>
-    <div class="tab" onclick="switchTab('reviews',this)">Reviews</div>
+<!-- GARAGE -->
+<div class="garage">
+
+  <div class="garage-top">
+    <div class="garage-title">My Garage</div>
+    <button class="add-btn" onclick="addBike()">+ Add Bike</button>
   </div>
 
-  <!-- MEDIA -->
-  <div class="tab-content active" id="media">
-
-    <div class="media-grid">
-
-      <div class="media-post"><img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c"></div>
-      <div class="media-post"><img src="https://images.unsplash.com/photo-1493238792000-8113da705763"></div>
-      <div class="media-post"><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70"></div>
-      <div class="media-post"><img src="https://images.unsplash.com/photo-1489824904134-891ab64532f1"></div>
-      <div class="media-post"><img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b"></div>
-      <div class="media-post"><img src="https://images.unsplash.com/photo-1502877338535-766e1452684a"></div>
-
-    </div>
-
-  </div>
-
-  <!-- REVIEWS -->
-  <div class="tab-content" id="reviews">
-
-    <div class="review-list">
-
-      <div class="review-card">
-        <div class="review-bike">
-          <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39">
-          <div>
-            <div class="review-bike-name">KTM Duke 390</div>
-            <div class="review-date">May 17, 2026</div>
-          </div>
-        </div>
-        <div class="review-stars">★★★★★</div>
-        <div class="review-text">Insane power and perfect city bike.</div>
-      </div>
-
-      <div class="review-card">
-        <div class="review-bike">
-          <img src="https://images.unsplash.com/photo-1609630875171-b1321377ee65">
-          <div>
-            <div class="review-bike-name">BMW G 310 GS</div>
-            <div class="review-date">April 28, 2026</div>
-          </div>
-        </div>
-        <div class="review-stars">★★★★☆</div>
-        <div class="review-text">Comfortable touring but slightly underpowered.</div>
-      </div>
-
-    </div>
-
-  </div>
+  <div class="bike-grid" id="grid"></div>
 
 </div>
 
 <script>
 
-function switchTab(id, el){
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-  document.querySelectorAll(".tab-content").forEach(c=>c.classList.remove("active"));
+/* DARK MODE TOGGLE */
+document.getElementById("darkToggle").addEventListener("change", function(){
+  document.body.classList.toggle("dark");
+});
 
-  el.classList.add("active");
-  document.getElementById(id).classList.add("active");
+/* BIKES */
+let bikes = [
+  {
+    name: "KTM Duke 390",
+    type: "Street",
+    img: "https://images.unsplash.com/photo-1558981806-ec527fa84c39"
+  },
+  {
+    name: "Yamaha R15 V4",
+    type: "Sport",
+    img: "https://images.unsplash.com/photo-1580310614729-ccd69652491d"
+  }
+];
+
+function render(){
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  bikes.forEach(b => {
+    grid.innerHTML += `
+      <div class="bike-card">
+        <img src="${b.img}">
+        <div class="bike-info">
+          <div class="bike-name">${b.name}</div>
+          <div class="bike-type">${b.type}</div>
+        </div>
+      </div>
+    `;
+  });
 }
+
+function addBike(){
+  const name = prompt("Enter bike name:");
+  const type = prompt("Enter bike type:");
+  const img = prompt("Enter image URL:");
+
+  if(!name || !type || !img) return;
+
+  bikes.push({ name, type, img });
+  render();
+}
+
+render();
 
 </script>
 
 </body>
-</html> 
+</html>
