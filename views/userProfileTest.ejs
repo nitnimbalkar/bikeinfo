@@ -265,6 +265,136 @@ input:checked + .slider:before {
 .save-btn { background:#4CAF50; color:white; }
 .cancel-btn { background:#999; color:white; }
 
+.profileModule_container {
+  width: 60%;
+  margin: 30px auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  overflow: hidden;
+  font-family: Arial;
+}
+
+.profileModule_tabHeader {
+  display: flex;
+  border-bottom: 1px solid #eee;
+}
+
+.profileModule_tabHeader button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.profileModule_tabHeader .active {
+  border-bottom: 2px solid black;
+  font-weight: bold;
+}
+
+.profileModule_hidden {
+  display: none !important;
+}
+
+/* TOP BAR */
+.profileModule_topBar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.profileModule_addBtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: black;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* POSTS */
+.profileModule_postGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+.profileModule_postCard {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.profileModule_postCard img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.profileModule_overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 8px;
+}
+
+/* REVIEWS */
+.profileModule_reviewGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+
+.profileModule_reviewCard {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.profileModule_reviewCard img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+
+.profileModule_reviewBody {
+  padding: 10px;
+}
+
+/* MODAL */
+.profileModule_modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileModule_modal {
+  background: white;
+  padding: 20px;
+  width: 320px;
+  border-radius: 10px;
+}
+
+.profileModule_modal input,
+.profileModule_modal textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+}
+
 </style>
 </head>
 
@@ -352,43 +482,69 @@ input:checked + .slider:before {
   </div>
 
   <!-- POSTS -->
-  <div id="postsTab">
+  <div id="profileModule_postsTab">
 
     <div class="profileModule_topBar">
-      <button class="profileModule_addBtn" id="addPostBtn">+</button>
+      <button class="profileModule_addBtn" id="profileModule_addPostBtn">+</button>
     </div>
 
-    <div id="postGrid" class="profileModule_postGrid"></div>
+    <div id="profileModule_postGrid" class="profileModule_postGrid"></div>
+
   </div>
 
-  <!-- REVIEWS (UPDATED) -->
-  <div id="reviewsTab" class="profileModule_hidden">
+  <!-- REVIEWS -->
+  <div id="profileModule_reviewsTab" class="profileModule_hidden">
 
     <div class="profileModule_topBar">
-      <button class="profileModule_addBtn" id="addReviewBtn">+</button>
+      <button class="profileModule_addBtn" id="profileModule_addReviewBtn">+</button>
     </div>
 
-    <div id="reviewGrid" class="profileModule_reviewGrid"></div>
+    <div id="profileModule_reviewGrid" class="profileModule_reviewGrid"></div>
+
   </div>
 
 </div>
 
 <!-- MODAL -->
-<div id="modal" class="profileModule_modalBackdrop profileModule_hidden">
+<div id="profileModule_modal" class="profileModule_modalBackdrop profileModule_hidden">
+
   <div class="profileModule_modal">
 
-    <h3 id="modalTitle">Add</h3>
+    <h3 id="profileModule_modalTitle">Add</h3>
 
-    <input type="text" id="titleInput" placeholder="Title / Bike Name">
-    <input type="text" id="locationInput" placeholder="Location (only for posts)">
-    <textarea id="textInput" placeholder="Review Text (only for reviews)"></textarea>
+    <input
+      type="text"
+      id="profileModule_titleInput"
+      placeholder="Title / Bike Name"
+    >
 
-    <input type="file" id="fileInput" accept="image/*">
+    <input
+      type="text"
+      id="profileModule_locationInput"
+      placeholder="Location (only for posts)"
+    >
 
-    <button id="saveBtn">Save</button>
-    <button id="closeBtn">Cancel</button>
+    <textarea
+      id="profileModule_textInput"
+      placeholder="Review Text (only for reviews)"
+    ></textarea>
+
+    <input
+      type="file"
+      id="profileModule_fileInput"
+      accept="image/*"
+    >
+
+    <button id="profileModule_saveBtn">
+      Save
+    </button>
+
+    <button id="profileModule_closeBtn">
+      Cancel
+    </button>
 
   </div>
+
 </div>
 
 <script>
@@ -516,8 +672,362 @@ function render(){
       </div>`;
   });
 }
-
 render();
+/* =========================
+   PROFILE MODULE DATA
+========================= */
+
+let profileModule_posts = [
+  {
+    id: 1,
+    title: "Beach Ride",
+    location: "Goa",
+    image: "https://picsum.photos/400/400"
+  }
+];
+
+let profileModule_reviews = [
+  {
+    id: 1,
+    bike: "Yamaha R15",
+    text: "Smooth ride and great mileage",
+    image: "https://picsum.photos/401/400"
+  }
+];
+
+let profileModule_mode = "post";
+let profileModule_editId = null;
+let profileModule_selectedImage = null;
+
+
+/* =========================
+   INIT
+========================= */
+
+profileModule_init();
+
+function profileModule_init() {
+
+  profileModule_renderPosts();
+  profileModule_renderReviews();
+
+  const addPostBtn =
+    document.getElementById("profileModule_addPostBtn");
+
+  const addReviewBtn =
+    document.getElementById("profileModule_addReviewBtn");
+
+  if (addPostBtn) {
+
+    addPostBtn.addEventListener("click", () => {
+      profileModule_openModal("post");
+    });
+
+  }
+
+  if (addReviewBtn) {
+
+    addReviewBtn.addEventListener("click", () => {
+      profileModule_openModal("review");
+    });
+
+  }
+
+  document.getElementById("profileModule_saveBtn")
+    .addEventListener("click", profileModule_saveData);
+
+  document.getElementById("profileModule_closeBtn")
+    .addEventListener("click", profileModule_closeModal);
+
+  document.getElementById("profileModule_fileInput")
+    .addEventListener("change", (e) => {
+
+      if (e.target.files[0]) {
+
+        profileModule_selectedImage =
+          URL.createObjectURL(e.target.files[0]);
+
+      }
+
+    });
+
+  document.querySelectorAll(".profileModule_tab")
+    .forEach(btn => {
+
+      btn.addEventListener("click", () => {
+
+        profileModule_switchTab(btn.dataset.tab);
+
+      });
+
+    });
+
+}
+
+
+/* =========================
+   TAB SWITCH
+========================= */
+
+function profileModule_switchTab(tab) {
+
+  document.getElementById("profileModule_postsTab")
+    .classList.add("profileModule_hidden");
+
+  document.getElementById("profileModule_reviewsTab")
+    .classList.add("profileModule_hidden");
+
+  document.querySelectorAll(".profileModule_tab")
+    .forEach(btn => {
+      btn.classList.remove("active");
+    });
+
+  if (tab === "posts") {
+
+    document.getElementById("profileModule_postsTab")
+      .classList.remove("profileModule_hidden");
+
+    document.querySelector('[data-tab="posts"]')
+      .classList.add("active");
+
+  }
+
+  else {
+
+    document.getElementById("profileModule_reviewsTab")
+      .classList.remove("profileModule_hidden");
+
+    document.querySelector('[data-tab="reviews"]')
+      .classList.add("active");
+
+  }
+
+}
+
+
+/* =========================
+   POSTS
+========================= */
+
+function profileModule_renderPosts() {
+
+  const grid =
+    document.getElementById("profileModule_postGrid");
+
+  grid.innerHTML = "";
+
+  profileModule_posts.forEach(p => {
+
+    grid.innerHTML += `
+      <div class="profileModule_postCard">
+
+        <img src="${p.image}">
+
+        <div class="profileModule_overlay">
+
+          <b>${p.title}</b><br/>
+          ${p.location}
+
+        </div>
+
+      </div>
+    `;
+
+  });
+
+}
+
+
+/* =========================
+   REVIEWS
+========================= */
+
+function profileModule_renderReviews() {
+
+  const grid =
+    document.getElementById("profileModule_reviewGrid");
+
+  grid.innerHTML = "";
+
+  profileModule_reviews.forEach(r => {
+
+    grid.innerHTML += `
+      <div class="profileModule_reviewCard">
+
+        <img src="${r.image}">
+
+        <div class="profileModule_reviewBody">
+
+          <b>${r.bike}</b>
+
+          <p>${r.text}</p>
+
+          <button
+            onclick="profileModule_editReview(${r.id})">
+            Edit
+          </button>
+
+          <button
+            onclick="profileModule_deleteReview(${r.id})">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  });
+
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+function profileModule_openModal(type, data = null) {
+
+  profileModule_mode = type;
+
+  profileModule_editId =
+    data ? data.id : null;
+
+  document.getElementById("profileModule_modal")
+    .classList.remove("profileModule_hidden");
+
+  document.getElementById("profileModule_titleInput")
+    .value = data?.title || data?.bike || "";
+
+  document.getElementById("profileModule_locationInput")
+    .value = data?.location || "";
+
+  document.getElementById("profileModule_textInput")
+    .value = data?.text || "";
+
+  profileModule_selectedImage =
+    data?.image || null;
+
+}
+
+
+function profileModule_closeModal() {
+
+  document.getElementById("profileModule_modal")
+    .classList.add("profileModule_hidden");
+
+}
+
+
+/* =========================
+   SAVE LOGIC
+========================= */
+
+function profileModule_saveData() {
+
+  if (profileModule_mode === "post") {
+
+    const title =
+      document.getElementById("profileModule_titleInput").value;
+
+    const location =
+      document.getElementById("profileModule_locationInput").value;
+
+    profileModule_posts.unshift({
+
+      id: Date.now(),
+
+      title,
+
+      location,
+
+      image:
+        profileModule_selectedImage ||
+        "https://picsum.photos/400/400"
+
+    });
+
+    profileModule_renderPosts();
+
+  }
+
+  else {
+
+    const bike =
+      document.getElementById("profileModule_titleInput").value;
+
+    const text =
+      document.getElementById("profileModule_textInput").value;
+
+    if (profileModule_editId) {
+
+      profileModule_reviews =
+        profileModule_reviews.map(r =>
+
+          r.id === profileModule_editId
+
+            ? {
+                ...r,
+                bike,
+                text,
+                image: profileModule_selectedImage
+              }
+
+            : r
+
+        );
+
+    }
+
+    else {
+
+      profileModule_reviews.unshift({
+
+        id: Date.now(),
+
+        bike,
+
+        text,
+
+        image:
+          profileModule_selectedImage ||
+          "https://picsum.photos/401/400"
+
+      });
+
+    }
+
+    profileModule_renderReviews();
+
+  }
+
+  profileModule_closeModal();
+
+}
+
+
+/* =========================
+   REVIEW ACTIONS
+========================= */
+
+function profileModule_editReview(id) {
+
+  const r =
+    profileModule_reviews.find(x => x.id === id);
+
+  profileModule_openModal("review", r);
+
+}
+
+
+function profileModule_deleteReview(id) {
+
+  profileModule_reviews =
+    profileModule_reviews.filter(r => r.id !== id);
+
+  profileModule_renderReviews();
+
+}
 
 </script>
 
