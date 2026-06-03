@@ -29,9 +29,6 @@ router.get("/news",async(req,res)=>{
 router.get("/addbike",(req,res)=>{
     res.render("addbike.ejs");
 })
-router.get("/review1",(req,res)=>{
-    res.render("userProfilereview");
-})
 
 
 // main addbike post route
