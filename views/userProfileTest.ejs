@@ -265,135 +265,6 @@ input:checked + .slider:before {
 .save-btn { background:#4CAF50; color:white; }
 .cancel-btn { background:#999; color:white; }
 
-.profileModule_container {
-  width: 60%;
-  margin: 30px auto;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  overflow: hidden;
-  font-family: Arial;
-}
-
-.profileModule_tabHeader {
-  display: flex;
-  border-bottom: 1px solid #eee;
-}
-
-.profileModule_tabHeader button {
-  flex: 1;
-  padding: 12px;
-  border: none;
-  background: none;
-  cursor: pointer;
-}
-
-.profileModule_tabHeader .active {
-  border-bottom: 2px solid black;
-  font-weight: bold;
-}
-
-.profileModule_hidden {
-  display: none !important;
-}
-
-/* TOP BAR */
-.profileModule_topBar {
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px;
-}
-
-.profileModule_addBtn {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: none;
-  background: black;
-  color: white;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-/* POSTS */
-.profileModule_postGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  padding: 10px;
-}
-
-.profileModule_postCard {
-  position: relative;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.profileModule_postCard img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-}
-
-.profileModule_overlay {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background: rgba(0,0,0,0.5);
-  color: white;
-  padding: 8px;
-}
-
-/* REVIEWS */
-.profileModule_reviewGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  padding: 10px;
-}
-
-.profileModule_reviewCard {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.profileModule_reviewCard img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-}
-
-.profileModule_reviewBody {
-  padding: 10px;
-}
-
-/* MODAL */
-.profileModule_modalBackdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.profileModule_modal {
-  background: white;
-  padding: 20px;
-  width: 320px;
-  border-radius: 10px;
-}
-
-.profileModule_modal input,
-.profileModule_modal textarea {
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 8px;
-}
 
 </style>
 </head>
@@ -403,6 +274,7 @@ input:checked + .slider:before {
 <!-- NAVBAR -->
 <div class="navbar">
   <div class="logo">BikeInfo</div>
+
   <label class="switch">
     <input type="checkbox" id="darkToggle">
     <span class="slider"></span>
@@ -413,134 +285,220 @@ input:checked + .slider:before {
 <div class="profile">
 
   <div class="profile-left">
+
     <div class="profile-image">
-      <img id="profileImg" src="https://i.pravatar.cc/300?img=12">
+      <img id="profileImg"
+      src="https://i.pravatar.cc/300?img=12">
     </div>
 
     <div>
       <h2 id="fullName">Rahul Sharma</h2>
-      <p>@riderx</p>
-      <button class="edit-btn" onclick="openModal()">Edit Profile</button>
+      <p id="username">@riderx</p>
+
+      <button
+      class="edit-btn"
+      onclick="openProfileModal()">
+      Edit Profile
+      </button>
     </div>
+
   </div>
 
   <div class="profile-extra">
-    <div id="age">🎂 Age: 24</div>
-    <div id="city">📍 City: Pune</div>
-    <div id="email">📧 Email: rahul@gmail.com</div>
+
+    <div id="age">
+      🎂 Age: 24
+    </div>
+
+    <div id="city">
+      📍 City: Pune
+    </div>
+
+    <div id="email">
+      📧 Email: rahul@gmail.com
+    </div>
+
   </div>
 
 </div>
 
 <!-- GARAGE -->
-<div class="garage">
-  <div class="garage-top">
-    <div class="garage-title">My Garage</div>
-    <button class="add-btn">+ Add Bike</button>
+<div class="section">
+
+  <div class="section-header">
+    <h2>🏍 My Garage</h2>
+
+    <button
+    class="add-btn"
+    onclick="openBikeModal()">
+    + Add Bike
+    </button>
+
   </div>
 
-  <div class="bike-grid" id="grid"></div>
+  <div
+  class="bike-grid"
+  id="bikeGrid">
+  </div>
+
+</div>
+
+<!-- POSTS -->
+<div class="section">
+
+  <div class="section-header">
+    <h2>📝 My Posts</h2>
+
+    <button
+    class="add-btn"
+    onclick="openPostModal()">
+    + Add Post
+    </button>
+
+  </div>
+
+  <div id="postContainer">
+  </div>
+
+</div>
+
+<!-- REVIEWS -->
+<div class="section">
+
+  <div class="section-header">
+    <h2>⭐ My Reviews</h2>
+
+    <button
+    class="add-btn"
+    onclick="openReviewModal()">
+    + Add Review
+    </button>
+
+  </div>
+
+  <div id="reviewContainer">
+  </div>
+
 </div>
 
 <!-- PROFILE MODAL -->
-<div class="modal" id="modal">
+<div class="modal" id="profileModal">
+
   <div class="modal-box">
 
-    <input id="first" placeholder="First Name">
-    <input id="last" placeholder="Last Name">
-    <input id="ageInput" placeholder="Age">
-    <input id="cityInput" placeholder="City">
-
-    <input type="file" id="imgInput" accept="image/*" onchange="openCrop(event)">
-
-    <button onclick="saveProfile()">Save</button>
-
-  </div>
-</div>
-
-<!-- CROPPER -->
-<div class="cropper" id="cropper">
-
-  <div class="crop-circle">
-    <img id="cropImg" class="crop-img">
-  </div>
-
-  <input type="range" min="1" max="2" step="0.01" value="1" class="zoom-control" id="zoom">
-
-  <div class="crop-actions">
-    <button class="cancel-btn" onclick="closeCrop()">Cancel</button>
-    <button class="save-btn" onclick="applyCrop()">Crop & Save</button>
-  </div>
-
-</div>
-<div class="profileModule_container">
-
-  <!-- TABS -->
-  <div class="profileModule_tabHeader">
-    <button class="profileModule_tab active" data-tab="posts">Posts</button>
-    <button class="profileModule_tab" data-tab="reviews">Bike Reviews</button>
-  </div>
-
-  <!-- POSTS -->
-  <div id="profileModule_postsTab">
-
-    <div class="profileModule_topBar">
-      <button class="profileModule_addBtn" id="profileModule_addPostBtn">+</button>
-    </div>
-
-    <div id="profileModule_postGrid" class="profileModule_postGrid"></div>
-
-  </div>
-
-  <!-- REVIEWS -->
-  <div id="profileModule_reviewsTab" class="profileModule_hidden">
-
-    <div class="profileModule_topBar">
-      <button class="profileModule_addBtn" id="profileModule_addReviewBtn">+</button>
-    </div>
-
-    <div id="profileModule_reviewGrid" class="profileModule_reviewGrid"></div>
-
-  </div>
-
-</div>
-
-<!-- MODAL -->
-<div id="profileModule_modal" class="profileModule_modalBackdrop profileModule_hidden">
-
-  <div class="profileModule_modal">
-
-    <h3 id="profileModule_modalTitle">Add</h3>
+    <h3>Edit Profile</h3>
 
     <input
-      type="text"
-      id="profileModule_titleInput"
-      placeholder="Title / Bike Name"
-    >
+    id="firstName"
+    placeholder="First Name">
 
     <input
-      type="text"
-      id="profileModule_locationInput"
-      placeholder="Location (only for posts)"
-    >
-
-    <textarea
-      id="profileModule_textInput"
-      placeholder="Review Text (only for reviews)"
-    ></textarea>
+    id="lastName"
+    placeholder="Last Name">
 
     <input
-      type="file"
-      id="profileModule_fileInput"
-      accept="image/*"
-    >
+    id="userNameInput"
+    placeholder="Username">
 
-    <button id="profileModule_saveBtn">
-      Save
+    <input
+    id="emailInput"
+    placeholder="Email">
+
+    <input
+    id="ageInput"
+    placeholder="Age">
+
+    <input
+    id="cityInput"
+    placeholder="City">
+
+    <input
+    type="file"
+    id="profileUpload"
+    accept="image/*">
+
+    <button onclick="saveProfile()">
+      Save Profile
     </button>
 
-    <button id="profileModule_closeBtn">
-      Cancel
+  </div>
+
+</div>
+
+<!-- BIKE MODAL -->
+<div class="modal" id="bikeModal">
+
+  <div class="modal-box">
+
+    <h3>Add Bike</h3>
+
+    <input
+    id="bikeName"
+    placeholder="Bike Name">
+
+    <input
+    id="bikeType"
+    placeholder="Bike Type">
+
+    <input
+    id="bikeImage"
+    placeholder="Bike Image URL">
+
+    <button onclick="saveBike()">
+      Save Bike
+    </button>
+
+  </div>
+
+</div>
+
+<!-- POST MODAL -->
+<div class="modal" id="postModal">
+
+  <div class="modal-box">
+
+    <h3>Create Post</h3>
+
+    <textarea
+    id="postText"
+    rows="5"
+    placeholder="Write your post...">
+    </textarea>
+
+    <button onclick="savePost()">
+      Publish
+    </button>
+
+  </div>
+
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="modal" id="reviewModal">
+
+  <div class="modal-box">
+
+    <h3>Add Review</h3>
+
+    <input
+    id="reviewBike"
+    placeholder="Bike Name">
+
+    <input
+    id="reviewRating"
+    type="number"
+    min="1"
+    max="5"
+    placeholder="Rating (1-5)">
+
+    <textarea
+    id="reviewText"
+    rows="5"
+    placeholder="Write review">
+    </textarea>
+
+    <button onclick="saveReview()">
+      Save Review
     </button>
 
   </div>
@@ -672,362 +630,8 @@ function render(){
       </div>`;
   });
 }
+
 render();
-/* =========================
-   PROFILE MODULE DATA
-========================= */
-
-let profileModule_posts = [
-  {
-    id: 1,
-    title: "Beach Ride",
-    location: "Goa",
-    image: "https://picsum.photos/400/400"
-  }
-];
-
-let profileModule_reviews = [
-  {
-    id: 1,
-    bike: "Yamaha R15",
-    text: "Smooth ride and great mileage",
-    image: "https://picsum.photos/401/400"
-  }
-];
-
-let profileModule_mode = "post";
-let profileModule_editId = null;
-let profileModule_selectedImage = null;
-
-
-/* =========================
-   INIT
-========================= */
-
-profileModule_init();
-
-function profileModule_init() {
-
-  profileModule_renderPosts();
-  profileModule_renderReviews();
-
-  const addPostBtn =
-    document.getElementById("profileModule_addPostBtn");
-
-  const addReviewBtn =
-    document.getElementById("profileModule_addReviewBtn");
-
-  if (addPostBtn) {
-
-    addPostBtn.addEventListener("click", () => {
-      profileModule_openModal("post");
-    });
-
-  }
-
-  if (addReviewBtn) {
-
-    addReviewBtn.addEventListener("click", () => {
-      profileModule_openModal("review");
-    });
-
-  }
-
-  document.getElementById("profileModule_saveBtn")
-    .addEventListener("click", profileModule_saveData);
-
-  document.getElementById("profileModule_closeBtn")
-    .addEventListener("click", profileModule_closeModal);
-
-  document.getElementById("profileModule_fileInput")
-    .addEventListener("change", (e) => {
-
-      if (e.target.files[0]) {
-
-        profileModule_selectedImage =
-          URL.createObjectURL(e.target.files[0]);
-
-      }
-
-    });
-
-  document.querySelectorAll(".profileModule_tab")
-    .forEach(btn => {
-
-      btn.addEventListener("click", () => {
-
-        profileModule_switchTab(btn.dataset.tab);
-
-      });
-
-    });
-
-}
-
-
-/* =========================
-   TAB SWITCH
-========================= */
-
-function profileModule_switchTab(tab) {
-
-  document.getElementById("profileModule_postsTab")
-    .classList.add("profileModule_hidden");
-
-  document.getElementById("profileModule_reviewsTab")
-    .classList.add("profileModule_hidden");
-
-  document.querySelectorAll(".profileModule_tab")
-    .forEach(btn => {
-      btn.classList.remove("active");
-    });
-
-  if (tab === "posts") {
-
-    document.getElementById("profileModule_postsTab")
-      .classList.remove("profileModule_hidden");
-
-    document.querySelector('[data-tab="posts"]')
-      .classList.add("active");
-
-  }
-
-  else {
-
-    document.getElementById("profileModule_reviewsTab")
-      .classList.remove("profileModule_hidden");
-
-    document.querySelector('[data-tab="reviews"]')
-      .classList.add("active");
-
-  }
-
-}
-
-
-/* =========================
-   POSTS
-========================= */
-
-function profileModule_renderPosts() {
-
-  const grid =
-    document.getElementById("profileModule_postGrid");
-
-  grid.innerHTML = "";
-
-  profileModule_posts.forEach(p => {
-
-    grid.innerHTML += `
-      <div class="profileModule_postCard">
-
-        <img src="${p.image}">
-
-        <div class="profileModule_overlay">
-
-          <b>${p.title}</b><br/>
-          ${p.location}
-
-        </div>
-
-      </div>
-    `;
-
-  });
-
-}
-
-
-/* =========================
-   REVIEWS
-========================= */
-
-function profileModule_renderReviews() {
-
-  const grid =
-    document.getElementById("profileModule_reviewGrid");
-
-  grid.innerHTML = "";
-
-  profileModule_reviews.forEach(r => {
-
-    grid.innerHTML += `
-      <div class="profileModule_reviewCard">
-
-        <img src="${r.image}">
-
-        <div class="profileModule_reviewBody">
-
-          <b>${r.bike}</b>
-
-          <p>${r.text}</p>
-
-          <button
-            onclick="profileModule_editReview(${r.id})">
-            Edit
-          </button>
-
-          <button
-            onclick="profileModule_deleteReview(${r.id})">
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-    `;
-
-  });
-
-}
-
-
-/* =========================
-   MODAL
-========================= */
-
-function profileModule_openModal(type, data = null) {
-
-  profileModule_mode = type;
-
-  profileModule_editId =
-    data ? data.id : null;
-
-  document.getElementById("profileModule_modal")
-    .classList.remove("profileModule_hidden");
-
-  document.getElementById("profileModule_titleInput")
-    .value = data?.title || data?.bike || "";
-
-  document.getElementById("profileModule_locationInput")
-    .value = data?.location || "";
-
-  document.getElementById("profileModule_textInput")
-    .value = data?.text || "";
-
-  profileModule_selectedImage =
-    data?.image || null;
-
-}
-
-
-function profileModule_closeModal() {
-
-  document.getElementById("profileModule_modal")
-    .classList.add("profileModule_hidden");
-
-}
-
-
-/* =========================
-   SAVE LOGIC
-========================= */
-
-function profileModule_saveData() {
-
-  if (profileModule_mode === "post") {
-
-    const title =
-      document.getElementById("profileModule_titleInput").value;
-
-    const location =
-      document.getElementById("profileModule_locationInput").value;
-
-    profileModule_posts.unshift({
-
-      id: Date.now(),
-
-      title,
-
-      location,
-
-      image:
-        profileModule_selectedImage ||
-        "https://picsum.photos/400/400"
-
-    });
-
-    profileModule_renderPosts();
-
-  }
-
-  else {
-
-    const bike =
-      document.getElementById("profileModule_titleInput").value;
-
-    const text =
-      document.getElementById("profileModule_textInput").value;
-
-    if (profileModule_editId) {
-
-      profileModule_reviews =
-        profileModule_reviews.map(r =>
-
-          r.id === profileModule_editId
-
-            ? {
-                ...r,
-                bike,
-                text,
-                image: profileModule_selectedImage
-              }
-
-            : r
-
-        );
-
-    }
-
-    else {
-
-      profileModule_reviews.unshift({
-
-        id: Date.now(),
-
-        bike,
-
-        text,
-
-        image:
-          profileModule_selectedImage ||
-          "https://picsum.photos/401/400"
-
-      });
-
-    }
-
-    profileModule_renderReviews();
-
-  }
-
-  profileModule_closeModal();
-
-}
-
-
-/* =========================
-   REVIEW ACTIONS
-========================= */
-
-function profileModule_editReview(id) {
-
-  const r =
-    profileModule_reviews.find(x => x.id === id);
-
-  profileModule_openModal("review", r);
-
-}
-
-
-function profileModule_deleteReview(id) {
-
-  profileModule_reviews =
-    profileModule_reviews.filter(r => r.id !== id);
-
-  profileModule_renderReviews();
-
-}
 
 </script>
 
