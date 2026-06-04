@@ -250,6 +250,7 @@ font-weight:bold;
 margin-bottom:8px;
 }
 
+
 .review-rating{
 color:#f9a825;
 margin-bottom:10px;
@@ -260,6 +261,48 @@ display:flex;
 gap:10px;
 margin-top:15px;
 }
+/* post start */
+.post-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:10px;
+}
+
+.post-item{
+position:relative;
+border-radius:10px;
+overflow:hidden;
+cursor:pointer;
+background:#000;
+height:180px;
+}
+
+.post-item img,
+.post-item video{
+width:100%;
+height:100%;
+object-fit:cover;
+display:block;
+}
+
+.post-delete{
+position:absolute;
+top:8px;
+right:8px;
+background:red;
+color:white;
+border:none;
+padding:5px 8px;
+border-radius:6px;
+font-size:12px;
+cursor:pointer;
+opacity:0.8;
+}
+
+.post-delete:hover{
+opacity:1;
+}
+/* post end */
 
 /* MODAL */
 .modal{
@@ -402,16 +445,13 @@ gap:10px;
   <div class="section-header">
     <h2>📝 My Posts</h2>
 
-    <button
-    class="add-btn"
-    onclick="openPostModal()">
-    + Add Post
+    <button class="add-btn" onclick="openPostModal()">
+      + Add Post
     </button>
 
   </div>
 
-  <div id="postContainer">
-  </div>
+  <div class="post-grid" id="postContainer"></div>
 
 </div>
 
@@ -506,25 +546,7 @@ gap:10px;
 </div>
 
 <!-- POST MODAL -->
-<div class="modal" id="postModal">
 
-  <div class="modal-box">
-
-    <h3>Create Post</h3>
-
-    <textarea
-    id="postText"
-    rows="5"
-    placeholder="Write your post...">
-    </textarea>
-
-    <button onclick="savePost()">
-      Publish
-    </button>
-
-  </div>
-
-</div>
 
 <!-- REVIEW MODAL -->
 <div class="modal" id="reviewModal">
@@ -559,132 +581,434 @@ gap:10px;
 </div>
 
 <script>
+/* ==========================
+   DEMO DATA
+========================== */
 
-let cropImg = document.getElementById("cropImg");
-let cropper = document.getElementById("cropper");
-let zoom = document.getElementById("zoom");
-
-let posX = 0, posY = 0;
-let scale = 1;
-let dragging = false;
-let startX = 0, startY = 0;
-
-/* OPEN CROPPER */
-function openCrop(e){
-  let file = e.target.files[0];
-  let reader = new FileReader();
-
-  reader.onload = function(ev){
-    cropImg.src = ev.target.result;
-    cropper.style.display = "flex";
-
-    posX = 0; posY = 0; scale = 1;
-    zoom.value = 1;
-    updateTransform();
-  }
-
-  reader.readAsDataURL(file);
+let defaultBikes = [
+{
+name:"KTM Duke 390",
+type:"Streetfighter",
+img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800"
+},
+{
+name:"Yamaha R15 V4",
+type:"Sport Bike",
+img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=800"
+},
+{
+name:"Royal Enfield Himalayan",
+type:"Adventure",
+img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800"
+},
+{
+name:"BMW G310 GS",
+type:"Touring",
+img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800"
 }
-
-/* DRAG */
-cropImg.addEventListener("mousedown", (e)=>{
-  dragging = true;
-  startX = e.clientX;
-  startY = e.clientY;
-  cropImg.style.cursor="grabbing";
-});
-
-document.addEventListener("mousemove",(e)=>{
-  if(!dragging) return;
-
-  posX += e.clientX - startX;
-  posY += e.clientY - startY;
-
-  startX = e.clientX;
-  startY = e.clientY;
-
-  updateTransform();
-});
-
-document.addEventListener("mouseup",()=>{
-  dragging=false;
-  cropImg.style.cursor="grab";
-});
-
-/* ZOOM */
-zoom.addEventListener("input",()=>{
-  scale = zoom.value;
-  updateTransform();
-});
-
-function updateTransform(){
-  cropImg.style.transform =
-    `translate(${posX}px,${posY}px) scale(${scale})`;
-}
-
-/* CLOSE */
-function closeCrop(){
-  cropper.style.display="none";
-}
-
-/* APPLY CROP */
-function applyCrop(){
-
-  let canvas = document.createElement("canvas");
-  canvas.width = 200;
-  canvas.height = 200;
-  let ctx = canvas.getContext("2d");
-
-  let img = new Image();
-  img.src = cropImg.src;
-
-  img.onload = function(){
-    ctx.drawImage(img, 0, 0, 200, 200);
-    document.getElementById("profileImg").src = canvas.toDataURL();
-    closeCrop();
-  }
-}
-
-/* SAVE PROFILE */
-function saveProfile(){
-  document.getElementById("fullName").innerText =
-    document.getElementById("first").value +
-    " " +
-    document.getElementById("last").value;
-
-  document.getElementById("age").innerText =
-    "🎂 Age: " + document.getElementById("ageInput").value;
-
-  document.getElementById("city").innerText =
-    "📍 City: " + document.getElementById("cityInput").value;
-
-  document.getElementById("modal").style.display="none";
-}
-
-/* BIKE DATA */
-let bikes=[
-  {name:"KTM Duke 390",type:"Street",img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39"},
-  {name:"Yamaha R15",type:"Sport",img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d"},
-  {name:"BMW GS",type:"Adventure",img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65"},
-  {name:"Ninja 400",type:"Sport",img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04"}
 ];
 
-function render(){
-  let grid=document.getElementById("grid");
-  grid.innerHTML="";
-  bikes.forEach(b=>{
-    grid.innerHTML+=`
-      <div class="bike-card">
-        <img src="${b.img}">
-        <div class="bike-info">
-          <div class="bike-name">${b.name}</div>
-          <div class="bike-type">${b.type}</div>
-        </div>
-      </div>`;
-  });
+let defaultPosts = [
+{
+text:"Finally completed my Pune to Mahabaleshwar ride on Duke 390 🔥🏍️",
+date:"12 Jun 2026, 8:30 AM"
+},
+{
+text:"Installed new tyres today. Grip feels amazing in city traffic.",
+date:"10 Jun 2026, 5:15 PM"
+},
+{
+text:"Planning a Ladakh trip this year. Any suggestions?",
+date:"8 Jun 2026, 9:40 PM"
+}
+];
+
+let defaultReviews = [
+{
+bike:"KTM Duke 390",
+rating:5,
+text:"Insane performance and handling. Pure fun machine."
+},
+{
+bike:"Himalayan",
+rating:4,
+text:"Comfortable for long rides but slightly underpowered."
+},
+{
+bike:"R15 V4",
+rating:5,
+text:"Best entry sport bike. Sharp and efficient."
+}
+];
+
+/* ==========================
+   STORAGE INIT
+========================== */
+
+let bikes =
+JSON.parse(localStorage.getItem("bikes")) ||
+defaultBikes;
+
+let posts =
+JSON.parse(localStorage.getItem("posts")) ||
+defaultPosts;
+
+let reviews =
+JSON.parse(localStorage.getItem("reviews")) ||
+defaultReviews;
+
+let editingReview = -1;
+
+/* ==========================
+   MODALS
+========================== */
+
+function closeAllModals(){
+document.querySelectorAll(".modal")
+.forEach(m=>m.style.display="none");
 }
 
-render();
+function openProfileModal(){
+closeAllModals();
+profileModal.style.display="flex";
+}
+
+function openBikeModal(){
+closeAllModals();
+bikeModal.style.display="flex";
+}
+
+function openPostModal(){
+closeAllModals();
+postModal.style.display="flex";
+}
+
+function openReviewModal(){
+editingReview=-1;
+reviewBike.value="";
+reviewRating.value="";
+reviewText.value="";
+closeAllModals();
+reviewModal.style.display="flex";
+}
+
+window.onclick=function(e){
+document.querySelectorAll(".modal")
+.forEach(modal=>{
+if(e.target===modal)
+modal.style.display="none";
+});
+};
+
+/* ==========================
+   DARK MODE
+========================== */
+
+const darkToggle =
+document.getElementById("darkToggle");
+
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark");
+darkToggle.checked=true;
+}
+
+darkToggle.addEventListener("change",()=>{
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"darkMode",
+document.body.classList.contains("dark")
+);
+});
+
+/* ==========================
+   PROFILE
+========================== */
+
+if(!localStorage.getItem("profile")){
+localStorage.setItem("profile",JSON.stringify({
+first:"Rahul",
+last:"Sharma",
+username:"riderx",
+email:"rahul@gmail.com",
+age:"24",
+city:"Pune",
+image:"https://i.pravatar.cc/300?img=12"
+}));
+}
+
+function saveProfile(){
+
+let profile={
+first:firstName.value,
+last:lastName.value,
+username:userNameInput.value,
+email:emailInput.value,
+age:ageInput.value,
+city:cityInput.value
+};
+
+let file=profileUpload.files[0];
+
+if(file){
+let reader=new FileReader();
+reader.onload=function(e){
+
+profile.image=e.target.result;
+
+localStorage.setItem("profile",JSON.stringify(profile));
+loadProfile();
+};
+reader.readAsDataURL(file);
+
+}else{
+
+let old=JSON.parse(localStorage.getItem("profile"));
+if(old?.image) profile.image=old.image;
+
+localStorage.setItem("profile",JSON.stringify(profile));
+loadProfile();
+}
+
+closeAllModals();
+}
+
+function loadProfile(){
+
+let profile=JSON.parse(localStorage.getItem("profile"));
+if(!profile) return;
+
+fullName.innerText=profile.first+" "+profile.last;
+username.innerText="@"+profile.username;
+email.innerText="📧 Email: "+profile.email;
+city.innerText="📍 City: "+profile.city;
+age.innerText="🎂 Age: "+profile.age;
+
+if(profile.image){
+profileImg.src=profile.image;
+}
+}
+
+loadProfile();
+
+/* ==========================
+   GARAGE
+========================== */
+
+function saveBike(){
+
+let bike={
+name:bikeName.value,
+type:bikeType.value,
+img:bikeImage.value
+};
+
+bikes.push(bike);
+
+localStorage.setItem("bikes",JSON.stringify(bikes));
+
+bikeName.value="";
+bikeType.value="";
+bikeImage.value="";
+
+renderBikes();
+closeAllModals();
+}
+
+function deleteBike(index){
+
+bikes.splice(index,1);
+
+localStorage.setItem("bikes",JSON.stringify(bikes));
+
+renderBikes();
+}
+
+function renderBikes(){
+
+bikeGrid.innerHTML="";
+
+bikes.forEach((bike,index)=>{
+
+bikeGrid.innerHTML+=`
+
+<div class="bike-card">
+
+<img src="${bike.img}">
+
+<div class="bike-info">
+
+<div class="bike-name">${bike.name}</div>
+
+<div class="bike-type">${bike.type}</div>
+
+<div class="bike-actions">
+
+<button class="action-btn delete-btn"
+onclick="deleteBike(${index})">
+Delete
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+}
+
+renderBikes();
+
+/* ==========================
+   POSTS
+========================== */
+
+function savePost(){
+
+let text=postText.value.trim();
+if(!text) return;
+
+posts.unshift({
+text,
+date:new Date().toLocaleString()
+});
+
+localStorage.setItem("posts",JSON.stringify(posts));
+
+postText.value="";
+renderPosts();
+closeAllModals();
+}
+
+function deletePost(index){
+
+posts.splice(index,1);
+
+localStorage.setItem("posts",JSON.stringify(posts));
+
+renderPosts();
+}
+
+function renderPosts(){
+
+postContainer.innerHTML="";
+
+posts.forEach((post,index)=>{
+
+postContainer.innerHTML+=`
+
+<div class="post-card">
+
+<div class="post-date">${post.date}</div>
+
+<div>${post.text}</div>
+
+<div class="post-actions">
+
+<button class="action-btn delete-btn"
+onclick="deletePost(${index})">
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+}
+
+renderPosts();
+
+/* ==========================
+   REVIEWS
+========================== */
+
+function saveReview(){
+
+let review={
+bike:reviewBike.value,
+rating:reviewRating.value,
+text:reviewText.value
+};
+
+if(editingReview===-1){
+reviews.unshift(review);
+}else{
+reviews[editingReview]=review;
+}
+
+localStorage.setItem("reviews",JSON.stringify(reviews));
+
+renderReviews();
+closeAllModals();
+}
+
+function editReview(index){
+
+let r=reviews[index];
+
+reviewBike.value=r.bike;
+reviewRating.value=r.rating;
+reviewText.value=r.text;
+
+editingReview=index;
+reviewModal.style.display="flex";
+}
+
+function deleteReview(index){
+
+reviews.splice(index,1);
+
+localStorage.setItem("reviews",JSON.stringify(reviews));
+
+renderReviews();
+}
+
+function renderReviews(){
+
+reviewContainer.innerHTML="";
+
+reviews.forEach((r,index)=>{
+
+let stars="⭐".repeat(r.rating);
+
+reviewContainer.innerHTML+=`
+
+<div class="review-card">
+
+<div class="review-title">${r.bike}</div>
+
+<div class="review-rating">${stars}</div>
+
+<div>${r.text}</div>
+
+<div class="review-actions">
+
+<button class="action-btn edit-small"
+onclick="editReview(${index})">
+Edit
+</button>
+
+<button class="action-btn delete-btn"
+onclick="deleteReview(${index})">
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+}
+
+renderReviews();
 
 </script>
 
