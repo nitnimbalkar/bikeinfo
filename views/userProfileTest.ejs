@@ -1,1016 +1,253 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BikeInfo</title>
 
-<style>
-/* RESET */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-font-family:Arial,sans-serif;
-background:#f4f4f4;
-color:#222;
-padding-top:70px;
-transition:.3s;
-}
-
-/* DARK MODE */
-body.dark{
-background:#111;
-color:white;
-}
-
-body.dark .section,
-body.dark .profile,
-body.dark .modal-box,
-body.dark .card{
-background:#1e1e1e;
-color:white;
-border-color:#333;
-}
-
-/* NAVBAR */
-.navbar{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-padding:15px 25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-background:#222;
-color:white;
-z-index:1000;
-}
-
-.logo{
-font-size:20px;
-font-weight:bold;
-}
-
-/* SWITCH */
-.switch{
-position:relative;
-width:50px;
-height:25px;
-}
-
-.switch input{
-display:none;
-}
-
-.slider{
-position:absolute;
-inset:0;
-background:#ccc;
-border-radius:30px;
-cursor:pointer;
-}
-
-.slider:before{
-content:"";
-position:absolute;
-height:19px;
-width:19px;
-left:3px;
-top:3px;
-background:white;
-border-radius:50%;
-transition:.3s;
-}
-
-input:checked + .slider{
-background:#4CAF50;
-}
-
-input:checked + .slider:before{
-transform:translateX(25px);
-}
-
-/* PROFILE */
-.profile{
-width:90%;
-max-width:1100px;
-margin:20px auto;
-background:white;
-padding:20px;
-border-radius:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 3px 10px rgba(0,0,0,.08);
-}
-
-.profile-left{
-display:flex;
-align-items:center;
-gap:15px;
-}
-
-.profile-image{
-width:90px;
-height:90px;
-border-radius:50%;
-overflow:hidden;
-border:3px solid #ddd;
-}
-
-.profile-image img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.profile-extra{
-display:flex;
-flex-direction:column;
-gap:8px;
-text-align:right;
-}
-
-/* BUTTONS */
-.edit-btn,
-.add-btn,
-.action-btn{
-padding:10px 15px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-background:#4CAF50;
-color:white;
-}
-
-.delete-btn{
-background:#e53935;
-}
-
-.edit-small{
-background:#ff9800;
-}
-
-/* SECTION */
-.section{
-width:90%;
-max-width:1100px;
-margin:20px auto;
-background:white;
-padding:20px;
-border-radius:15px;
-box-shadow:0 3px 10px rgba(0,0,0,.08);
-}
-
-.section-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:15px;
-}
-
-/* GARAGE */
-.bike-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-}
-
-.bike-card{
-background:white;
-border:1px solid #ddd;
-border-radius:12px;
-overflow:hidden;
-}
-
-.bike-card img{
-width:100%;
-height:170px;
-object-fit:cover;
-}
-
-.bike-info{
-padding:10px;
-}
-
-.bike-name{
-font-size:16px;
-font-weight:bold;
-margin-bottom:5px;
-}
-
-.bike-type{
-font-size:13px;
-color:#777;
-margin-bottom:10px;
-}
-
-.bike-actions{
-display:flex;
-gap:10px;
-}
-
-/* POSTS */
-.post-card{
-background:white;
-border:1px solid #ddd;
-padding:15px;
-border-radius:12px;
-margin-bottom:15px;
-}
-
-.post-date{
-font-size:12px;
-color:#888;
-margin-bottom:10px;
-}
-
-.post-actions{
-margin-top:15px;
-}
-
-/* REVIEWS */
-.review-card{
-background:white;
-border:1px solid #ddd;
-padding:15px;
-border-radius:12px;
-margin-bottom:15px;
-}
-
-.review-title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:8px;
-}
-
-
-.review-rating{
-color:#f9a825;
-margin-bottom:10px;
-}
-
-.review-actions{
-display:flex;
-gap:10px;
-margin-top:15px;
-}
-/* post start */
-.post-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:10px;
-}
-
-.post-item{
-position:relative;
-border-radius:10px;
-overflow:hidden;
-cursor:pointer;
-background:#000;
-height:180px;
-}
-
-.post-item img,
-.post-item video{
-width:100%;
-height:100%;
-object-fit:cover;
-display:block;
-}
-
-.post-delete{
-position:absolute;
-top:8px;
-right:8px;
-background:red;
-color:white;
-border:none;
-padding:5px 8px;
-border-radius:6px;
-font-size:12px;
-cursor:pointer;
-opacity:0.8;
-}
-
-.post-delete:hover{
-opacity:1;
-}
-/* post end */
-
-/* MODAL */
-.modal{
-position:fixed;
-inset:0;
-display:none;
-justify-content:center;
-align-items:center;
-background:rgba(0,0,0,.6);
-z-index:9999;
-}
-
-.modal-box{
-width:90%;
-max-width:450px;
-background:white;
-padding:20px;
-border-radius:15px;
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.modal-box input,
-.modal-box textarea{
-padding:10px;
-border:1px solid #ccc;
-border-radius:8px;
-width:100%;
-}
-
-.modal-box button{
-padding:10px;
-border:none;
-border-radius:8px;
-background:#4CAF50;
-color:white;
-cursor:pointer;
-}
-
-/* MOBILE */
-@media(max-width:768px){
-
-.profile{
-flex-direction:column;
-gap:15px;
-text-align:center;
-}
-
-.profile-extra{
-text-align:center;
-}
-
-.section-header{
-flex-direction:column;
-gap:10px;
-}
-
-}
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <!-- NAVBAR -->
 <div class="navbar">
-  <div class="logo">BikeInfo</div>
+    <div class="logo">BikeInfo</div>
 
-  <label class="switch">
-    <input type="checkbox" id="darkToggle">
-    <span class="slider"></span>
-  </label>
+    <label class="switch">
+        <input type="checkbox" id="darkToggle">
+        <span class="slider"></span>
+    </label>
 </div>
 
 <!-- PROFILE -->
 <div class="profile">
 
-  <div class="profile-left">
+    <div class="profile-left">
 
-    <div class="profile-image">
-      <img id="profileImg"
-      src="https://i.pravatar.cc/300?img=12">
+        <div class="profile-image">
+            <img
+                id="profileImg"
+                src="https://i.pravatar.cc/300?img=12"
+                alt="Profile">
+        </div>
+
+        <div>
+            <h2 id="fullName">Rahul Sharma</h2>
+            <p id="username">@riderx</p>
+
+            <button
+                class="edit-btn"
+                onclick="openProfileModal()">
+                Edit Profile
+            </button>
+        </div>
+
     </div>
 
-    <div>
-      <h2 id="fullName">Rahul Sharma</h2>
-      <p id="username">@riderx</p>
+    <div class="profile-extra">
 
-      <button
-      class="edit-btn"
-      onclick="openProfileModal()">
-      Edit Profile
-      </button>
+        <div id="age">
+            🎂 Age: 24
+        </div>
+
+        <div id="city">
+            📍 City: Pune
+        </div>
+
+        <div id="email">
+            📧 Email: rahul@gmail.com
+        </div>
+
     </div>
-
-  </div>
-
-  <div class="profile-extra">
-
-    <div id="age">
-      🎂 Age: 24
-    </div>
-
-    <div id="city">
-      📍 City: Pune
-    </div>
-
-    <div id="email">
-      📧 Email: rahul@gmail.com
-    </div>
-
-  </div>
 
 </div>
 
 <!-- GARAGE -->
 <div class="section">
 
-  <div class="section-header">
-    <h2>🏍 My Garage</h2>
+    <div class="section-header">
 
-    <button
-    class="add-btn"
-    onclick="openBikeModal()">
-    + Add Bike
-    </button>
+        <h2>🏍 My Garage</h2>
 
-  </div>
+        <button
+            class="add-btn"
+            onclick="openBikeModal()">
+            + Add Bike
+        </button>
 
-  <div
-  class="bike-grid"
-  id="bikeGrid">
-  </div>
+    </div>
+
+    <div
+        class="bike-grid"
+        id="bikeGrid">
+    </div>
 
 </div>
 
 <!-- POSTS -->
 <div class="section">
 
-  <div class="section-header">
-    <h2>📝 My Posts</h2>
+    <div class="section-header">
 
-    <button class="add-btn" onclick="openPostModal()">
-      + Add Post
-    </button>
+        <h2>📝 My Posts</h2>
 
-  </div>
+        <button
+            class="add-btn"
+            onclick="openPostModal()">
+            + Add Post
+        </button>
 
-  <div class="post-grid" id="postContainer"></div>
+    </div>
+
+    <div id="postContainer"></div>
 
 </div>
 
 <!-- REVIEWS -->
 <div class="section">
 
-  <div class="section-header">
-    <h2>⭐ My Reviews</h2>
+    <div class="section-header">
 
-    <button
-    class="add-btn"
-    onclick="openReviewModal()">
-    + Add Review
-    </button>
+        <h2>⭐ My Reviews</h2>
 
-  </div>
+        <button
+            class="add-btn"
+            onclick="openReviewModal()">
+            + Add Review
+        </button>
 
-  <div id="reviewContainer">
-  </div>
+    </div>
+
+    <div id="reviewContainer"></div>
 
 </div>
 
 <!-- PROFILE MODAL -->
 <div class="modal" id="profileModal">
 
-  <div class="modal-box">
+    <div class="modal-box">
 
-    <h3>Edit Profile</h3>
+        <h3>Edit Profile</h3>
 
-    <input
-    id="firstName"
-    placeholder="First Name">
+        <input
+            id="firstName"
+            placeholder="First Name">
 
-    <input
-    id="lastName"
-    placeholder="Last Name">
+        <input
+            id="lastName"
+            placeholder="Last Name">
 
-    <input
-    id="userNameInput"
-    placeholder="Username">
+        <input
+            id="userNameInput"
+            placeholder="Username">
 
-    <input
-    id="emailInput"
-    placeholder="Email">
+        <input
+            id="emailInput"
+            placeholder="Email">
 
-    <input
-    id="ageInput"
-    placeholder="Age">
+        <input
+            id="ageInput"
+            placeholder="Age">
 
-    <input
-    id="cityInput"
-    placeholder="City">
+        <input
+            id="cityInput"
+            placeholder="City">
 
-    <input
-    type="file"
-    id="profileUpload"
-    accept="image/*">
+        <input
+            type="file"
+            id="profileUpload"
+            accept="image/*">
 
-    <button onclick="saveProfile()">
-      Save Profile
-    </button>
+        <button onclick="saveProfile()">
+            Save Profile
+        </button>
 
-  </div>
+    </div>
 
 </div>
 
 <!-- BIKE MODAL -->
 <div class="modal" id="bikeModal">
 
-  <div class="modal-box">
+    <div class="modal-box">
 
-    <h3>Add Bike</h3>
+        <h3>Add Bike</h3>
 
-    <input
-    id="bikeName"
-    placeholder="Bike Name">
+        <input
+            id="bikeName"
+            placeholder="Bike Name">
 
-    <input
-    id="bikeType"
-    placeholder="Bike Type">
+        <input
+            id="bikeType"
+            placeholder="Bike Type">
 
-    <input
-    id="bikeImage"
-    placeholder="Bike Image URL">
+        <input
+            id="bikeImage"
+            placeholder="Bike Image URL">
 
-    <button onclick="saveBike()">
-      Save Bike
-    </button>
+        <button onclick="saveBike()">
+            Save Bike
+        </button>
 
-  </div>
+    </div>
 
 </div>
 
 <!-- POST MODAL -->
+<div class="modal" id="postModal">
 
+    <div class="modal-box">
+
+        <h3>Add Post</h3>
+
+        <textarea
+            id="postText"
+            rows="5"
+            placeholder="Write your post"></textarea>
+
+        <button onclick="savePost()">
+            Save Post
+        </button>
+
+    </div>
+
+</div>
 
 <!-- REVIEW MODAL -->
 <div class="modal" id="reviewModal">
 
-  <div class="modal-box">
+    <div class="modal-box">
 
-    <h3>Add Review</h3>
+        <h3>Add Review</h3>
 
-    <input
-    id="reviewBike"
-    placeholder="Bike Name">
+        <input
+            id="reviewBike"
+            placeholder="Bike Name">
 
-    <input
-    id="reviewRating"
-    type="number"
-    min="1"
-    max="5"
-    placeholder="Rating (1-5)">
+        <input
+            id="reviewRating"
+            type="number"
+            min="1"
+            max="5"
+            placeholder="Rating (1-5)">
 
-    <textarea
-    id="reviewText"
-    rows="5"
-    placeholder="Write review">
-    </textarea>
+        <textarea
+            id="reviewText"
+            rows="5"
+            placeholder="Write review"></textarea>
 
-    <button onclick="saveReview()">
-      Save Review
-    </button>
+        <button onclick="saveReview()">
+            Save Review
+        </button>
 
-  </div>
+    </div>
 
 </div>
 
-<script>
-/* ==========================
-   DEMO DATA
-========================== */
-
-let defaultBikes = [
-{
-name:"KTM Duke 390",
-type:"Streetfighter",
-img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800"
-},
-{
-name:"Yamaha R15 V4",
-type:"Sport Bike",
-img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=800"
-},
-{
-name:"Royal Enfield Himalayan",
-type:"Adventure",
-img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800"
-},
-{
-name:"BMW G310 GS",
-type:"Touring",
-img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800"
-}
-];
-
-let defaultPosts = [
-{
-text:"Finally completed my Pune to Mahabaleshwar ride on Duke 390 🔥🏍️",
-date:"12 Jun 2026, 8:30 AM"
-},
-{
-text:"Installed new tyres today. Grip feels amazing in city traffic.",
-date:"10 Jun 2026, 5:15 PM"
-},
-{
-text:"Planning a Ladakh trip this year. Any suggestions?",
-date:"8 Jun 2026, 9:40 PM"
-}
-];
-
-let defaultReviews = [
-{
-bike:"KTM Duke 390",
-rating:5,
-text:"Insane performance and handling. Pure fun machine."
-},
-{
-bike:"Himalayan",
-rating:4,
-text:"Comfortable for long rides but slightly underpowered."
-},
-{
-bike:"R15 V4",
-rating:5,
-text:"Best entry sport bike. Sharp and efficient."
-}
-];
-
-/* ==========================
-   STORAGE INIT
-========================== */
-
-let bikes =
-JSON.parse(localStorage.getItem("bikes")) ||
-defaultBikes;
-
-let posts =
-JSON.parse(localStorage.getItem("posts")) ||
-defaultPosts;
-
-let reviews =
-JSON.parse(localStorage.getItem("reviews")) ||
-defaultReviews;
-
-let editingReview = -1;
-
-/* ==========================
-   MODALS
-========================== */
-
-function closeAllModals(){
-document.querySelectorAll(".modal")
-.forEach(m=>m.style.display="none");
-}
-
-function openProfileModal(){
-closeAllModals();
-profileModal.style.display="flex";
-}
-
-function openBikeModal(){
-closeAllModals();
-bikeModal.style.display="flex";
-}
-
-function openPostModal(){
-closeAllModals();
-postModal.style.display="flex";
-}
-
-function openReviewModal(){
-editingReview=-1;
-reviewBike.value="";
-reviewRating.value="";
-reviewText.value="";
-closeAllModals();
-reviewModal.style.display="flex";
-}
-
-window.onclick=function(e){
-document.querySelectorAll(".modal")
-.forEach(modal=>{
-if(e.target===modal)
-modal.style.display="none";
-});
-};
-
-/* ==========================
-   DARK MODE
-========================== */
-
-const darkToggle =
-document.getElementById("darkToggle");
-
-if(localStorage.getItem("darkMode")==="true"){
-document.body.classList.add("dark");
-darkToggle.checked=true;
-}
-
-darkToggle.addEventListener("change",()=>{
-document.body.classList.toggle("dark");
-
-localStorage.setItem(
-"darkMode",
-document.body.classList.contains("dark")
-);
-});
-
-/* ==========================
-   PROFILE
-========================== */
-
-if(!localStorage.getItem("profile")){
-localStorage.setItem("profile",JSON.stringify({
-first:"Rahul",
-last:"Sharma",
-username:"riderx",
-email:"rahul@gmail.com",
-age:"24",
-city:"Pune",
-image:"https://i.pravatar.cc/300?img=12"
-}));
-}
-
-function saveProfile(){
-
-let profile={
-first:firstName.value,
-last:lastName.value,
-username:userNameInput.value,
-email:emailInput.value,
-age:ageInput.value,
-city:cityInput.value
-};
-
-let file=profileUpload.files[0];
-
-if(file){
-let reader=new FileReader();
-reader.onload=function(e){
-
-profile.image=e.target.result;
-
-localStorage.setItem("profile",JSON.stringify(profile));
-loadProfile();
-};
-reader.readAsDataURL(file);
-
-}else{
-
-let old=JSON.parse(localStorage.getItem("profile"));
-if(old?.image) profile.image=old.image;
-
-localStorage.setItem("profile",JSON.stringify(profile));
-loadProfile();
-}
-
-closeAllModals();
-}
-
-function loadProfile(){
-
-let profile=JSON.parse(localStorage.getItem("profile"));
-if(!profile) return;
-
-fullName.innerText=profile.first+" "+profile.last;
-username.innerText="@"+profile.username;
-email.innerText="📧 Email: "+profile.email;
-city.innerText="📍 City: "+profile.city;
-age.innerText="🎂 Age: "+profile.age;
-
-if(profile.image){
-profileImg.src=profile.image;
-}
-}
-
-loadProfile();
-
-/* ==========================
-   GARAGE
-========================== */
-
-function saveBike(){
-
-let bike={
-name:bikeName.value,
-type:bikeType.value,
-img:bikeImage.value
-};
-
-bikes.push(bike);
-
-localStorage.setItem("bikes",JSON.stringify(bikes));
-
-bikeName.value="";
-bikeType.value="";
-bikeImage.value="";
-
-renderBikes();
-closeAllModals();
-}
-
-function deleteBike(index){
-
-bikes.splice(index,1);
-
-localStorage.setItem("bikes",JSON.stringify(bikes));
-
-renderBikes();
-}
-
-function renderBikes(){
-
-bikeGrid.innerHTML="";
-
-bikes.forEach((bike,index)=>{
-
-bikeGrid.innerHTML+=`
-
-<div class="bike-card">
-
-<img src="${bike.img}">
-
-<div class="bike-info">
-
-<div class="bike-name">${bike.name}</div>
-
-<div class="bike-type">${bike.type}</div>
-
-<div class="bike-actions">
-
-<button class="action-btn delete-btn"
-onclick="deleteBike(${index})">
-Delete
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-}
-
-renderBikes();
-
-/* ==========================
-   POSTS
-========================== */
-
-function savePost(){
-
-let text=postText.value.trim();
-if(!text) return;
-
-posts.unshift({
-text,
-date:new Date().toLocaleString()
-});
-
-localStorage.setItem("posts",JSON.stringify(posts));
-
-postText.value="";
-renderPosts();
-closeAllModals();
-}
-
-function deletePost(index){
-
-posts.splice(index,1);
-
-localStorage.setItem("posts",JSON.stringify(posts));
-
-renderPosts();
-}
-
-function renderPosts(){
-
-postContainer.innerHTML="";
-
-posts.forEach((post,index)=>{
-
-postContainer.innerHTML+=`
-
-<div class="post-card">
-
-<div class="post-date">${post.date}</div>
-
-<div>${post.text}</div>
-
-<div class="post-actions">
-
-<button class="action-btn delete-btn"
-onclick="deletePost(${index})">
-Delete
-</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-}
-
-renderPosts();
-
-/* ==========================
-   REVIEWS
-========================== */
-
-function saveReview(){
-
-let review={
-bike:reviewBike.value,
-rating:reviewRating.value,
-text:reviewText.value
-};
-
-if(editingReview===-1){
-reviews.unshift(review);
-}else{
-reviews[editingReview]=review;
-}
-
-localStorage.setItem("reviews",JSON.stringify(reviews));
-
-renderReviews();
-closeAllModals();
-}
-
-function editReview(index){
-
-let r=reviews[index];
-
-reviewBike.value=r.bike;
-reviewRating.value=r.rating;
-reviewText.value=r.text;
-
-editingReview=index;
-reviewModal.style.display="flex";
-}
-
-function deleteReview(index){
-
-reviews.splice(index,1);
-
-localStorage.setItem("reviews",JSON.stringify(reviews));
-
-renderReviews();
-}
-
-function renderReviews(){
-
-reviewContainer.innerHTML="";
-
-reviews.forEach((r,index)=>{
-
-let stars="⭐".repeat(r.rating);
-
-reviewContainer.innerHTML+=`
-
-<div class="review-card">
-
-<div class="review-title">${r.bike}</div>
-
-<div class="review-rating">${stars}</div>
-
-<div>${r.text}</div>
-
-<div class="review-actions">
-
-<button class="action-btn edit-small"
-onclick="editReview(${index})">
-Edit
-</button>
-
-<button class="action-btn delete-btn"
-onclick="deleteReview(${index})">
-Delete
-</button>
-
-</div>
-
-</div>
-
-`;
-
-});
-}
-
-renderReviews();
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
+```
