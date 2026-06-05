@@ -14,4 +14,8 @@ router.post("/register",registerUser);
 router.post("/login",loginUser);
 router.get("/logout",logout);
 
+router.get("/profile",(req,res)=>{
+    res.render("userProfileTest.ejs");
+})
+
 module.exports=router;
