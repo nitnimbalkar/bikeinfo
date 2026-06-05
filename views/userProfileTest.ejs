@@ -1,4 +1,4 @@
-```html
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -246,8 +246,648 @@
 
 </div>
 
-<script src="script.js"></script>
+<script>
+
+/* ==========================
+   DOM REFERENCES
+========================== */
+
+const profileModal = document.getElementById("profileModal");
+const bikeModal = document.getElementById("bikeModal");
+const postModal = document.getElementById("postModal");
+const reviewModal = document.getElementById("reviewModal");
+
+const bikeGrid = document.getElementById("bikeGrid");
+const postContainer = document.getElementById("postContainer");
+const reviewContainer = document.getElementById("reviewContainer");
+
+const darkToggle = document.getElementById("darkToggle");
+
+/* ==========================
+   DEMO DATA
+========================== */
+
+const defaultBikes = [
+{
+name:"KTM Duke 390",
+type:"Streetfighter",
+img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800"
+},
+{
+name:"Yamaha R15 V4",
+type:"Sport Bike",
+img:"https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=800"
+},
+{
+name:"Royal Enfield Himalayan",
+type:"Adventure",
+img:"https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800"
+},
+{
+name:"BMW G310 GS",
+type:"Touring",
+img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800"
+}
+];
+
+const defaultPosts = [
+{
+text:"Finally completed my Pune to Mahabaleshwar ride on Duke 390 🔥🏍️",
+date:"12 Jun 2026, 8:30 AM"
+},
+{
+text:"Installed new tyres today. Grip feels amazing in city traffic.",
+date:"10 Jun 2026, 5:15 PM"
+},
+{
+text:"Planning a Ladakh trip this year. Any suggestions?",
+date:"8 Jun 2026, 9:40 PM"
+}
+];
+
+const defaultReviews = [
+{
+bike:"KTM Duke 390",
+rating:5,
+text:"Insane performance and handling. Pure fun machine."
+},
+{
+bike:"Himalayan",
+rating:4,
+text:"Comfortable for long rides but slightly underpowered."
+},
+{
+bike:"R15 V4",
+rating:5,
+text:"Best entry sport bike. Sharp and efficient."
+}
+];
+
+/* ==========================
+   STORAGE
+========================== */
+
+let bikes =
+JSON.parse(localStorage.getItem("bikes")) ||
+defaultBikes;
+
+let posts =
+JSON.parse(localStorage.getItem("posts")) ||
+defaultPosts;
+
+let reviews =
+JSON.parse(localStorage.getItem("reviews")) ||
+defaultReviews;
+
+let editingReview = -1;
+
+/* ==========================
+   MODALS
+========================== */
+
+function closeAllModals(){
+document
+.querySelectorAll(".modal")
+.forEach(modal=>{
+modal.style.display="none";
+});
+}
+
+function openProfileModal(){
+
+const profile =
+JSON.parse(localStorage.getItem("profile"));
+
+if(profile){
+
+document.getElementById("firstName").value =
+profile.first || "";
+
+document.getElementById("lastName").value =
+profile.last || "";
+
+document.getElementById("userNameInput").value =
+profile.username || "";
+
+document.getElementById("emailInput").value =
+profile.email || "";
+
+document.getElementById("ageInput").value =
+profile.age || "";
+
+document.getElementById("cityInput").value =
+profile.city || "";
+}
+
+closeAllModals();
+profileModal.style.display="flex";
+}
+
+function openBikeModal(){
+closeAllModals();
+bikeModal.style.display="flex";
+}
+
+function openPostModal(){
+closeAllModals();
+postModal.style.display="flex";
+}
+
+function openReviewModal(){
+
+editingReview = -1;
+
+document.getElementById("reviewBike").value="";
+document.getElementById("reviewRating").value="";
+document.getElementById("reviewText").value="";
+
+closeAllModals();
+reviewModal.style.display="flex";
+}
+
+window.addEventListener("click",(e)=>{
+
+document
+.querySelectorAll(".modal")
+.forEach(modal=>{
+
+if(e.target === modal){
+modal.style.display="none";
+}
+
+});
+
+});
+
+/* ==========================
+   DARK MODE
+========================== */
+
+if(localStorage.getItem("darkMode")==="true"){
+document.body.classList.add("dark");
+darkToggle.checked = true;
+}
+
+darkToggle.addEventListener("change",()=>{
+
+document.body.classList.toggle("dark");
+
+localStorage.setItem(
+"darkMode",
+document.body.classList.contains("dark")
+);
+
+});
+
+/* ==========================
+   PROFILE
+========================== */
+
+if(!localStorage.getItem("profile")){
+
+localStorage.setItem(
+"profile",
+JSON.stringify({
+first:"Rahul",
+last:"Sharma",
+username:"riderx",
+email:"rahul@gmail.com",
+age:"24",
+city:"Pune",
+image:"https://i.pravatar.cc/300?img=12"
+})
+);
+
+}
+
+function loadProfile(){
+
+const profile =
+JSON.parse(localStorage.getItem("profile"));
+
+if(!profile) return;
+
+document.getElementById("fullName").innerText =
+`${profile.first} ${profile.last}`;
+
+document.getElementById("username").innerText =
+`@${profile.username}`;
+
+document.getElementById("email").innerText =
+`📧 Email: ${profile.email}`;
+
+document.getElementById("city").innerText =
+`📍 City: ${profile.city}`;
+
+document.getElementById("age").innerText =
+`🎂 Age: ${profile.age}`;
+
+if(profile.image){
+
+document.getElementById("profileImg").src =
+profile.image;
+
+}
+
+}
+
+function saveProfile(){
+
+const oldProfile =
+JSON.parse(localStorage.getItem("profile")) || {};
+
+let profile = {
+
+first:
+document.getElementById("firstName").value ||
+oldProfile.first,
+
+last:
+document.getElementById("lastName").value ||
+oldProfile.last,
+
+username:
+document.getElementById("userNameInput").value ||
+oldProfile.username,
+
+email:
+document.getElementById("emailInput").value ||
+oldProfile.email,
+
+age:
+document.getElementById("ageInput").value ||
+oldProfile.age,
+
+city:
+document.getElementById("cityInput").value ||
+oldProfile.city
+
+};
+
+const file =
+document.getElementById("profileUpload").files[0];
+
+if(file){
+
+const reader = new FileReader();
+
+reader.onload = function(e){
+
+profile.image = e.target.result;
+
+localStorage.setItem(
+"profile",
+JSON.stringify(profile)
+);
+
+loadProfile();
+
+};
+
+reader.readAsDataURL(file);
+
+}else{
+
+profile.image =
+oldProfile.image;
+
+localStorage.setItem(
+"profile",
+JSON.stringify(profile)
+);
+
+loadProfile();
+
+}
+
+closeAllModals();
+
+}
+
+loadProfile();
+
+/* ==========================
+   GARAGE
+========================== */
+
+function saveBike(){
+
+const name =
+document.getElementById("bikeName").value.trim();
+
+const type =
+document.getElementById("bikeType").value.trim();
+
+const img =
+document.getElementById("bikeImage").value.trim();
+
+if(!name || !type){
+
+alert("Please fill all bike details.");
+return;
+
+}
+
+bikes.push({
+name,
+type,
+img
+});
+
+localStorage.setItem(
+"bikes",
+JSON.stringify(bikes)
+);
+
+document.getElementById("bikeName").value="";
+document.getElementById("bikeType").value="";
+document.getElementById("bikeImage").value="";
+
+renderBikes();
+closeAllModals();
+
+}
+
+function deleteBike(index){
+
+bikes.splice(index,1);
+
+localStorage.setItem(
+"bikes",
+JSON.stringify(bikes)
+);
+
+renderBikes();
+
+}
+
+function renderBikes(){
+
+bikeGrid.innerHTML="";
+
+bikes.forEach((bike,index)=>{
+
+bikeGrid.innerHTML += `
+
+<div class="bike-card">
+
+<img
+src="${bike.img}"
+onerror="this.src='https://via.placeholder.com/400x250?text=Bike'">
+
+<div class="bike-info">
+
+<div class="bike-name">
+${bike.name}
+</div>
+
+<div class="bike-type">
+${bike.type}
+</div>
+
+<div class="bike-actions">
+
+<button
+class="action-btn delete-btn"
+onclick="deleteBike(${index})">
+Delete
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+renderBikes();
+
+/* ==========================
+   POSTS
+========================== */
+
+function savePost(){
+
+const postText =
+document.getElementById("postText");
+
+const text =
+postText.value.trim();
+
+if(!text){
+alert("Please enter a post.");
+return;
+}
+
+posts.unshift({
+
+text,
+
+date:
+new Date().toLocaleString()
+
+});
+
+localStorage.setItem(
+"posts",
+JSON.stringify(posts)
+);
+
+postText.value="";
+
+renderPosts();
+closeAllModals();
+
+}
+
+function deletePost(index){
+
+posts.splice(index,1);
+
+localStorage.setItem(
+"posts",
+JSON.stringify(posts)
+);
+
+renderPosts();
+
+}
+
+function renderPosts(){
+
+postContainer.innerHTML="";
+
+posts.forEach((post,index)=>{
+
+postContainer.innerHTML += `
+
+<div class="post-card">
+
+<div class="post-date">
+${post.date}
+</div>
+
+<div>
+${post.text}
+</div>
+
+<div class="post-actions">
+
+<button
+class="action-btn delete-btn"
+onclick="deletePost(${index})">
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+renderPosts();
+
+/* ==========================
+   REVIEWS
+========================== */
+
+function saveReview(){
+
+const bike =
+document.getElementById("reviewBike").value.trim();
+
+const rating =
+document.getElementById("reviewRating").value;
+
+const text =
+document.getElementById("reviewText").value.trim();
+
+if(!bike || !rating || !text){
+
+alert("Please complete all review fields.");
+return;
+
+}
+
+const review = {
+bike,
+rating,
+text
+};
+
+if(editingReview === -1){
+
+reviews.unshift(review);
+
+}else{
+
+reviews[editingReview] = review;
+
+}
+
+localStorage.setItem(
+"reviews",
+JSON.stringify(reviews)
+);
+
+renderReviews();
+closeAllModals();
+
+}
+
+function editReview(index){
+
+const review = reviews[index];
+
+document.getElementById("reviewBike").value =
+review.bike;
+
+document.getElementById("reviewRating").value =
+review.rating;
+
+document.getElementById("reviewText").value =
+review.text;
+
+editingReview = index;
+
+reviewModal.style.display="flex";
+
+}
+
+function deleteReview(index){
+
+reviews.splice(index,1);
+
+localStorage.setItem(
+"reviews",
+JSON.stringify(reviews)
+);
+
+renderReviews();
+
+}
+
+function renderReviews(){
+
+reviewContainer.innerHTML="";
+
+reviews.forEach((review,index)=>{
+
+const stars =
+"⭐".repeat(review.rating);
+
+reviewContainer.innerHTML += `
+
+<div class="review-card">
+
+<div class="review-title">
+${review.bike}
+</div>
+
+<div class="review-rating">
+${stars}
+</div>
+
+<div>
+${review.text}
+</div>
+
+<div class="review-actions">
+
+<button
+class="action-btn edit-small"
+onclick="editReview(${index})">
+Edit
+</button>
+
+<button
+class="action-btn delete-btn"
+onclick="deleteReview(${index})">
+Delete
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+renderReviews();
+
+</script>
 
 </body>
 </html>
-```
