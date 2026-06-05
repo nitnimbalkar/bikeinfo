@@ -6,7 +6,401 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BikeInfo</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+/* =========================
+   RESET
+========================= */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f4f4f4;
+    color:#222;
+    padding-top:70px;
+    transition:.3s;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+body.dark{
+    background:#111;
+    color:#fff;
+}
+
+body.dark .section,
+body.dark .profile,
+body.dark .modal-box{
+    background:#1e1e1e;
+    color:#fff;
+    border-color:#333;
+}
+
+body.dark .bike-card,
+body.dark .post-card,
+body.dark .review-card{
+    background:#1e1e1e;
+    color:#fff;
+    border-color:#333;
+}
+
+body.dark .bike-type,
+body.dark .post-date{
+    color:#bbb;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    padding:15px 25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#222;
+    color:#fff;
+    z-index:1000;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:bold;
+}
+
+/* =========================
+   TOGGLE SWITCH
+========================= */
+.switch{
+    position:relative;
+    width:50px;
+    height:25px;
+}
+
+.switch input{
+    display:none;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    background:#ccc;
+    border-radius:30px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.slider:before{
+    content:"";
+    position:absolute;
+    width:19px;
+    height:19px;
+    left:3px;
+    top:3px;
+    background:#fff;
+    border-radius:50%;
+    transition:.3s;
+}
+
+input:checked + .slider{
+    background:#4CAF50;
+}
+
+input:checked + .slider:before{
+    transform:translateX(25px);
+}
+
+/* =========================
+   PROFILE
+========================= */
+.profile{
+    width:90%;
+    max-width:1100px;
+    margin:20px auto;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.profile-left{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.profile-image{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    overflow:hidden;
+    border:3px solid #ddd;
+}
+
+.profile-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.profile-extra{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    text-align:right;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.edit-btn,
+.add-btn,
+.action-btn{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#4CAF50;
+    color:#fff;
+    transition:.2s;
+}
+
+.edit-btn:hover,
+.add-btn:hover,
+.action-btn:hover{
+    opacity:.9;
+}
+
+.delete-btn{
+    background:#e53935;
+}
+
+.edit-small{
+    background:#ff9800;
+}
+
+/* =========================
+   SECTION
+========================= */
+.section{
+    width:90%;
+    max-width:1100px;
+    margin:20px auto;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 3px 10px rgba(0,0,0,.08);
+}
+
+.section-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+/* =========================
+   GARAGE
+========================= */
+.bike-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:15px;
+}
+
+.bike-card{
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.bike-card img{
+    width:100%;
+    height:170px;
+    object-fit:cover;
+    display:block;
+}
+
+.bike-info{
+    padding:10px;
+}
+
+.bike-name{
+    font-size:16px;
+    font-weight:bold;
+    margin-bottom:5px;
+}
+
+.bike-type{
+    font-size:13px;
+    color:#777;
+    margin-bottom:10px;
+}
+
+.bike-actions{
+    display:flex;
+    gap:10px;
+}
+
+/* =========================
+   POSTS
+========================= */
+.post-card{
+    background:#fff;
+    border:1px solid #ddd;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+}
+
+.post-date{
+    font-size:12px;
+    color:#888;
+    margin-bottom:10px;
+}
+
+.post-actions{
+    margin-top:15px;
+}
+
+/* =========================
+   REVIEWS
+========================= */
+.review-card{
+    background:#fff;
+    border:1px solid #ddd;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:15px;
+}
+
+.review-title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.review-rating{
+    color:#f9a825;
+    margin-bottom:10px;
+}
+
+.review-actions{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+/* =========================
+   MODALS
+========================= */
+.modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,.6);
+    z-index:9999;
+}
+
+.modal-box{
+    width:90%;
+    max-width:450px;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.modal-box h3{
+    margin-bottom:5px;
+}
+
+.modal-box input,
+.modal-box textarea{
+    width:100%;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:14px;
+}
+
+.modal-box textarea{
+    resize:vertical;
+}
+
+.modal-box button{
+    padding:10px;
+    border:none;
+    border-radius:8px;
+    background:#4CAF50;
+    color:#fff;
+    cursor:pointer;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media(max-width:768px){
+
+    .profile{
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
+
+    .profile-left{
+        flex-direction:column;
+    }
+
+    .profile-extra{
+        text-align:center;
+    }
+
+    .section-header{
+        flex-direction:column;
+        gap:10px;
+    }
+}
+
+@media(max-width:480px){
+
+    .profile-image{
+        width:75px;
+        height:75px;
+    }
+
+    .profile h2{
+        font-size:20px;
+    }
+
+    .section{
+        padding:15px;
+    }
+
+    .bike-card img{
+        height:140px;
+    }
+
+    .bike-grid{
+        grid-template-columns:1fr;
+    }
+}
+</style>
 </head>
 
 <body>
