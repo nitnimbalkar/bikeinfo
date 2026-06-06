@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bike Compare</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    padding:30px;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+}
+
+h1{
+    text-align:center;
+    margin-bottom:25px;
+    color:#222;
+}
+
+.selectors{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-bottom:30px;
+}
+
+select{
+    padding:12px;
+    min-width:250px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:15px;
+}
+
+button{
+    background:#ff5c00;
+    color:#fff;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+button:hover{
+    background:#e14f00;
+}
+
+.compare-table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.compare-table th{
+    background:#222;
+    color:white;
+    padding:15px;
+}
+
+.compare-table td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+.compare-table tr:nth-child(even){
+    background:#fafafa;
+}
+
+.better{
+    background:#d4edda !important;
+    font-weight:bold;
+    color:#0f5132;
+}
+
+.bike-image{
+    width:220px;
+    border-radius:10px;
+}
+
+.vs{
+    font-size:22px;
+    font-weight:bold;
+    color:#ff5c00;
+}
+
+@media(max-width:768px){
+    .bike-image{
+        width:120px;
+    }
+
+    select{
+        min-width:100%;
+    }
+
+    .selectors{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <h1>🏍 Compare Bikes</h1>
+
+    <div class="selectors">
+        <select id="bike1">
+            <option value="">Select Bike 1</option>
+        </select>
+
+        <div class="vs">VS</div>
+
+        <select id="bike2">
+            <option value="">Select Bike 2</option>
+        </select>
+
+        <button onclick="compareBikes()">Compare</button>
+    </div>
+
+    <div id="comparisonResult"></div>
+
+</div>
+
+<script>
+
+const bikes = [
+{
+    id:1,
+    name:"Royal Enfield Hunter 350",
+    price:"₹1.50 Lakh",
+    engine:349,
+    mileage:36,
+    power:20.2,
+    image:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600"
+},
+{
+    id:2,
+    name:"TVS Raider 125",
+    price:"₹95,000",
+    engine:124,
+    mileage:57,
+    power:11.2,
+    image:"https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=600"
+},
+{
+    id:3,
+    name:"Bajaj Pulsar N160",
+    price:"₹1.32 Lakh",
+    engine:164,
+    mileage:50,
+    power:16,
+    image:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=600"
+},
+{
+    id:4,
+    name:"Yamaha R15 V4",
+    price:"₹1.85 Lakh",
+    engine:155,
+    mileage:45,
+    power:18.4,
+    image:"https://images.unsplash.com/photo-1623869675781-80aa31012a5a?w=600"
+}
+];
+
+const bike1 = document.getElementById("bike1");
+const bike2 = document.getElementById("bike2");
+
+bikes.forEach(bike=>{
+    bike1.innerHTML += `<option value="${bike.id}">${bike.name}</option>`;
+    bike2.innerHTML += `<option value="${bike.id}">${bike.name}</option>`;
+});
+
+function compareBikes(){
+
+    const b1 = bikes.find(b=>b.id == bike1.value);
+    const b2 = bikes.find(b=>b.id == bike2.value);
+
+    if(!b1 || !b2){
+        alert("Please select both bikes");
+        return;
+    }
+
+    document.getElementById("comparisonResult").innerHTML = `
+
+    <table class="compare-table">
+
+        <tr>
+            <th>Specification</th>
+            <th>${b1.name}</th>
+            <th>${b2.name}</th>
+        </tr>
+
+        <tr>
+            <td>Image</td>
+            <td><img src="${b1.image}" class="bike-image"></td>
+            <td><img src="${b2.image}" class="bike-image"></td>
+        </tr>
+
+        <tr>
+            <td>Price</td>
+            <td>${b1.price}</td>
+            <td>${b2.price}</td>
+        </tr>
+
+        <tr>
+            <td>Engine (cc)</td>
+            <td class="${b1.engine>b2.engine?'better':''}">
+                ${b1.engine}
+            </td>
+            <td class="${b2.engine>b1.engine?'better':''}">
+                ${b2.engine}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Mileage (km/l)</td>
+            <td class="${b1.mileage>b2.mileage?'better':''}">
+                ${b1.mileage}
+            </td>
+            <td class="${b2.mileage>b1.mileage?'better':''}">
+                ${b2.mileage}
+            </td>
+        </tr>
+
+        <tr>
+            <td>Power (PS)</td>
+            <td class="${b1.power>b2.power?'better':''}">
+                ${b1.power}
+            </td>
+            <td class="${b2.power>b1.power?'better':''}">
+                ${b2.power}
+            </td>
+        </tr>
+
+    </table>
+    `;
+}
+
+</script>
+
+</body>
+</html>
