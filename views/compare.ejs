@@ -28,9 +28,22 @@ body{
 }
 
 .container{
-  width:min(1400px,95%);
-  margin:auto;
-  padding:30px 0;
+    width:60%;
+    min-width:900px;
+    margin:40px auto;
+}
+
+@media (max-width:1200px){
+    .container{
+        width:80%;
+        min-width:auto;
+    }
+}
+
+@media (max-width:768px){
+    .container{
+        width:95%;
+    }
 }
 
 h1{
@@ -38,10 +51,10 @@ h1{
 }
 
 .bike-grid{
-  display:flex;
-  gap:20px;
-  overflow-x:auto;
-  padding-bottom:10px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:16px;
+    margin-bottom:24px;
 }
 
 .bike-card{
@@ -54,17 +67,17 @@ h1{
 }
 
 .bike-card img{
-  width:100%;
-  height:170px;
-  object-fit:cover;
+    width:100%;
+    height:100px;
+    object-fit:cover;
 }
 
 .card-content{
-  padding:15px;
+  padding:12px;
 }
 
 .bike-name{
-  font-size:18px;
+  font-size:14px;
   font-weight:700;
   margin-bottom:8px;
 }
@@ -72,6 +85,7 @@ h1{
 .price{
   color:var(--primary);
   font-weight:700;
+  font-size: 13px;
 }
 
 .remove-btn{
@@ -88,16 +102,15 @@ h1{
 }
 
 .add-card{
-  min-width:260px;
-  height:300px;
-  border:3px dashed #d1d5db;
-  border-radius:18px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:white;
-  cursor:pointer;
-  transition:.3s;
+    height:220px;
+    max-width: 200px;
+    border:2px dashed #d1d5db;
+    border-radius:16px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    background:#fff;
 }
 
 .add-card:hover{
@@ -105,7 +118,7 @@ h1{
 }
 
 .plus{
-  font-size:60px;
+  font-size:42px;
   color:var(--primary);
 }
 
@@ -201,6 +214,22 @@ button{
       min-width:220px;
   }
 }
+.page-layout{
+    display:grid;
+    grid-template-columns:60% 40%;
+    gap:24px;
+    max-width:1600px;
+    margin:auto;
+    padding:30px;
+}
+
+.compare-section{
+    width:100%;
+}
+
+.sidebar{
+    width:100%;
+}
 </style>
 </head>
 <body>
@@ -230,6 +259,19 @@ button{
 </div>
 
 </div>
+</div>
+<div class="page-layout">
+
+    <div class="compare-section">
+        <!-- Bike compare cards + table -->
+    </div>
+
+    <aside class="sidebar">
+        <!-- Related bikes -->
+        <!-- Popular comparisons -->
+        <!-- Ads -->
+    </aside>
+
 </div>
 
 <script>
