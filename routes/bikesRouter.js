@@ -11,6 +11,11 @@ router.get("/",async(req,res)=>{
 router.get("/userprofile",(req,res)=>{
     res.render("userProfileTest.ejs");
 })
+
+router.get("/compare",(req,res)=>{
+    res.render("compare.ejs");
+})
+
 router.get("/bikeview",(req,res)=>{
     res.render("bikeview.ejs");
 })
@@ -38,7 +43,6 @@ router.post("/add-bike",upload.fields([
   ]),addbike);
 
 module.exports = router;
-
 
 
 
