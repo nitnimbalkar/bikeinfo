@@ -3,423 +3,414 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bike Compare Pro</title>
+<title>Bike Compare</title>
 
 <style>
 :root{
-    --primary:#ff6d00;
-    --dark:#1f2937;
-    --gray:#6b7280;
-    --border:#e5e7eb;
-    --bg:#f5f7fb;
-    --card:#ffffff;
-    --success:#dcfce7;
-    --shadow:0 8px 25px rgba(0,0,0,.08);
+  --primary:#ff6b00;
+  --bg:#f5f7fb;
+  --card:#fff;
+  --border:#e5e7eb;
+  --text:#1f2937;
+  --success:#dcfce7;
 }
 
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Inter,Segoe UI,sans-serif;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Inter,Arial,sans-serif;
 }
 
 body{
-    background:var(--bg);
-    color:var(--dark);
-}
-
-.header{
-    background:white;
-    padding:20px;
-    box-shadow:0 2px 10px rgba(0,0,0,.05);
-    position:sticky;
-    top:0;
-    z-index:1000;
+  background:var(--bg);
+  color:var(--text);
 }
 
 .container{
-    width:min(1400px,95%);
-    margin:auto;
+  width:min(1400px,95%);
+  margin:auto;
+  padding:30px 0;
 }
 
-.header h1{
-    font-size:32px;
+h1{
+  margin-bottom:20px;
 }
 
-.header p{
-    color:var(--gray);
-    margin-top:5px;
-}
-
-.selection-box{
-    margin-top:20px;
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:12px;
-}
-
-.selection-box select{
-    padding:12px;
-    border:1px solid var(--border);
-    border-radius:12px;
-    background:white;
-    font-size:14px;
-}
-
-.compare-btn{
-    margin-top:15px;
-    background:var(--primary);
-    color:white;
-    border:none;
-    padding:12px 28px;
-    border-radius:10px;
-    cursor:pointer;
-    font-weight:600;
-}
-
-.compare-btn:hover{
-    opacity:.9;
-}
-
-.compare-wrapper{
-    margin-top:25px;
-    overflow-x:auto;
-}
-
-.compare-table{
-    width:100%;
-    min-width:1100px;
-    border-collapse:collapse;
-    background:white;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:var(--shadow);
-}
-
-.compare-table th{
-    background:white;
-    position:sticky;
-    top:0;
-    z-index:100;
-    border-bottom:2px solid var(--border);
-}
-
-.compare-table th,
-.compare-table td{
-    padding:18px;
-    text-align:center;
-}
-
-.compare-table tr{
-    border-bottom:1px solid var(--border);
-}
-
-.spec-name{
-    text-align:left !important;
-    font-weight:700;
-    background:#fafafa;
-    min-width:220px;
+.bike-grid{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding-bottom:10px;
 }
 
 .bike-card{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:10px;
+  min-width:260px;
+  background:var(--card);
+  border-radius:18px;
+  overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+  position:relative;
 }
 
 .bike-card img{
-    width:220px;
-    height:130px;
-    object-fit:cover;
-    border-radius:12px;
+  width:100%;
+  height:170px;
+  object-fit:cover;
+}
+
+.card-content{
+  padding:15px;
 }
 
 .bike-name{
-    font-size:15px;
-    font-weight:700;
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:8px;
 }
 
 .price{
-    color:var(--primary);
-    font-weight:700;
+  color:var(--primary);
+  font-weight:700;
 }
 
-.section{
-    background:#f9fafb;
-    font-weight:700;
-    color:#111827;
+.remove-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:32px;
+  height:32px;
+  border:none;
+  border-radius:50%;
+  background:#ef4444;
+  color:white;
+  cursor:pointer;
+}
+
+.add-card{
+  min-width:260px;
+  height:300px;
+  border:3px dashed #d1d5db;
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:white;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.add-card:hover{
+  border-color:var(--primary);
+}
+
+.plus{
+  font-size:60px;
+  color:var(--primary);
+}
+
+.compare-box{
+  margin-top:30px;
+  background:white;
+  border-radius:20px;
+  overflow-x:auto;
+  box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+table{
+  width:100%;
+  min-width:900px;
+  border-collapse:collapse;
+}
+
+th,td{
+  padding:18px;
+  text-align:center;
+  border-bottom:1px solid #eee;
+}
+
+th{
+  background:#fafafa;
+}
+
+.spec{
+  text-align:left;
+  font-weight:700;
+  background:#fafafa;
+  width:220px;
 }
 
 .best{
-    background:var(--success);
-    font-weight:700;
+  background:var(--success);
+  font-weight:700;
 }
 
-.badge{
-    display:inline-block;
-    background:#fff3e8;
-    color:#ff6d00;
-    padding:6px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:600;
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  justify-content:center;
+  align-items:center;
 }
 
-.footer{
-    text-align:center;
-    padding:40px;
-    color:var(--gray);
+.modal-content{
+  width:90%;
+  max-width:500px;
+  background:white;
+  padding:25px;
+  border-radius:18px;
 }
 
-@media(max-width:900px){
+.modal h2{
+  margin-bottom:15px;
+}
 
-    .selection-box{
-        grid-template-columns:1fr;
-    }
+select{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid #ddd;
+}
 
-    .header h1{
-        font-size:24px;
-    }
+.modal-buttons{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+}
 
-    .bike-card img{
-        width:140px;
-        height:90px;
-    }
+button{
+  border:none;
+  padding:12px 20px;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.primary{
+  background:var(--primary);
+  color:white;
+}
+
+.secondary{
+  background:#e5e7eb;
+}
+
+@media(max-width:768px){
+  .bike-card,
+  .add-card{
+      min-width:220px;
+  }
 }
 </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="container">
-        <h1>🏍 Bike Compare Pro</h1>
-        <p>Compare up to 5 bikes side-by-side</p>
-
-        <div class="selection-box">
-            <select class="bike-select"></select>
-            <select class="bike-select"></select>
-            <select class="bike-select"></select>
-            <select class="bike-select"></select>
-            <select class="bike-select"></select>
-        </div>
-
-        <button class="compare-btn" onclick="compareBikes()">
-            Compare Bikes
-        </button>
-    </div>
-</div>
-
 <div class="container">
-    <div id="compareResult"></div>
+
+<h1>🏍 Compare Bikes</h1>
+
+<div class="bike-grid" id="bikeGrid"></div>
+
+<div class="compare-box">
+<table id="compareTable"></table>
 </div>
 
-<div class="footer">
-    Bike Comparison Demo
+</div>
+
+<div class="modal" id="modal">
+<div class="modal-content">
+
+<h2>Select Bike</h2>
+
+<select id="bikeSelect"></select>
+
+<div class="modal-buttons">
+<button class="primary" onclick="addBike()">Add Bike</button>
+<button class="secondary" onclick="closeModal()">Cancel</button>
+</div>
+
+</div>
 </div>
 
 <script>
 
 const bikes = [
-
 {
-name:"Royal Enfield Hunter 350",
+name:"Hunter 350",
 price:"₹1.50 Lakh",
 engine:349,
 power:20.2,
-torque:27,
 mileage:36,
 weight:181,
-seatHeight:800,
-fuelTank:13,
-image:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=1000"
+image:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800"
 },
-
 {
-name:"TVS Raider 125",
-price:"₹95,000",
-engine:124,
-power:11.2,
-torque:11.2,
-mileage:57,
-weight:123,
-seatHeight:780,
-fuelTank:10,
-image:"https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=1000"
-},
-
-{
-name:"Yamaha R15 V4",
-price:"₹1.85 Lakh",
-engine:155,
-power:18.4,
-torque:14.2,
-mileage:45,
-weight:141,
-seatHeight:815,
-fuelTank:11,
-image:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=1000"
-},
-
-{
-name:"Bajaj Pulsar N160",
+name:"Pulsar N160",
 price:"₹1.32 Lakh",
 engine:164,
 power:16,
-torque:14.7,
 mileage:50,
 weight:154,
-seatHeight:795,
-fuelTank:14,
-image:"https://images.unsplash.com/photo-1517846693594-1567da72af75?w=1000"
+image:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800"
 },
-
 {
-name:"TVS Apache RTR 200",
+name:"TVS Raider",
+price:"₹95,000",
+engine:124,
+power:11.2,
+mileage:57,
+weight:123,
+image:"https://images.unsplash.com/photo-1580310614729-ccd69652491d?w=800"
+},
+{
+name:"Yamaha R15",
+price:"₹1.85 Lakh",
+engine:155,
+power:18.4,
+mileage:45,
+weight:141,
+image:"https://images.unsplash.com/photo-1517846693594-1567da72af75?w=800"
+},
+{
+name:"Apache RTR 200",
 price:"₹1.55 Lakh",
 engine:197,
 power:20.8,
-torque:17.2,
 mileage:41,
 weight:152,
-seatHeight:800,
-fuelTank:12,
-image:"https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1000"
+image:"https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800"
 }
-
 ];
 
-const selects = document.querySelectorAll(".bike-select");
+let selected = [bikes[0], bikes[1]];
 
-function populateDropdowns(){
+const modal = document.getElementById("modal");
 
-selects.forEach(select=>{
+function renderCards(){
 
-select.innerHTML =
-`<option value="">Select Bike</option>`;
+const grid = document.getElementById("bikeGrid");
 
-bikes.forEach((bike,index)=>{
+grid.innerHTML = "";
 
-select.innerHTML += `
-<option value="${index}">
-${bike.name}
-</option>`;
+selected.forEach((bike,index)=>{
 
-});
-
-});
-
-}
-
-populateDropdowns();
-
-function maxValue(arr,key){
-return Math.max(...arr.map(x=>x[key]));
-}
-
-function compareBikes(){
-
-const selected=[];
-
-selects.forEach(select=>{
-
-if(select.value !== ""){
-selected.push(bikes[select.value]);
-}
-
-});
-
-if(selected.length < 2){
-alert("Please select at least 2 bikes");
-return;
-}
-
-const bestEngine=maxValue(selected,"engine");
-const bestPower=maxValue(selected,"power");
-const bestTorque=maxValue(selected,"torque");
-const bestMileage=maxValue(selected,"mileage");
-const bestFuel=maxValue(selected,"fuelTank");
-
-let html=`
-<div class="compare-wrapper">
-
-<table class="compare-table">
-
-<tr>
-<th class="spec-name">Bike</th>
-`;
-
-selected.forEach(bike=>{
-
-html += `
-<th>
+grid.innerHTML += `
 <div class="bike-card">
+<button class="remove-btn" onclick="removeBike(${index})">×</button>
+
 <img src="${bike.image}">
+
+<div class="card-content">
 <div class="bike-name">${bike.name}</div>
 <div class="price">${bike.price}</div>
 </div>
-</th>
+</div>
 `;
 
 });
 
-html += `</tr>`;
+if(selected.length < 5){
 
-html += `
-<tr class="section">
-<td class="spec-name">Engine & Performance</td>
-${selected.map(()=>"<td></td>").join("")}
-</tr>
+grid.innerHTML += `
+<div class="add-card" onclick="openModal()">
+<div class="plus">+</div>
+</div>
 `;
 
-createRow("Engine (cc)","engine",bestEngine);
-createRow("Power (PS)","power",bestPower);
-createRow("Torque (Nm)","torque",bestTorque);
-createRow("Mileage (km/l)","mileage",bestMileage);
+}
 
-html += `
-<tr class="section">
-<td class="spec-name">Dimensions</td>
-${selected.map(()=>"<td></td>").join("")}
-</tr>
-`;
+renderTable();
 
-createRow("Weight (kg)","weight");
-createRow("Seat Height (mm)","seatHeight");
-createRow("Fuel Tank (L)","fuelTank",bestFuel);
+}
 
-html += "</table></div>";
+function renderTable(){
 
-document.getElementById("compareResult").innerHTML = html;
+const table = document.getElementById("compareTable");
 
-function createRow(label,key,best=null){
+const maxEngine = Math.max(...selected.map(x=>x.engine));
+const maxPower = Math.max(...selected.map(x=>x.power));
+const maxMileage = Math.max(...selected.map(x=>x.mileage));
 
-html += `
+table.innerHTML = `
 <tr>
-<td class="spec-name">${label}</td>
+<th class="spec">Specification</th>
+${selected.map(b=>`<th>${b.name}</th>`).join("")}
+</tr>
+
+${row("Price","price")}
+${row("Engine (cc)","engine",maxEngine)}
+${row("Power (PS)","power",maxPower)}
+${row("Mileage","mileage",maxMileage)}
+${row("Weight","weight")}
 `;
 
-selected.forEach(bike=>{
+function row(label,key,best=null){
 
-const highlight =
-(best !== null && bike[key] === best)
-? "best"
-: "";
+return `
+<tr>
+<td class="spec">${label}</td>
 
-html += `
-<td class="${highlight}">
-${bike[key]}
+${selected.map(b=>`
+<td class="${best===b[key]?'best':''}">
+${b[key]}
 </td>
+`).join("")}
+
+</tr>
 `;
 
-});
-
-html += "</tr>";
-
 }
 
 }
+
+function openModal(){
+
+const select = document.getElementById("bikeSelect");
+
+select.innerHTML = bikes.map((bike,index)=>
+`<option value="${index}">${bike.name}</option>`
+).join("");
+
+modal.style.display = "flex";
+
+}
+
+function closeModal(){
+modal.style.display = "none";
+}
+
+function addBike(){
+
+const index =
+document.getElementById("bikeSelect").value;
+
+const bike = bikes[index];
+
+if(selected.some(x=>x.name===bike.name)){
+alert("Bike already selected");
+return;
+}
+
+selected.push(bike);
+
+closeModal();
+renderCards();
+
+}
+
+function removeBike(index){
+
+if(selected.length <= 2){
+alert("Minimum 2 bikes required");
+return;
+}
+
+selected.splice(index,1);
+renderCards();
+
+}
+
+renderCards();
 
 </script>
 
