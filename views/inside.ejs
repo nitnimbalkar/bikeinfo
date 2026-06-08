@@ -481,3 +481,73 @@ Monthly EMI:
 <div class="footer">
 © 2025 BikeZone. All Rights Reserved.
 </div>
+<script>
+
+// Gallery
+
+const thumbs = document.querySelectorAll(".thumb");
+const mainImage = document.getElementById("mainImage");
+
+thumbs.forEach(thumb=>{
+    thumb.addEventListener("click",()=>{
+
+        mainImage.src = thumb.src;
+
+        thumbs.forEach(t=>t.classList.remove("active"));
+        thumb.classList.add("active");
+    });
+});
+
+// Tabs
+
+const tabs = document.querySelectorAll(".tab");
+const panels = document.querySelectorAll(".content-panel");
+
+tabs.forEach(tab=>{
+
+    tab.addEventListener("click",()=>{
+
+        tabs.forEach(t=>t.classList.remove("active"));
+        panels.forEach(p=>p.classList.remove("active"));
+
+        tab.classList.add("active");
+
+        document
+            .getElementById(tab.dataset.tab)
+            .classList.add("active");
+    });
+});
+
+// EMI Calculator
+
+const range = document.getElementById("loanRange");
+const amount = document.getElementById("loanAmount");
+const emiResult = document.getElementById("emiResult");
+
+function calculateEMI(){
+
+    const principal = Number(range.value);
+    const rate = 9 / 12 / 100;
+    const tenure = 60;
+
+    const emi =
+    principal *
+    rate *
+    Math.pow(1 + rate, tenure) /
+    (Math.pow(1 + rate, tenure) - 1);
+
+    amount.innerText =
+    "₹" + principal.toLocaleString();
+
+    emiResult.innerText =
+    "₹" + Math.round(emi).toLocaleString();
+}
+
+range.addEventListener("input", calculateEMI);
+
+calculateEMI();
+
+</script>
+
+</body>
+</html>
