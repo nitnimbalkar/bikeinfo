@@ -423,21 +423,25 @@ modal.style.display = "none";
 
 function addBike(){
 
-const index =
-document.getElementById("bikeSelect").value;
+    if(selected.length >= 5){
+        alert("Maximum 5 bikes allowed");
+        return;
+    }
 
-const bike = bikes[index];
+    const index =
+        document.getElementById("bikeSelect").value;
 
-if(selected.some(x=>x.name===bike.name)){
-alert("Bike already selected");
-return;
-}
+    const bike = bikes[index];
 
-selected.push(bike);
+    if(selected.some(x => x.name === bike.name)){
+        alert("Bike already selected");
+        return;
+    }
 
-closeModal();
-renderCards();
+    selected.push(bike);
 
+    closeModal();
+    renderCards();
 }
 
 function removeBike(index){
@@ -454,6 +458,13 @@ renderCards();
 
 renderCards();
 
+modal.addEventListener("click",(e)=>{
+
+    if(e.target === modal){
+        closeModal();
+    }
+
+});
 </script>
 
 </body>
