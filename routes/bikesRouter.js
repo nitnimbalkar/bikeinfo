@@ -11,7 +11,9 @@ router.get("/",async(req,res)=>{
 router.get("/userprofile",(req,res)=>{
     res.render("userProfileTest.ejs");
 })
-
+router.get("/inside",(req,res)=>{
+    res.render("inside.ejs");
+})
 router.get("/compare",(req,res)=>{
     res.render("compare.ejs");
 })
