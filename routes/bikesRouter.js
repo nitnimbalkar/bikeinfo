@@ -14,6 +14,9 @@ router.get("/userprofile",(req,res)=>{
 router.get("/inside",(req,res)=>{
     res.render("inside.ejs");
 })
+router.get("/anime",(req,res)=>{
+    res.render("animjs.ejs");
+})
 router.get("/compare",(req,res)=>{
     res.render("compare.ejs");
 })
