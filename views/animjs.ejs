@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Animated Bike Garage</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#050816;
+overflow-x:hidden;
+color:white;
+min-height:100vh;
+}
+
+#particles{
+position:fixed;
+inset:0;
+z-index:-1;
+}
+
+header{
+text-align:center;
+padding:40px;
+}
+
+h1{
+font-size:4rem;
+background:linear-gradient(90deg,#00ffff,#00ff88);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.search-box{
+display:flex;
+justify-content:center;
+margin:20px;
+}
+
+input{
+padding:15px;
+width:350px;
+border:none;
+border-radius:15px;
+font-size:16px;
+outline:none;
+}
+
+.container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+padding:40px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+backdrop-filter:blur(10px);
+border-radius:20px;
+overflow:hidden;
+cursor:pointer;
+transform-style:preserve-3d;
+}
+
+.card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.info{
+padding:20px;
+}
+
+.price{
+color:#00ff88;
+font-size:22px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.8);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+width:80%;
+max-width:650px;
+background:#10182c;
+padding:25px;
+border-radius:20px;
+transform:scale(.3);
+opacity:0;
+}
+
+.close{
+font-size:30px;
+cursor:pointer;
+float:right;
+color:red;
+}
+
+.modal-content img{
+width:100%;
+border-radius:15px;
+margin:15px 0;
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<header>
+<h1>🏍 Bike Garage</h1>
+</header>
+
+<div class="search-box">
+<input id="search" placeholder="Search bikes...">
+</div>
+
+<div class="container" id="container"></div>
+
+<div class="modal" id="modal">
+<div class="modal-content" id="modalContent">
+<span class="close">✖</span>
+<div id="details"></div>
+</div>
+</div>
+
+<script>
+
+const bikes = [
+{
+name:"Yamaha R15",
+price:"₹1.85 Lakh",
+engine:"155cc",
+speed:"155 km/h",
+img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=1200"
+},
+{
+name:"KTM RC 390",
+price:"₹3.18 Lakh",
+engine:"373cc",
+speed:"170 km/h",
+img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=1200"
+},
+{
+name:"Ninja ZX6R",
+price:"₹11 Lakh",
+engine:"636cc",
+speed:"250 km/h",
+img:"https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=1200"
+}
+];
+
+const container = document.getElementById("container");
+
+function render(list){
+
+container.innerHTML="";
+
+list.forEach((bike,index)=>{
+
+const card=document.createElement("div");
+card.className="card";
+
+card.innerHTML=`
+<img src="${bike.img}">
+<div class="info">
+<h2>${bike.name}</h2>
+<div class="price">${bike.price}</div>
+<p>Engine: ${bike.engine}</p>
+<p>Speed: ${bike.speed}</p>
+</div>
+`;
+
+card.addEventListener("mouseenter",()=>{
+gsap.to(card,{
+y:-15,
+rotationY:10,
+duration:.4
+});
+});
+
+card.addEventListener("mouseleave",()=>{
+gsap.to(card,{
+y:0,
+rotationY:0,
+duration:.4
+});
+});
+
+card.onclick=()=>showBike(bike);
+
+container.appendChild(card);
+
+gsap.from(card,{
+opacity:0,
+y:100,
+duration:1,
+delay:index*0.15
+});
+});
+}
+
+function showBike(bike){
+
+const modal=document.getElementById("modal");
+const modalContent=document.getElementById("modalContent");
+
+document.getElementById("details").innerHTML=`
+<h1>${bike.name}</h1>
+<img src="${bike.img}">
+<h2>${bike.price}</h2>
+<p>Engine: ${bike.engine}</p>
+<p>Top Speed: ${bike.speed}</p>
+`;
+
+modal.style.display="flex";
+
+gsap.to(modalContent,{
+scale:1,
+opacity:1,
+duration:.5,
+ease:"back.out(1.7)"
+});
+}
+
+document.querySelector(".close").onclick=()=>{
+
+const modal=document.getElementById("modal");
+const modalContent=document.getElementById("modalContent");
+
+gsap.to(modalContent,{
+scale:.3,
+opacity:0,
+duration:.3,
+onComplete:()=>{
+modal.style.display="none";
+}
+});
+};
+
+document.getElementById("search").addEventListener("input",e=>{
+
+const value=e.target.value.toLowerCase();
+
+const filtered=bikes.filter(b=>
+b.name.toLowerCase().includes(value)
+);
+
+render(filtered);
+});
+
+render(bikes);
+
+gsap.from("h1",{
+y:-100,
+opacity:0,
+duration:1.5,
+ease:"elastic.out"
+});
+
+gsap.from("input",{
+scale:0,
+duration:1,
+delay:.5
+});
+
+const canvas=document.getElementById("particles");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+for(let i=0;i<120;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*3,
+dx:(Math.random()-.5)*1,
+dy:(Math.random()-.5)*1
+});
+}
+
+function animate(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(p=>{
+
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle="#00ffff";
+ctx.fill();
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+if(p.x<0||p.x>canvas.width) p.dx*=-1;
+if(p.y<0||p.y>canvas.height) p.dy*=-1;
+});
+
+requestAnimationFrame(animate);
+}
+
+animate();
+
+</script>
+
+</body>
+</html>
