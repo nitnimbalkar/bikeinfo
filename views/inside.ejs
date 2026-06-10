@@ -714,7 +714,279 @@ nav{
 </head>
 <body>
 
-<!-- PREMIUM HTML WILL GO HERE -->
+<!-- PREMIUM HTML WILL GO HERE --><!-- Animated Background -->
+<div class="bg-gradient"></div>
+
+<!-- HEADER -->
+<header class="header">
+    <div class="logo">KTM<span>Luxury</span></div>
+
+    <nav>
+        <a href="#overview">Overview</a>
+        <a href="#features">Features</a>
+        <a href="#finance">Finance</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#faq">FAQ</a>
+    </nav>
+
+    <button class="theme-btn" id="themeToggle">🌙</button>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+
+    <!-- LEFT GALLERY -->
+    <div class="hero-left glass fade-up">
+
+        <div class="gallery-wrapper">
+
+            <img id="mainImage"
+            class="main-bike"
+            src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=1600"
+            alt="KTM 390 Duke">
+
+            <div class="thumbnail-row">
+
+                <img class="thumb active"
+                src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=600">
+
+                <img class="thumb"
+                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600">
+
+                <img class="thumb"
+                src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?w=600">
+
+                <img class="thumb"
+                src="https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=600">
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- RIGHT PURCHASE PANEL -->
+    <div class="hero-right glass fade-up">
+
+        <div class="top-badge">🔥 PREMIUM PERFORMANCE</div>
+
+        <h1>KTM 390 Duke R</h1>
+
+        <div class="subtitle">
+            A next-generation naked machine built for precision handling,
+            raw power, and premium electronics.
+        </div>
+
+        <div class="rating">
+            ★★★★★ <span>4.9 • 2,874 Reviews</span>
+        </div>
+
+        <div class="price-block">
+            <div class="price">₹3.38 Lakh</div>
+            <div class="price-note">Ex-Showroom Price</div>
+        </div>
+
+        <div class="availability">
+            <div class="dot"></div>
+            In Stock
+        </div>
+
+        <!-- COLORS -->
+        <div class="color-section">
+            <h4>Colors</h4>
+            <div class="colors">
+                <div class="color orange"></div>
+                <div class="color black"></div>
+                <div class="color white"></div>
+            </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="action-buttons">
+            <button class="btn primary">Get Best Offer</button>
+            <button class="btn secondary">Book Test Ride</button>
+        </div>
+
+        <!-- QUICK STATS -->
+        <div class="quick-stats">
+
+            <div class="stat">
+                <div class="stat-value">399cc</div>
+                <div class="stat-label">Engine</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-value">46 HP</div>
+                <div class="stat-label">Power</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-value">39 Nm</div>
+                <div class="stat-label">Torque</div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- OVERVIEW -->
+<section id="overview" class="section">
+
+    <div class="section-title fade-up">Performance Redefined</div>
+
+    <div class="overview-grid">
+
+        <div class="glass overview-card fade-up">
+            <h3>Track Inspired</h3>
+            <p>
+                Aggressive ergonomics and race-derived engineering
+                deliver unmatched street performance.
+            </p>
+        </div>
+
+        <div class="glass overview-card fade-up">
+            <h3>Premium Electronics</h3>
+            <p>
+                TFT display, ride modes, traction control,
+                and quickshifter enhance riding experience.
+            </p>
+        </div>
+
+        <div class="glass overview-card fade-up">
+            <h3>Lightweight Control</h3>
+            <p>
+                Precision chassis tuning ensures sharp handling
+                in every riding condition.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FEATURES -->
+<section id="features" class="section">
+
+    <div class="section-title fade-up">Premium Features</div>
+
+    <div class="feature-grid">
+
+        <div class="glass feature-card fade-up">⚡ Quick Shifter+</div>
+        <div class="glass feature-card fade-up">📱 TFT Display</div>
+        <div class="glass feature-card fade-up">🛡 Dual ABS</div>
+        <div class="glass feature-card fade-up">🎯 Ride Modes</div>
+        <div class="glass feature-card fade-up">💡 LED Lighting</div>
+        <div class="glass feature-card fade-up">🏍 Traction Control</div>
+
+    </div>
+
+</section>
+
+<!-- FINANCE -->
+<section id="finance" class="section">
+
+    <div class="section-title fade-up">Finance Calculator</div>
+
+    <div class="glass finance-box fade-up">
+
+        <label>Loan Amount</label>
+        <input type="range" id="loan" min="100000" max="500000" value="338000">
+        <p id="loanValue">₹338,000</p>
+
+        <label>Interest Rate</label>
+        <input type="range" id="interest" min="5" max="15" value="9">
+        <p id="interestValue">9%</p>
+
+        <label>Tenure (Months)</label>
+        <input type="range" id="tenure" min="12" max="84" step="12" value="60">
+        <p id="tenureValue">60 Months</p>
+
+        <div class="emi-result" id="emiResult">₹7,110</div>
+
+    </div>
+
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="section">
+
+    <div class="section-title fade-up">Customer Reviews</div>
+
+    <div class="review-grid">
+
+        <div class="glass review-card fade-up">
+
+            <div class="review-header">
+                <div class="avatar">R</div>
+                <div>
+                    <h4>Rahul Sharma</h4>
+                    <span>Verified Buyer</span>
+                </div>
+            </div>
+
+            ★★★★★
+            <p>Amazing performance and aggressive styling.</p>
+
+        </div>
+
+        <div class="glass review-card fade-up">
+
+            <div class="review-header">
+                <div class="avatar">A</div>
+                <div>
+                    <h4>Amit Verma</h4>
+                    <span>Verified Buyer</span>
+                </div>
+            </div>
+
+            ★★★★☆
+            <p>Great bike but mileage could improve slightly.</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FAQ -->
+<section id="faq" class="section">
+
+    <div class="section-title fade-up">FAQ</div>
+
+    <div class="faq-container">
+
+        <div class="faq-item glass fade-up">
+            <button class="faq-question">What is mileage?</button>
+            <div class="faq-answer">
+                KTM 390 Duke delivers around 28–30 kmpl depending on riding style.
+            </div>
+        </div>
+
+        <div class="faq-item glass fade-up">
+            <button class="faq-question">Does it have quickshifter?</button>
+            <div class="faq-answer">
+                Yes, Quick Shifter+ is available in this model.
+            </div>
+        </div>
+
+        <div class="faq-item glass fade-up">
+            <button class="faq-question">Fuel tank capacity?</button>
+            <div class="faq-answer">
+                15 litres.
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-logo">KTM Luxury</div>
+    <p>Premium Motorcycle Experience</p>
+    <p>© 2026 All Rights Reserved</p>
+</footer>
 
 <script>
 
