@@ -990,7 +990,157 @@ nav{
 
 <script>
 
-/* PREMIUM JS WILL GO HERE */
+
+// -----------------------------
+// THEME TOGGLE (Dark / Accent glow)
+// -----------------------------
+
+const themeToggle = document.getElementById("themeToggle");
+
+themeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+
+    // small UI feedback
+    if (document.body.classList.contains("dark-mode")) {
+        themeToggle.textContent = "☀️";
+    } else {
+        themeToggle.textContent = "🌙";
+    }
+});
+
+
+// -----------------------------
+// IMAGE GALLERY SWITCHER
+// -----------------------------
+
+const mainImage = document.getElementById("mainImage");
+const thumbs = document.querySelectorAll(".thumb");
+
+thumbs.forEach((thumb) => {
+    thumb.addEventListener("click", () => {
+
+        // fade effect
+        mainImage.style.opacity = "0.3";
+
+        setTimeout(() => {
+            mainImage.src = thumb.src;
+            mainImage.style.opacity = "1";
+        }, 200);
+
+        thumbs.forEach(t => t.classList.remove("active"));
+        thumb.classList.add("active");
+    });
+});
+
+
+// -----------------------------
+// FAQ ACCORDION
+// -----------------------------
+
+const faqItems = document.querySelectorAll(".faq-item");
+
+faqItems.forEach(item => {
+    const question = item.querySelector(".faq-question");
+    const answer = item.querySelector(".faq-answer");
+
+    question.addEventListener("click", () => {
+
+        const isOpen = answer.style.display === "block";
+
+        // close all
+        document.querySelectorAll(".faq-answer").forEach(a => {
+            a.style.display = "none";
+        });
+
+        // toggle current
+        answer.style.display = isOpen ? "none" : "block";
+    });
+});
+
+
+// -----------------------------
+// EMI CALCULATOR
+// -----------------------------
+
+const loan = document.getElementById("loan");
+const interest = document.getElementById("interest");
+const tenure = document.getElementById("tenure");
+
+const loanValue = document.getElementById("loanValue");
+const interestValue = document.getElementById("interestValue");
+const tenureValue = document.getElementById("tenureValue");
+const emiResult = document.getElementById("emiResult");
+
+function calculateEMI() {
+
+    const P = Number(loan.value);
+    const R = Number(interest.value) / 12 / 100;
+    const N = Number(tenure.value);
+
+    const emi =
+        P *
+        R *
+        Math.pow(1 + R, N) /
+        (Math.pow(1 + R, N) - 1);
+
+    loanValue.textContent = "₹" + P.toLocaleString();
+    interestValue.textContent = interest.value + "%";
+    tenureValue.textContent = tenure.value + " Months";
+
+    emiResult.textContent = "₹" + Math.round(emi).toLocaleString();
+}
+
+[loan, interest, tenure].forEach(el => {
+    el.addEventListener("input", calculateEMI);
+});
+
+calculateEMI();
+
+
+// -----------------------------
+// SCROLL REVEAL ANIMATION
+// -----------------------------
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+        }
+    });
+});
+
+document.querySelectorAll(".fade-up").forEach(el => {
+    observer.observe(el);
+});
+
+
+// -----------------------------
+// SMOOTH NAV SCROLL
+// -----------------------------
+
+document.querySelectorAll("nav a").forEach(anchor => {
+    anchor.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const targetId = anchor.getAttribute("href");
+        const target = document.querySelector(targetId);
+
+        if (target) {
+            target.scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+    });
+});
+
+
+// -----------------------------
+// INITIAL FX (small polish)
+// -----------------------------
+
+window.addEventListener("load", () => {
+    document.body.style.opacity = "1";
+});
 
 </script>
 
