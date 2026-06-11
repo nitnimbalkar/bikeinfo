@@ -3,335 +3,424 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Superbike Hub</title>
+<title>SuperBikeX</title>
 
 <style>
+:root{
+    --primary:#ff4500;
+    --dark:#0f0f0f;
+    --card:#1b1b1b;
+    --text:#ffffff;
+}
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial, sans-serif;
+    font-family:'Segoe UI',sans-serif;
 }
 
 body{
-    background:#111;
-    color:#fff;
+    background:var(--dark);
+    color:var(--text);
 }
 
-header{
-    background:#000;
-    padding:20px;
+/* HERO */
+
+.hero{
+    height:60vh;
+    background:
+    linear-gradient(rgba(0,0,0,.6),rgba(0,0,0,.7)),
+    url("https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=1600");
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
     text-align:center;
-    border-bottom:2px solid #ff3c00;
 }
 
-header h1{
-    color:#ff3c00;
+.hero h1{
+    font-size:4rem;
+    color:white;
 }
 
-.container{
-    width:90%;
-    margin:auto;
-    padding:30px 0;
+.hero p{
+    font-size:1.2rem;
+    margin-top:10px;
 }
 
-.search-box{
-    text-align:center;
-    margin-bottom:30px;
-}
-
-.search-box input{
-    width:300px;
-    padding:12px;
+.search{
+    margin-top:20px;
+    width:500px;
+    max-width:90%;
+    padding:15px;
     border:none;
-    border-radius:8px;
-    outline:none;
+    border-radius:50px;
 }
 
-.bike-grid{
+/* STATS */
+
+.stats{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
     gap:20px;
+    padding:30px;
 }
 
-.bike-card{
-    background:#1b1b1b;
+.stat{
+    background:var(--card);
+    padding:25px;
+    text-align:center;
     border-radius:15px;
+}
+
+.stat h2{
+    color:var(--primary);
+}
+
+/* FILTERS */
+
+.filters{
+    display:flex;
+    gap:15px;
+    padding:20px;
+    flex-wrap:wrap;
+}
+
+.filters select{
+    padding:10px;
+    border-radius:10px;
+}
+
+/* BIKES */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:25px;
+    padding:20px;
+}
+
+.card{
+    background:var(--card);
+    border-radius:20px;
     overflow:hidden;
-    transition:0.3s;
-    border:1px solid #333;
+    transition:.3s;
 }
 
-.bike-card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 0 15px rgba(255,60,0,0.4);
+.card:hover{
+    transform:translateY(-8px);
 }
 
-.bike-card img{
+.card img{
     width:100%;
-    height:200px;
+    height:220px;
     object-fit:cover;
 }
 
-.bike-info{
-    padding:15px;
-}
-
-.bike-info h2{
-    margin-bottom:10px;
-    color:#ff6a00;
-}
-
-.spec{
-    margin:6px 0;
-    color:#ccc;
-}
-
-.btn{
-    width:100%;
-    padding:12px;
-    margin-top:12px;
-    background:#ff3c00;
-    color:white;
-    border:none;
-    cursor:pointer;
-    border-radius:8px;
-    font-weight:bold;
-}
-
-.btn:hover{
-    background:#ff5a26;
-}
-
-.compare-section{
-    margin-top:50px;
-}
-
-.compare-section h2{
-    margin-bottom:20px;
-    color:#ff3c00;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:#1b1b1b;
-}
-
-table th,
-table td{
-    border:1px solid #333;
-    padding:12px;
-    text-align:center;
-}
-
-table th{
-    background:#222;
-}
-
-.empty{
-    color:#888;
-    text-align:center;
+.content{
     padding:20px;
 }
 
+.price{
+    color:orange;
+    font-size:1.2rem;
+    margin:10px 0;
+}
+
+.specs{
+    display:flex;
+    justify-content:space-between;
+    margin:15px 0;
+}
+
+.badge{
+    background:#333;
+    padding:5px 10px;
+    border-radius:20px;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+}
+
+button{
+    flex:1;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+
+.compare{
+    background:var(--primary);
+    color:white;
+}
+
+.fav{
+    background:#333;
+    color:white;
+}
+
+/* COMPARE PANEL */
+
+.compare-panel{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    background:#111;
+    border-top:2px solid var(--primary);
+    padding:20px;
+    display:none;
+}
+
+.compare-list{
+    display:flex;
+    gap:15px;
+    margin-bottom:15px;
+}
+
+.compare-item{
+    background:#222;
+    padding:10px 15px;
+    border-radius:10px;
+}
+
+.compare-btn{
+    background:limegreen;
+    color:white;
+    padding:12px 20px;
+}
+
+/* TABLE */
+
+table{
+    width:100%;
+    margin-top:30px;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:15px;
+    border:1px solid #333;
+}
+
+th{
+    background:#222;
+}
+
 @media(max-width:768px){
-    table{
-        font-size:12px;
-    }
+.hero h1{
+font-size:2.2rem;
+}
 }
 </style>
 </head>
 <body>
 
-<header>
-    <h1>🏍️ Superbike Hub</h1>
-    <p>Explore & Compare Superbikes</p>
-</header>
+<section class="hero">
+<h1>🏍 SuperBikeX</h1>
+<p>Compare, Discover & Explore Superbikes</p>
+<input class="search" id="search" placeholder="Search Ducati, BMW, Kawasaki...">
+</section>
 
-<div class="container">
+<section class="stats">
+<div class="stat">
+<h2>500+</h2>
+<p>Bikes Listed</p>
+</div>
 
-    <div class="search-box">
-        <input type="text" id="search" placeholder="Search bikes...">
-    </div>
+<div class="stat">
+<h2>120+</h2>
+<p>Brands</p>
+</div>
 
-    <div class="bike-grid" id="bikeGrid"></div>
+<div class="stat">
+<h2>50K+</h2>
+<p>User Reviews</p>
+</div>
 
-    <div class="compare-section">
-        <h2>Compare Bikes</h2>
+<div class="stat">
+<h2>100+</h2>
+<p>Comparisons Daily</p>
+</div>
+</section>
 
-        <div id="emptyCompare" class="empty">
-            Select bikes to compare
-        </div>
+<div class="filters">
+<select id="brandFilter">
+<option value="">All Brands</option>
+<option>Ducati</option>
+<option>BMW</option>
+<option>Kawasaki</option>
+<option>Yamaha</option>
+</select>
 
-        <table id="compareTable" style="display:none;">
-            <thead>
-                <tr>
-                    <th>Specification</th>
-                    <th id="bike1"></th>
-                    <th id="bike2"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Price</td>
-                    <td id="price1"></td>
-                    <td id="price2"></td>
-                </tr>
-                <tr>
-                    <td>Engine</td>
-                    <td id="engine1"></td>
-                    <td id="engine2"></td>
-                </tr>
-                <tr>
-                    <td>Power</td>
-                    <td id="power1"></td>
-                    <td id="power2"></td>
-                </tr>
-                <tr>
-                    <td>Torque</td>
-                    <td id="torque1"></td>
-                    <td id="torque2"></td>
-                </tr>
-                <tr>
-                    <td>Top Speed</td>
-                    <td id="speed1"></td>
-                    <td id="speed2"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<select id="sortPrice">
+<option value="">Sort Price</option>
+<option value="low">Low to High</option>
+<option value="high">High to Low</option>
+</select>
+</div>
 
+<div class="grid" id="grid"></div>
+
+<div class="compare-panel" id="panel">
+<h3>Comparison Queue</h3>
+<div class="compare-list" id="compareList"></div>
+<button class="compare-btn" onclick="generateComparison()">
+Compare Bikes
+</button>
+</div>
+
+<div style="padding:20px">
+<table id="comparisonTable"></table>
 </div>
 
 <script>
 
 const bikes = [
 {
-    name:"Kawasaki ZX-10R",
-    price:"₹18.5 Lakh",
-    engine:"998cc",
-    power:"203 HP",
-    torque:"114 Nm",
-    speed:"299 km/h",
-    image:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=900"
+name:"Ducati Panigale V4",
+brand:"Ducati",
+price:2800000,
+power:"215 HP",
+engine:"1103cc",
+rating:"4.9",
+img:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=1000"
 },
 {
-    name:"BMW S1000RR",
-    price:"₹21 Lakh",
-    engine:"999cc",
-    power:"210 HP",
-    torque:"113 Nm",
-    speed:"303 km/h",
-    image:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=900"
+name:"BMW S1000RR",
+brand:"BMW",
+price:2200000,
+power:"210 HP",
+engine:"999cc",
+rating:"4.8",
+img:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=1000"
 },
 {
-    name:"Ducati Panigale V4",
-    price:"₹28 Lakh",
-    engine:"1103cc",
-    power:"215 HP",
-    torque:"124 Nm",
-    speed:"305 km/h",
-    image:"https://images.unsplash.com/photo-1619771914272-7f6b70f5d1d5?w=900"
-},
-{
-    name:"Yamaha R1",
-    price:"₹20 Lakh",
-    engine:"998cc",
-    power:"200 HP",
-    torque:"112 Nm",
-    speed:"299 km/h",
-    image:"https://images.unsplash.com/photo-1558981285-6f0c94958bb6?w=900"
+name:"Kawasaki ZX10R",
+brand:"Kawasaki",
+price:1800000,
+power:"203 HP",
+engine:"998cc",
+rating:"4.7",
+img:"https://images.unsplash.com/photo-1558981285-6f0c94958bb6?w=1000"
 }
 ];
 
-const bikeGrid = document.getElementById("bikeGrid");
-const searchInput = document.getElementById("search");
+let compare=[];
 
-let compareList = [];
+function render(data){
 
-function renderBikes(data){
+const grid=document.getElementById("grid");
 
-    bikeGrid.innerHTML = "";
+grid.innerHTML=data.map(b=>`
+<div class="card">
+<img src="${b.img}">
+<div class="content">
 
-    data.forEach(bike => {
+<h2>${b.name}</h2>
 
-        bikeGrid.innerHTML += `
-        <div class="bike-card">
-            <img src="${bike.image}">
-            <div class="bike-info">
-                <h2>${bike.name}</h2>
-                <div class="spec">Price: ${bike.price}</div>
-                <div class="spec">Engine: ${bike.engine}</div>
-                <div class="spec">Power: ${bike.power}</div>
-                <div class="spec">Top Speed: ${bike.speed}</div>
+<div class="price">
+₹${(b.price/100000).toFixed(1)} Lakh
+</div>
 
-                <button class="btn" onclick='addToCompare(${JSON.stringify(bike)})'>
-                    Compare
-                </button>
-            </div>
-        </div>
-        `;
-    });
+<div class="specs">
+<span class="badge">${b.engine}</span>
+<span class="badge">${b.power}</span>
+</div>
+
+⭐ ${b.rating}/5
+
+<div class="actions">
+<button class="compare"
+onclick="addCompare('${b.name}')">
+Compare
+</button>
+
+<button class="fav">
+❤ Wishlist
+</button>
+</div>
+
+</div>
+</div>
+`).join("");
 }
 
-function addToCompare(bike){
+render(bikes);
 
-    if(compareList.length >= 2){
-        alert("Only 2 bikes can be compared.");
-        return;
-    }
+function addCompare(name){
 
-    if(compareList.find(b => b.name === bike.name)){
-        return;
-    }
+if(compare.includes(name)) return;
 
-    compareList.push(bike);
-
-    if(compareList.length === 2){
-        showComparison();
-    }
+if(compare.length>=4){
+alert("Maximum 4 bikes");
+return;
 }
 
-function showComparison(){
+compare.push(name);
 
-    document.getElementById("emptyCompare").style.display="none";
-    document.getElementById("compareTable").style.display="table";
+document.getElementById("panel").style.display="block";
 
-    let b1 = compareList[0];
-    let b2 = compareList[1];
-
-    bike1.textContent = b1.name;
-    bike2.textContent = b2.name;
-
-    price1.textContent = b1.price;
-    price2.textContent = b2.price;
-
-    engine1.textContent = b1.engine;
-    engine2.textContent = b2.engine;
-
-    power1.textContent = b1.power;
-    power2.textContent = b2.power;
-
-    torque1.textContent = b1.torque;
-    torque2.textContent = b2.torque;
-
-    speed1.textContent = b1.speed;
-    speed2.textContent = b2.speed;
+document.getElementById("compareList").innerHTML=
+compare.map(x=>`
+<div class="compare-item">${x}</div>
+`).join("");
 }
 
-searchInput.addEventListener("keyup", () => {
+function generateComparison(){
 
-    const value = searchInput.value.toLowerCase();
+const selected=bikes.filter(b=>
+compare.includes(b.name)
+);
 
-    const filtered = bikes.filter(b =>
-        b.name.toLowerCase().includes(value)
-    );
+let html=`
+<tr>
+<th>Specification</th>
+${selected.map(b=>`<th>${b.name}</th>`).join("")}
+</tr>
 
-    renderBikes(filtered);
+<tr>
+<td>Price</td>
+${selected.map(b=>`<td>₹${(b.price/100000).toFixed(1)}L</td>`).join("")}
+</tr>
+
+<tr>
+<td>Engine</td>
+${selected.map(b=>`<td>${b.engine}</td>`).join("")}
+</tr>
+
+<tr>
+<td>Power</td>
+${selected.map(b=>`<td>${b.power}</td>`).join("")}
+</tr>
+
+<tr>
+<td>Rating</td>
+${selected.map(b=>`<td>${b.rating}</td>`).join("")}
+</tr>
+`;
+
+document.getElementById("comparisonTable").innerHTML=html;
+}
+
+document.getElementById("search")
+.addEventListener("input",e=>{
+
+const q=e.target.value.toLowerCase();
+
+render(
+bikes.filter(b=>
+b.name.toLowerCase().includes(q)
+)
+);
+
 });
-
-renderBikes(bikes);
 
 </script>
 
