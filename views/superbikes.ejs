@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Superbike Hub</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#111;
+    color:#fff;
+}
+
+header{
+    background:#000;
+    padding:20px;
+    text-align:center;
+    border-bottom:2px solid #ff3c00;
+}
+
+header h1{
+    color:#ff3c00;
+}
+
+.container{
+    width:90%;
+    margin:auto;
+    padding:30px 0;
+}
+
+.search-box{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.search-box input{
+    width:300px;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    outline:none;
+}
+
+.bike-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.bike-card{
+    background:#1b1b1b;
+    border-radius:15px;
+    overflow:hidden;
+    transition:0.3s;
+    border:1px solid #333;
+}
+
+.bike-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 15px rgba(255,60,0,0.4);
+}
+
+.bike-card img{
+    width:100%;
+    height:200px;
+    object-fit:cover;
+}
+
+.bike-info{
+    padding:15px;
+}
+
+.bike-info h2{
+    margin-bottom:10px;
+    color:#ff6a00;
+}
+
+.spec{
+    margin:6px 0;
+    color:#ccc;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    margin-top:12px;
+    background:#ff3c00;
+    color:white;
+    border:none;
+    cursor:pointer;
+    border-radius:8px;
+    font-weight:bold;
+}
+
+.btn:hover{
+    background:#ff5a26;
+}
+
+.compare-section{
+    margin-top:50px;
+}
+
+.compare-section h2{
+    margin-bottom:20px;
+    color:#ff3c00;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:#1b1b1b;
+}
+
+table th,
+table td{
+    border:1px solid #333;
+    padding:12px;
+    text-align:center;
+}
+
+table th{
+    background:#222;
+}
+
+.empty{
+    color:#888;
+    text-align:center;
+    padding:20px;
+}
+
+@media(max-width:768px){
+    table{
+        font-size:12px;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>🏍️ Superbike Hub</h1>
+    <p>Explore & Compare Superbikes</p>
+</header>
+
+<div class="container">
+
+    <div class="search-box">
+        <input type="text" id="search" placeholder="Search bikes...">
+    </div>
+
+    <div class="bike-grid" id="bikeGrid"></div>
+
+    <div class="compare-section">
+        <h2>Compare Bikes</h2>
+
+        <div id="emptyCompare" class="empty">
+            Select bikes to compare
+        </div>
+
+        <table id="compareTable" style="display:none;">
+            <thead>
+                <tr>
+                    <th>Specification</th>
+                    <th id="bike1"></th>
+                    <th id="bike2"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Price</td>
+                    <td id="price1"></td>
+                    <td id="price2"></td>
+                </tr>
+                <tr>
+                    <td>Engine</td>
+                    <td id="engine1"></td>
+                    <td id="engine2"></td>
+                </tr>
+                <tr>
+                    <td>Power</td>
+                    <td id="power1"></td>
+                    <td id="power2"></td>
+                </tr>
+                <tr>
+                    <td>Torque</td>
+                    <td id="torque1"></td>
+                    <td id="torque2"></td>
+                </tr>
+                <tr>
+                    <td>Top Speed</td>
+                    <td id="speed1"></td>
+                    <td id="speed2"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+
+const bikes = [
+{
+    name:"Kawasaki ZX-10R",
+    price:"₹18.5 Lakh",
+    engine:"998cc",
+    power:"203 HP",
+    torque:"114 Nm",
+    speed:"299 km/h",
+    image:"https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=900"
+},
+{
+    name:"BMW S1000RR",
+    price:"₹21 Lakh",
+    engine:"999cc",
+    power:"210 HP",
+    torque:"113 Nm",
+    speed:"303 km/h",
+    image:"https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=900"
+},
+{
+    name:"Ducati Panigale V4",
+    price:"₹28 Lakh",
+    engine:"1103cc",
+    power:"215 HP",
+    torque:"124 Nm",
+    speed:"305 km/h",
+    image:"https://images.unsplash.com/photo-1619771914272-7f6b70f5d1d5?w=900"
+},
+{
+    name:"Yamaha R1",
+    price:"₹20 Lakh",
+    engine:"998cc",
+    power:"200 HP",
+    torque:"112 Nm",
+    speed:"299 km/h",
+    image:"https://images.unsplash.com/photo-1558981285-6f0c94958bb6?w=900"
+}
+];
+
+const bikeGrid = document.getElementById("bikeGrid");
+const searchInput = document.getElementById("search");
+
+let compareList = [];
+
+function renderBikes(data){
+
+    bikeGrid.innerHTML = "";
+
+    data.forEach(bike => {
+
+        bikeGrid.innerHTML += `
+        <div class="bike-card">
+            <img src="${bike.image}">
+            <div class="bike-info">
+                <h2>${bike.name}</h2>
+                <div class="spec">Price: ${bike.price}</div>
+                <div class="spec">Engine: ${bike.engine}</div>
+                <div class="spec">Power: ${bike.power}</div>
+                <div class="spec">Top Speed: ${bike.speed}</div>
+
+                <button class="btn" onclick='addToCompare(${JSON.stringify(bike)})'>
+                    Compare
+                </button>
+            </div>
+        </div>
+        `;
+    });
+}
+
+function addToCompare(bike){
+
+    if(compareList.length >= 2){
+        alert("Only 2 bikes can be compared.");
+        return;
+    }
+
+    if(compareList.find(b => b.name === bike.name)){
+        return;
+    }
+
+    compareList.push(bike);
+
+    if(compareList.length === 2){
+        showComparison();
+    }
+}
+
+function showComparison(){
+
+    document.getElementById("emptyCompare").style.display="none";
+    document.getElementById("compareTable").style.display="table";
+
+    let b1 = compareList[0];
+    let b2 = compareList[1];
+
+    bike1.textContent = b1.name;
+    bike2.textContent = b2.name;
+
+    price1.textContent = b1.price;
+    price2.textContent = b2.price;
+
+    engine1.textContent = b1.engine;
+    engine2.textContent = b2.engine;
+
+    power1.textContent = b1.power;
+    power2.textContent = b2.power;
+
+    torque1.textContent = b1.torque;
+    torque2.textContent = b2.torque;
+
+    speed1.textContent = b1.speed;
+    speed2.textContent = b2.speed;
+}
+
+searchInput.addEventListener("keyup", () => {
+
+    const value = searchInput.value.toLowerCase();
+
+    const filtered = bikes.filter(b =>
+        b.name.toLowerCase().includes(value)
+    );
+
+    renderBikes(filtered);
+});
+
+renderBikes(bikes);
+
+</script>
+
+</body>
+</html>
