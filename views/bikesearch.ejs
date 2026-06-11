@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bike Search</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#111;
+    color:white;
+    padding:20px;
+}
+
+#search{
+    width:100%;
+    max-width:400px;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    margin-bottom:20px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#222;
+    padding:15px;
+    border-radius:12px;
+}
+
+.price{
+    color:orange;
+}
+</style>
+
+</head>
+<body>
+
+<h1>🏍 Superbike Search</h1>
+
+<input
+    type="text"
+    id="search"
+    placeholder="Search bikes..."
+>
+
+<div class="grid" id="bikeGrid"></div>
+
+<script>
+
+const bikes = [
+{
+    name:"Ducati Panigale V4",
+    price:"₹28 Lakh"
+},
+{
+    name:"BMW S1000RR",
+    price:"₹22 Lakh"
+},
+{
+    name:"Kawasaki ZX10R",
+    price:"₹18 Lakh"
+},
+{
+    name:"Yamaha R1",
+    price:"₹20 Lakh"
+},
+{
+    name:"Honda CBR1000RR",
+    price:"₹24 Lakh"
+}
+];
+
+const bikeGrid = document.getElementById("bikeGrid");
+
+function renderBikes(list){
+
+    bikeGrid.innerHTML = "";
+
+    list.forEach(bike => {
+
+        bikeGrid.innerHTML += `
+            <div class="card">
+                <h2>${bike.name}</h2>
+                <div class="price">${bike.price}</div>
+            </div>
+        `;
+    });
+}
+
+renderBikes(bikes);
+
+document
+.getElementById("search")
+.addEventListener("input", function(){
+
+    const searchText =
+        this.value.toLowerCase();
+
+    const filteredBikes =
+        bikes.filter(bike =>
+            bike.name
+            .toLowerCase()
+            .includes(searchText)
+        );
+
+    renderBikes(filteredBikes);
+});
+
+</script>
+
+</body>
+</html>
