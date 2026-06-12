@@ -17,6 +17,9 @@ router.get("/inside",(req,res)=>{
 router.get("/superbikes",(req,res)=>{
     res.render("superbikes.ejs");
 })
+router.get("/search",(req,res)=>{
+    res.render("bikesearch.ejs");
+})
 router.get("/anime",(req,res)=>{
     res.render("animjs.ejs");
 })
