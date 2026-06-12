@@ -11,19 +11,19 @@ router.get("/",async(req,res)=>{
 router.get("/userprofile",(req,res)=>{
     res.render("userProfileTest.ejs");
 })
-router.get("/inside",(req,res)=>{ 
+router.get("/insideBike",(req,res)=>{ 
     res.render("inside.ejs");
 })
 router.get("/superbikes",(req,res)=>{
     res.render("superbikes.ejs");
 })
-router.get("/search",(req,res)=>{
+router.get("/bikesearch",(req,res)=>{
     res.render("bikesearch.ejs");
 })
 router.get("/anime",(req,res)=>{
     res.render("animjs.ejs");
 })
-router.get("/compare",(req,res)=>{
+router.get("/comparebikes",(req,res)=>{
     res.render("compare.ejs");
 })
 
