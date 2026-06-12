@@ -11,8 +11,11 @@ router.get("/",async(req,res)=>{
 router.get("/userprofile",(req,res)=>{
     res.render("userProfileTest.ejs");
 })
-router.get("/inside",(req,res)=>{
+router.get("/inside",(req,res)=>{ 
     res.render("inside.ejs");
+})
+router.get("/superbikes",(req,res)=>{
+    res.render("superbikes.ejs");
 })
 router.get("/anime",(req,res)=>{
     res.render("animjs.ejs");
