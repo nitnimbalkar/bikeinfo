@@ -10,7 +10,6 @@ Media including Photos and Videos and it used as reference to the leaderboard.
 ---
 
 ## 🚀 Features
-
 ### 👤 User Features
 - User authentication (Login / Logout)
 - Personal profile management
@@ -44,7 +43,7 @@ Media including Photos and Videos and it used as reference to the leaderboard.
 > (Update this based on your actual stack)
 
 - Frontend: HTML / CSS
-- Backend: Node.js / Express
+- Backend: Node.js / Express / EJS
 - Database: MongoDB
 - Authentication: JWT
 - Media Storage: Database
