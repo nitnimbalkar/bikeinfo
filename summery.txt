@@ -1,9 +1,11 @@
-# BikeInfo – Project Summary
+# 🏍️ BikeInfo – Connecting Riders, Communities, and Brands
 
-BikeInfo is a full-stack web platform designed to help users discover, compare, and evaluate motorcycles through community-driven insights and brand-provided information. The platform bridges the gap between bike enthusiasts, owners, and manufacturers by providing a centralized space for bike exploration, reviews, media sharing, and engagement.
+BikeInfo is a comprehensive full-stack motorcycle platform designed to simplify the bike discovery and decision-making process for enthusiasts, owners, and potential buyers. By combining detailed motorcycle information, community-driven insights, and brand-managed content, BikeInfo creates a unified ecosystem where users can explore, compare, review, and engage with the world of motorcycles.
 
-Users can search and compare bikes based on specifications such as price, mileage, and engine displacement, helping them make informed purchasing decisions. Registered users can create personal profiles, add owned bikes, write reviews, upload photos and videos, and interact with other community members through likes and engagement features. A leaderboard system highlights the most active contributors, encouraging participation and valuable feedback sharing.
+The platform empowers users to find the perfect bike based on their preferences by offering advanced search, filtering, and side-by-side comparison features. Beyond specifications and pricing, BikeInfo emphasizes real-world experiences through user-generated reviews, photos, videos, and discussions, helping visitors understand the practical advantages and limitations of different motorcycles before making a purchase.
 
-For brands, BikeInfo provides dedicated management tools to showcase their motorcycles, maintain bike listings, upload media content, update specifications, and publish official reviews or announcements. This ensures that users have access to accurate and up-to-date information directly from manufacturers.
+Users can create personalized profiles, showcase their owned motorcycles, contribute reviews, upload media, and interact with fellow riders through likes and engagement features. An activity-based leaderboard recognizes valuable community contributors, encouraging meaningful participation and knowledge sharing.
 
-Built using Node.js, Express.js, EJS, MongoDB, and JWT authentication, BikeInfo delivers a responsive and interactive experience while supporting community engagement, content management, and comprehensive bike discovery in a single platform.
+For motorcycle brands, BikeInfo provides a dedicated management system to showcase products, maintain bike listings, upload official media, update specifications, and communicate directly with the community through announcements and reviews. This ensures that users have access to both authentic owner experiences and accurate manufacturer information.
+
+Built with Node.js, Express.js, EJS, MongoDB, and JWT authentication, BikeInfo delivers a scalable, secure, and user-friendly experience that bridges the gap between motorcycle enthusiasts and manufacturers. The platform transforms bike research from a simple specification lookup into an engaging community-driven experience where knowledge, experiences, and passion for riding come together.
