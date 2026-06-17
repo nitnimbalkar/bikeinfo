@@ -2,7 +2,7 @@
 
 BikeInfo is a full-stack platform where users and brands interact around bikes.
 The main goal of this platform is user ease to find there suitable bike and they can see other users pros and cons about that bikes so they can understand the overall info.
-Users can explore bikes, compare models, share reviews, and manage their personal bike profiles.  
+Users can explore bikes, compare models, share reviews, and manage their personal bike profiles. It features Steam showcase look like bike showcase.
 Brands can showcase their bikes, upload media, and manage listings.
 It Share the Leaderboard of users who has interacted with platform and share there valueble feedback and data.
 Media including Photos and Videos and it used as reference to the leaderboard.
